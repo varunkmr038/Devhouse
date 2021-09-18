@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Allison&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+
+root {
+  --progressBar: #54d1db;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif !important;
+}
+
+body {
+  background: var(--bodyBg);
+}
+
+.spanLikesList:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mySpinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #16d47b;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.refreshIcon {
+  text-align: center;
+}
+
+.ui.styled.accordion .content {
+  margin: 0;
+  padding: 0.5em 1em 0.75em !important;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: var(--progressBar);
+
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  background-color: red;
+
+  width: 100%;
+  height: 2px;
+}
+
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px var(--progressBar), 0 0 5px var(--progressBar);
+  opacity: 1;
+
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+.bubbleWrapper {
+  padding: 10px 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-self: flex-end;
+  color: #fff;
+}
+.inlineContainer {
+  display: inline-flex;
+}
+.inlineContainer.own {
+  flex-direction: row-reverse;
+}
+.inlineIcon {
+  width: 20px;
+  object-fit: contain;
+}
+.ownBubble {
+  min-width: 60px;
+  max-width: 700px;
+  padding: 14px 18px;
+  margin: 6px 8px;
+  background-color: #5b5377;
+  border-radius: 16px 16px 0 16px;
+  border: 1px solid #443f56;
+}
+.otherBubble {
+  min-width: 60px;
+  max-width: 700px;
+  padding: 14px 18px;
+  margin: 6px 8px;
+  background-color: #6c8ea4;
+  border-radius: 16px 16px 16px 0;
+  border: 1px solid #54788e;
+}
+.own {
+  align-self: flex-end;
+}
+.other {
+  align-self: flex-start;
+}
+span.own,
+span.other {
+  font-size: 14px;
+  color: grey;
+}
+
+.my-color {
+  background-color: #55c57a !important;
+}

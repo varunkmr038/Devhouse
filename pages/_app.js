@@ -18,33 +18,34 @@ class MyApp extends App {
 
     const protectedRoutes = ctx.pathname === "/home";
 
-    if (!token) {
-      //  If user is trying to access the protected route redirect the user
-      protectedRoutes && redirectUser(ctx, "/");
-    } else {
-      //  If the current page is requesting getinitialprops
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx); // getting props from page getinitial
-      }
+    // if (!token) {
+    //   //  If user is trying to access the protected route redirect the user
+    //   protectedRoutes && redirectUser(ctx, "/");
+    // } else {
+    //   //  If the current page is requesting getinitialprops
+    //   if (Component.getInitialProps) {
+    //     pageProps = await Component.getInitialProps(ctx); // getting props from page getinitial
+    //   }
 
-      try {
-        const res = await axios.get(`${baseUrl}/api/auth/home`, {
-          headers: { Authorization: token },
-        });
+    //   try {
+    //     const res = await axios.get(`${baseUrl}/api/auth/home`, {
+    //       headers: { Authorization: token },
+    //     });
 
-        const { user, userFollowStats } = res.data;
+    //     const { user, userFollowStats } = res.data;
 
-        //  If user exists with token and trying to access the non protected routes i.e login redirect to homepage
-        if (user) !protectedRoutes && redirectUser(ctx, "/home");
+    //     //  If user exists with token and trying to access the non protected routes i.e login redirect to homepage
+    //     if (user) !protectedRoutes && redirectUser(ctx, "/home");
 
-        pageProps.user = user; // For all protected pages
-        pageProps.userFollowStats = userFollowStats;
-      } catch (error) {
-        destroyCookie(ctx, "token");
-        redirectUser(ctx, "/");
-      }
-    }
+    //     pageProps.user = user; // For all protected pages
+    //     pageProps.userFollowStats = userFollowStats;
+    //   } catch (error) {
+    //     destroyCookie(ctx, "token");
+    //     redirectUser(ctx, "/");
+    //   }
+    // }
 
+    pageProps.protectedRoutes = protectedRoutes;
     return { pageProps };
   }
   //  Common layout for all the pages

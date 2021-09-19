@@ -74,13 +74,13 @@
 .brandName {
   display: block;
   font-size: 60px;
-  color: #0277bd;
+  color: #43a047;
   font-weight: bold;
   width: 0ch;
   overflow: hidden;
   white-space: nowrap;
   animation: text 5s steps(15) infinite;
-  border-right: 3px solid #0277bd;
+  border-right: 3px solid #43a047;
   letter-spacing: 3px;
   margin-top: 13px;
 }

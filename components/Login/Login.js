@@ -116,6 +116,7 @@ function Login({ open, setOpenLogin }) {
         onClose={() => setOpenLogin(false)}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
+        style={{ zIndex: 1500 }}
       >
         <Container component="main" maxWidth="xs">
           <CssBaseline />

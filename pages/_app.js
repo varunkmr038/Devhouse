@@ -1,5 +1,7 @@
 import App from "next/app";
 import Layout from "../components/Layout/Layout";
+import { ThemeProvider } from "@material-ui/core/styles";
+import theme from "../utils/theme";
 import "bootstrap/dist/css/bootstrap.css";
 import "../public/css/globals.css";
 import axios from "axios";
@@ -54,9 +56,11 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <Layout {...pageProps}>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider theme={theme}>
+        <Layout {...pageProps}>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     );
   }
 }

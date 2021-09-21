@@ -57,3 +57,10 @@ export const redirectUser = (ctx, location) => {
     Router.push(location);
   }
 };
+
+//  logout User
+export const logoutUser = (username) => {
+  cookie.remove("token");
+  Router.push("/");
+  Router.reload();
+};

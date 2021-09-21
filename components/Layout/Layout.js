@@ -1,20 +1,17 @@
 import React from "react";
-import { ThemeProvider } from "@material-ui/core/styles";
 import HeadTags from "./HeadTags";
 import Footer from "./Footer";
-import theme from "../../utils/theme";
-import Menu from "./Menu";
+import Page from "./Page";
 
 function Layout({ children, protectedRoutes }) {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <HeadTags />
-        <Menu protectedRoutes={protectedRoutes} />
-
+      <HeadTags />
+      <Page protectedRoutes={protectedRoutes}>
+        {/* Children = pages */}
         {children}
-        <Footer />
-      </ThemeProvider>
+      </Page>
+      <Footer />
     </>
   );
 }

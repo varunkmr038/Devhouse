@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,6 +9,7 @@ import {
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import Search from "./Search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none",
     },
   },
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: `Allison, cursive !important`,
     fontWeight: "bolder",
     cursor: "pointer",
+    marginLeft: 40,
   },
   search: {
     position: "relative",
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       marginLeft: theme.spacing(1),
       width: "auto",
     },
@@ -74,8 +76,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar({ protectedRoutes }) {
+function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
   const classes = useStyles();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
     <div className={classes.root}>
@@ -86,6 +92,8 @@ function Navbar({ protectedRoutes }) {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={handleDrawerToggle}
+            // style={{ display: protectedRoutes ? "initial" : "none" }}
           >
             <MenuIcon />
           </IconButton>
@@ -94,13 +102,13 @@ function Navbar({ protectedRoutes }) {
             alt=""
             height="50"
             width="80"
-            className="me-5 float-start"
+            className="me-5 ms-3 float-start"
           />
           <Typography className={classes.title} variant="h3" noWrap>
             Clubhouse
           </Typography>
-
-          <div
+          <Search protectedRoutes={protectedRoutes} />
+          {/* <div
             className={`${classes.search}`}
             style={{ display: protectedRoutes ? "initial" : "none" }}
           >
@@ -116,7 +124,7 @@ function Navbar({ protectedRoutes }) {
               inputProps={{ "aria-label": "search" }}
               fullWidth
             />
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
     </div>

@@ -17,8 +17,8 @@ function Index() {
 
   return (
     <>
-      <section id={styles.header} className="d-flex align-items-center mt-5">
-        <div className="container-fluid mt-5">
+      <section id={styles.header} className="d-flex align-items-center ">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-10 mx-auto">
               <div className="row">
@@ -55,7 +55,7 @@ function Index() {
                 >
                   <img
                     src="img/home.jpeg"
-                    className={`img-fluid ${styles.animated} mt-3`}
+                    className={`img-fluid ${styles.animated}`}
                     alt="Commom img"
                   />
                 </div>

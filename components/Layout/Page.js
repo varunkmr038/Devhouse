@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Page({ children, protectedRoutes }) {
+export default function Page({ children }) {
   const classes = useStyles();
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -24,16 +24,8 @@ export default function Page({ children, protectedRoutes }) {
       <div className={classes.root}>
         <CssBaseline />
 
-        <Navbar
-          protectedRoutes={protectedRoutes}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-        />
-        <SideMenu
-          protectedRoutes={protectedRoutes}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-        />
+        <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+        <SideMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
         <main className={`mt-0 ${classes.content}`}>
           <Toolbar />

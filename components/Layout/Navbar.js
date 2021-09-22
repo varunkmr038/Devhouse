@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import Search from "./Search";
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
+function Navbar({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
 
   const handleDrawerToggle = () => {
@@ -59,7 +59,7 @@ function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
           <Typography className={classes.title} variant="h3" noWrap>
             Clubhouse
           </Typography>
-          <Search protectedRoutes={protectedRoutes} />
+          <Search />
         </Toolbar>
       </AppBar>
     </div>

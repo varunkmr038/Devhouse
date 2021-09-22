@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   List,
   ListItem,
@@ -16,6 +16,7 @@ import cookie from "js-cookie";
 import baseUrl from "../../utils/baseUrl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
+import { UserContext } from "./Layout";
 
 const useStyles = makeStyles((theme) => ({
   option: {
@@ -58,8 +59,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Search({ protectedRoutes }) {
+export default function Search() {
   const classes = useStyles();
+  const { protectedRoutes } = useContext(UserContext);
+
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -110,7 +113,7 @@ export default function Search({ protectedRoutes }) {
       autoHighlight
       noOptionsText="No User Found"
       getOptionSelected={(option, value) => option === value}
-      getOptionLabel={(option) => option.username}
+      getOptionLabel={(option) => option.username} // search is based upon this unique lable
       renderOption={(option) => <RenderOption option={option} />}
       renderInput={(params) => (
         <TextField

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Drawer,
@@ -18,6 +18,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { logoutUser } from "../../utils/authUser";
+import { UserContext } from "./Layout";
 
 const drawerWidth = 200;
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +74,7 @@ function Item({ text, icon, href }) {
   );
 }
 
-function DrawerContent() {
+function DrawerContent({ username }) {
   const classes = useStyles();
 
   return (
@@ -115,14 +116,11 @@ function DrawerContent() {
   );
 }
 
-export default function SideMenu({
-  protectedRoutes,
-  username,
-  mobileOpen,
-  setMobileOpen,
-}) {
+export default function SideMenu({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
   const theme = useTheme();
+  const { protectedRoutes, user } = useContext(UserContext);
+  const username = { user };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -147,7 +145,7 @@ export default function SideMenu({
           }}
         >
           <Toolbar />
-          <DrawerContent />
+          <DrawerContent username={username} />
         </Drawer>
       </Hidden>
       {/*  Desktop Drawer */}
@@ -160,7 +158,7 @@ export default function SideMenu({
           }}
           style={{ display: protectedRoutes ? "initial" : "none" }}
         >
-          <DrawerContent />
+          <DrawerContent username={username} />
         </Drawer>
       </Hidden>
     </>

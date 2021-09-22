@@ -1,72 +1,170 @@
-import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { alpha, makeStyles } from "@material-ui/core/styles";
-import { InputBase } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Avatar,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import axios from "axios";
+import cookie from "js-cookie";
+import baseUrl from "../../utils/baseUrl";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+  option: {
+    fontSize: 10,
+    "& > span": {
+      marginRight: 10,
+      fontSize: 18,
+    },
+  },
+  searchInputRoot: {
+    paddingTop: "3px !important",
+    paddingRight: "14px !important",
+    borderRadius: 15,
+    backgroundColor: "white",
+    width: 360,
     "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: "#f1ebeb",
     },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: 160,
     },
-    display: "initial",
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+
+  searchRoot: {
+    backgroundColor: "white !important",
+    borderRadius: 15,
   },
-  inputRoot: {
-    color: "inherit",
+
+  textFieldRoot: {
+    borderRadius: 15,
   },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "15ch",
-      "&:focus": {
-        width: "25ch",
-      },
+  item: {
+    color: "black",
+    "&:hover": {
+      backgroundColor: "#55c57a",
     },
+  },
+  name: {
+    marginLeft: 50,
   },
 }));
 
 export default function Search({ protectedRoutes }) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  async function handleChange(e) {
+    const { value } = e.target;
+    if (value == "") {
+      setOpen(false);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const token = cookie.get("token");
+
+      //  Array of user objects
+      const res = await axios.get(`${baseUrl}/api/search/${value}`, {
+        headers: { Authorization: token },
+      });
+      setOptions(res.data);
+
+      if (options.length == 0) {
+        setOpen(true);
+        return setLoading(false); // IF no User found
+      }
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    }
+
+    setOpen(true);
+    setLoading(false);
+  }
 
   return (
-    <div
-      className={`${classes.search}`}
+    <Autocomplete
+      open={open}
+      id="asynchronous-demo"
+      classes={{
+        inputRoot: classes.searchInputRoot,
+        root: classes.searchRoot,
+        option: classes.option,
+      }}
+      options={options}
       style={{ display: protectedRoutes ? "initial" : "none" }}
-    >
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        placeholder="Search User..."
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search" }}
-        fullWidth
-      />
-    </div>
+      autoHighlight
+      noOptionsText="No User Found"
+      getOptionSelected={(option, value) => option === value}
+      getOptionLabel={(option) => option.username}
+      renderOption={(option) => <RenderOption option={option} />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          classes={{ root: classes.textFieldRoot }}
+          onBlur={() => {
+            setLoading(false);
+            setOpen(false);
+            setError(false);
+          }}
+          variant="filled"
+          placeholder="Search User..."
+          size="small"
+          error={error}
+          helperText={error ? "Error Searching" : ""}
+          onChange={handleChange}
+          InputProps={{
+            ...params.InputProps,
+            disableUnderline: true,
+            startAdornment: (
+              <InputAdornment position="start" className={`mb-3`}>
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <React.Fragment>
+                {loading ? (
+                  <CircularProgress color="inherit" size={20} color="primary" />
+                ) : null}
+              </React.Fragment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+}
+
+function RenderOption({ option }) {
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <List>
+        <ListItem>
+          <ListItemIcon>
+            <Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />
+          </ListItemIcon>
+          <ListItemText primary={option.username} />
+          <Typography variant="caption" className={classes.name}>
+            {option.name}
+          </Typography>
+        </ListItem>
+      </List>
+    </React.Fragment>
   );
 }

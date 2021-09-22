@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  InputBase,
-} from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import Search from "./Search";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,46 +27,6 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     marginLeft: 40,
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-    display: "initial",
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
 }));
 
 function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
@@ -93,7 +46,6 @@ function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
-            // style={{ display: protectedRoutes ? "initial" : "none" }}
           >
             <MenuIcon />
           </IconButton>
@@ -108,23 +60,6 @@ function Navbar({ protectedRoutes, mobileOpen, setMobileOpen }) {
             Clubhouse
           </Typography>
           <Search protectedRoutes={protectedRoutes} />
-          {/* <div
-            className={`${classes.search}`}
-            style={{ display: protectedRoutes ? "initial" : "none" }}
-          >
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search User..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              fullWidth
-            />
-          </div> */}
         </Toolbar>
       </AppBar>
     </div>

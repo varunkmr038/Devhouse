@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const UserModel = require("../models/UserModel");
 
+//  Search by name
 router.get("/:searchText", authMiddleware, async (req, res) => {
   try {
     const { searchText } = req.params;
@@ -11,8 +12,12 @@ router.get("/:searchText", authMiddleware, async (req, res) => {
 
     let userPattern = new RegExp(`^${searchText}`); // username should start with search text
 
+    // Username or name should match with searchtext
     const results = await UserModel.find({
-      name: { $regex: userPattern, $options: "i" }, // case insensitive
+      $or: [
+        { name: { $regex: userPattern, $options: "i" } }, // case insensitive
+        { username: { $regex: userPattern, $options: "i" } },
+      ],
     });
 
     return res.status(200).json(results);

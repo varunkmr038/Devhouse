@@ -17,6 +17,7 @@ import baseUrl from "../../utils/baseUrl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "./Layout";
+import Router from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   option: {
@@ -61,7 +62,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Search() {
   const classes = useStyles();
-  const { protectedRoutes } = useContext(UserContext);
+
+  const { protectedRoutes, user } = useContext(UserContext);
+  const { username } = user;
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -114,7 +117,9 @@ export default function Search() {
       noOptionsText="No User Found"
       getOptionSelected={(option, value) => option === value}
       getOptionLabel={(option) => option.username} // search is based upon this unique lable
-      renderOption={(option) => <RenderOption option={option} />}
+      renderOption={(option) => (
+        <RenderOption option={option} username={username} />
+      )}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -152,12 +157,12 @@ export default function Search() {
   );
 }
 
-function RenderOption({ option }) {
+function RenderOption({ option, username }) {
   const classes = useStyles();
 
   return (
     <React.Fragment>
-      <List>
+      <List onClick={() => Router.push(`/${username}`)}>
         <ListItem>
           <ListItemIcon>
             <Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />

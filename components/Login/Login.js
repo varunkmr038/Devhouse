@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import Alert from "../Common/Alert";
+import MuiSnackbar from "../Common/MuiSnackbar";
 import Head from "./Head";
 import Foot from "./Foot";
 import InputField from "./InputField";
@@ -59,10 +59,8 @@ function Login({ open, setOpenLogin }) {
     username: false,
     password: false,
   });
-  const [alert, setAlert] = useState({
+  const [snack, setSnack] = useState({
     open: false,
-    message: "Hello error",
-    severity: "error",
   });
 
   const handleChange = (e) => {
@@ -92,7 +90,7 @@ function Login({ open, setOpenLogin }) {
     //  Checking that All fields are filled and correctly
     for (const key in user) {
       if (user[key] == "" || error[key] == true) {
-        setAlert({
+        setSnack({
           open: true,
           message: "All Fields are Required !!",
           severity: "error",
@@ -104,7 +102,7 @@ function Login({ open, setOpenLogin }) {
     if (flag) return;
 
     //  otherwise all fields are validated send it to backend.
-    await loginUser(user, setAlert);
+    await loginUser(user, setSnack);
   };
 
   return (
@@ -116,8 +114,10 @@ function Login({ open, setOpenLogin }) {
         onClose={() => setOpenLogin(false)}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
-        style={{ zIndex: 1500 }}
+        style={{ zIndex: 1400 }}
       >
+        <MuiSnackbar snack={snack} setSnack={setSnack} />
+
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0 ${classes.paper}`}>
@@ -127,7 +127,6 @@ function Login({ open, setOpenLogin }) {
               title="Log In"
             />
 
-            <Alert alert={alert} setAlert={setAlert} />
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <InputField

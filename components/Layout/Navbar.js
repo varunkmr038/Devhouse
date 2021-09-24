@@ -7,7 +7,7 @@ import Search from "./Search";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    zIndex: 1500,
+    zIndex: 1400,
     marginBottom: theme.spacing(5),
   },
   menuButton: {

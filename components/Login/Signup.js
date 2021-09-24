@@ -25,6 +25,7 @@ import PasswordField from "./PasswordField";
 import regex from "../../utils/regex";
 import baseUrl from "../../utils/baseUrl";
 import { registerUser } from "../../utils/authUser";
+import MuiSnackbar from "../Common/MuiSnackbar";
 
 //  Styling
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +78,7 @@ function Login({ open, setOpenSign }) {
     phone: false,
     password: false,
   });
-  const [alert, setAlert] = useState({
+  const [snack, setSnack] = useState({
     open: false,
     message: "",
     severity: "error",
@@ -155,7 +156,7 @@ function Login({ open, setOpenSign }) {
     //  Checking that All fields are filled and correctly
     for (const key in user) {
       if (user[key] == "" || error[key] == true) {
-        setAlert({
+        setSnack({
           open: true,
           message: "All Fields are Required !!",
           severity: "error",
@@ -167,7 +168,7 @@ function Login({ open, setOpenSign }) {
     if (flag) return;
 
     //  otherwise all fields are validated send it to backend.
-    await registerUser(user, setAlert);
+    await registerUser(user, setSnack);
   };
 
   return (
@@ -181,6 +182,8 @@ function Login({ open, setOpenSign }) {
         aria-describedby="alert-dialog-slide-description"
         style={{ zIndex: 1500 }}
       >
+        <MuiSnackbar snack={snack} setSnack={setSnack} />
+
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0  ${classes.paper}`}>
@@ -189,7 +192,6 @@ function Login({ open, setOpenSign }) {
               icon={<PersonAddIcon fontSize="large" />}
               title="Sign Up"
             />
-            <Alert alert={alert} setAlert={setAlert} />
 
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>

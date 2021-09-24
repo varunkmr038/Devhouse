@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+//
 
-export default function Home() {
+function Index() {
   return (
     <>
-      <h1>hello Homepage</h1>
+      <h1>Hello homepage</h1>
     </>
   );
 }
+
+export default Index;

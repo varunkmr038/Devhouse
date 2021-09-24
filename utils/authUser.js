@@ -13,12 +13,12 @@ const setToken = (token) => {
 };
 
 //  Signup
-export const registerUser = async (user, setAlert) => {
+export const registerUser = async (user, setSnack) => {
   try {
     const res = await axios.post(`${baseUrl}/api/signup`, {
       user,
     });
-    setAlert({
+    setSnack({
       message: "Welcome to Clubhouse 🔥",
       severity: "success",
       open: true,
@@ -26,15 +26,15 @@ export const registerUser = async (user, setAlert) => {
     setToken(res.data);
   } catch (error) {
     const errorMsg = catchErrors(error);
-    setAlert({ message: errorMsg, severity: "error", open: true }); // setting error alert
+    setSnack({ message: errorMsg, severity: "error", open: true }); // setting error alert
   }
 };
 
 // login
-export const loginUser = async (user, setAlert) => {
+export const loginUser = async (user, setSnack) => {
   try {
     const res = await axios.post(`${baseUrl}/api/auth`, { user });
-    setAlert({
+    setSnack({
       message: "Logged in Successfully 💯",
       severity: "success",
       open: true,
@@ -42,7 +42,7 @@ export const loginUser = async (user, setAlert) => {
     setToken(res.data);
   } catch (error) {
     const errorMsg = catchErrors(error);
-    setAlert({ message: errorMsg, severity: "error", open: true });
+    setSnack({ message: errorMsg, severity: "error", open: true });
   }
 };
 

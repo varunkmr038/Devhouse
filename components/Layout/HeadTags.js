@@ -11,8 +11,6 @@ const HeadTags = () => (
         sizes="16*16"
         type="image/png"
       />
-
-      <title>Clubhouse - Your Social App</title>
     </Head>
   </>
 );

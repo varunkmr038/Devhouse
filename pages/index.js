@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded";
 import styles from "./index.module.css";
@@ -14,6 +14,13 @@ function Index() {
     if (val == 1) setOpenLogin(true);
     else setOpenSign(true);
   };
+
+  //
+  useEffect(() => {
+    setTimeout(() => {
+      document.title = `Clubhouse - Your Social App`;
+    }, 0);
+  }, []);
 
   return (
     <>

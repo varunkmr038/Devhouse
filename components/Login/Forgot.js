@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import VpnKeyRoundedIcon from "@mui/icons-material/VpnKeyRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import Alert from "../Common/Alert";
+import MuiSnackbar from "../Common/MuiSnackbar";
 import Head from "./Head";
 import Foot from "./Foot";
 import regex from "../../utils/regex";
@@ -52,10 +52,8 @@ function Forgot({ open, setOpenForgot }) {
   const [error, setError] = useState({
     email: false,
   });
-  const [alert, setAlert] = useState({
+  const [snack, setSnack] = useState({
     open: false,
-    message: "Hello error",
-    severity: "error",
   });
 
   const handleChange = (e) => {
@@ -76,10 +74,14 @@ function Forgot({ open, setOpenForgot }) {
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={() => setOpenForgot(false)}
+        onClose={(e, reason) => {
+          if (reason != "backdropClick") setOpenForgot(false);
+        }}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
+        <MuiSnackbar snack={snack} setSnack={setSnack} />
+
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0 ${classes.paper}`}>
@@ -89,7 +91,6 @@ function Forgot({ open, setOpenForgot }) {
               title="Forgot Password ?"
             />
 
-            <Alert alert={alert} setAlert={setAlert} />
             <form className={classes.form} noValidate>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12}>

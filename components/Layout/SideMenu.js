@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#55c57a",
     },
   },
+  desk: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none !important",
+    },
+  },
 }));
 
 function Item({ text, icon, href }) {
@@ -149,18 +154,16 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
         </Drawer>
       </Hidden>
       {/*  Desktop Drawer */}
-      <Hidden smDown implementation="css">
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          style={{ display: protectedRoutes ? "initial" : "none" }}
-        >
-          <DrawerContent username={username} />
-        </Drawer>
-      </Hidden>
+      <Drawer
+        className={`${classes.desk} ${classes.drawer}`}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        style={{ display: protectedRoutes ? "initial" : "none" }}
+      >
+        <DrawerContent username={username} />
+      </Drawer>
     </>
   );
 }

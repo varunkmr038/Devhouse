@@ -17,7 +17,6 @@ import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 import PhoneIphoneRoundedIcon from "@mui/icons-material/PhoneIphoneRounded";
 import CakeRoundedIcon from "@mui/icons-material/CakeRounded";
 import axios from "axios";
-import Alert from "../Common/Alert";
 import Head from "./Head";
 import Foot from "./Foot";
 import InputField from "./InputField";

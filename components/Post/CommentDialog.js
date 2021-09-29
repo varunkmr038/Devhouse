@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     backgroundColor: "#f8f7cf",
+    overflowWrap: "anywhere",
   },
   commentPaperBox: {
     padding: "10px",
@@ -53,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
     marginTop: 10,
   },
+  box: {
+    marginLeft: "10px",
+    width: 800,
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -68,16 +73,35 @@ function CommentList({ comment, index }) {
       className={classes.commentListItem}
     >
       <Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />
-      <Box style={{ marginLeft: "10px" }}>
-        <Typography variant="subtitle2" color="textSecondary">
-          varunkmr038
-        </Typography>
+      <Box className={classes.box}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            flexWrap: "wrap",
+          }}
+        >
+          <Typography
+            variant="subtitle2"
+            color="textSecondary"
+            className="me-auto"
+          >
+            varunkmr038
+          </Typography>
+          <Typography
+            variant="caption"
+            color="secondary"
+            style={{ color: "rgba(0, 0, 0, 0.54)" }}
+          >
+            varunkmr038
+          </Typography>
+        </div>
+
         <Typography
           variant="body2"
           component="p"
           style={{ overflowWrap: "anywhere" }}
         >
-          {" "}
           {comment}
         </Typography>
       </Box>

@@ -3,6 +3,7 @@ import baseUrl from "./baseUrl";
 import Router from "next/router";
 import cookie from "js-cookie";
 import { toast } from "react-toastify";
+import catchErrors from "./catchErrors";
 
 //  setting the jwt cookie in local storage
 const setToken = (token) => {
@@ -20,7 +21,8 @@ export const registerUser = async (user) => {
     setToken(res.data);
     toast.success("Welcome to Clubhouse 🔥");
   } catch (error) {
-    toast.error("Some Error occurred 🤕");
+    const errorMsg = catchErrors(error);
+    toast.error(errorMsg);
   }
 };
 
@@ -32,7 +34,8 @@ export const loginUser = async (user) => {
     setToken(res.data);
     toast.success("Logged in Successfully 💯");
   } catch (error) {
-    toast.error("Some Error occurred 🤕");
+    const errorMsg = catchErrors(error);
+    toast.error(errorMsg);
   }
 };
 

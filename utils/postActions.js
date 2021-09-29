@@ -2,6 +2,7 @@ import axios from "axios";
 import baseUrl from "./baseUrl";
 import catchErrors from "./catchErrors";
 import cookie from "js-cookie";
+import { toast } from "react-toastify";
 
 const Axios = axios.create({
   baseURL: `${baseUrl}/api/posts`,
@@ -31,9 +32,9 @@ export const deletePost = async (postId, setPosts, setShowToastr) => {
   try {
     await Axios.delete(`/${postId}`);
     setPosts((prev) => prev.filter((post) => post._id !== postId));
-    setShowToastr(true);
+    toast.success("Post Deleted");
   } catch (error) {
-    alert(catchErrors(error));
+    toast.error(catchErrors(error));
   }
 };
 
@@ -49,7 +50,7 @@ export const likePost = async (postId, userId, setLikes, like = true) => {
       setLikes((prev) => prev.filter((like) => like.user !== userId));
     }
   } catch (error) {
-    alert(catchErrors(error));
+    toast.error(catchErrors(error));
   }
 };
 
@@ -75,7 +76,8 @@ export const deleteComment = async (postId, commentId, setComments) => {
   try {
     await Axios.delete(`/${postId}/${commentId}`);
     setComments((prev) => prev.filter((comment) => comment._id !== commentId));
+    toast.success("Comment Deleted");
   } catch (error) {
-    alert(catchErrors(error));
+    toast.error(catchErrors(error));
   }
 };

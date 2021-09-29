@@ -64,7 +64,7 @@ export default function Search() {
   const classes = useStyles();
 
   const { protectedRoutes, user } = useContext(UserContext);
-  // const { username } = user;
+  const { username } = user;
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);

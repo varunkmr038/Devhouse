@@ -32,7 +32,7 @@ export const loginUser = async (user) => {
     const res = await axios.post(`${baseUrl}/api/auth`, { user });
 
     setToken(res.data);
-    toast.success("Logged in Successfully 💯");
+    toast.success("Logged in Successfully");
   } catch (error) {
     const errorMsg = catchErrors(error);
     toast.error(errorMsg);
@@ -56,5 +56,5 @@ export const logoutUser = (username) => {
   cookie.remove("token");
   Router.push("/");
   Router.reload();
-  toast.success("Logged Out Successfully 💯");
+  toast.success("Logged Out Successfully");
 };

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -10,18 +11,18 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CommentIcon from "@mui/icons-material/Comment";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import CommentDialog from "./CommentDialog";
 import { deletePost, likePost } from "../../utils/postActions";
+import calculateTime from "../../utils/calculateTime";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 600,
     backgroundColor: "#f8f7cf",
     margin: "auto",
-    marginBottom: 40,
+    marginBottom: 50,
     marginTop: 15,
   },
   media: {
@@ -41,21 +42,20 @@ const useStyles = makeStyles((theme) => ({
 export default function CardPost({ post, user, setPosts }) {
   const classes = useStyles();
 
-  const addPropsToModal = () => ({
-    post,
-    user,
-    // comments,
-    // setComments
-  });
-
   const [likes, setLikes] = useState(post.likes);
   const isLiked =
     likes.length > 0 &&
     likes.filter((like) => like.user === user._id).length > 0;
   const [comments, setComments] = useState(post.comments);
-
-  const [likeColor, setLikeColor] = useState("default");
   const [openComment, setOpenComment] = useState(false);
+
+  const addPropsToModal = () => ({
+    post,
+    user,
+    comments,
+    setComments,
+  });
+  post.picUrl = "img/home.jpeg";
 
   return (
     <>
@@ -64,13 +64,27 @@ export default function CardPost({ post, user, setPosts }) {
           avatar={<Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />}
           action={
             (user.role == "root" || post.user._id === user._id) && (
-              <IconButton aria-label="delete">
+              <IconButton
+                aria-label="delete"
+                onClick={() => deletePost(post._id, setPosts)}
+              >
                 <DeleteForeverRoundedIcon style={{ color: "red" }} />
               </IconButton>
             )
           }
-          title=" varunkmr038"
-          subheader="London, UK"
+          title={
+            <Link href={`/${post.user.username}`}>
+              <a
+                style={{
+                  textDecoration: "none",
+                  color: "#1c1616",
+                }}
+              >
+                {post.user.username}
+              </a>
+            </Link>
+          }
+          subheader={post.location}
         />
         {post.picUrl ? (
           <CardMedia
@@ -91,23 +105,10 @@ export default function CardPost({ post, user, setPosts }) {
             onClick={() => setOpenComment(true)}
             style={{ maxHeight: post.picUrl ? 200 : 500 }}
           >
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.'
-            dddddddddddddddddddddddddddddddd;vkdlmvbkldmnlkfnvlkfnblfbnkfnblkfnblkdfnblfnblfdbfb
-            fbflbmfl;bmfklbmklfbmlkfdbnlfdbnfknnnnnnnnnnnnnnnncdvdvdsvdvdvvdnnnnnnnnnnnnnnnnnnnnnnnldfkiogwefo9hfwehfvnfjviffb'
-            vdsvsdvdvdvdbdsbfbfbfbbdgbgfbd bgbdbbgdbgbglkbngjkdbbvbhvfv ffl
-            fffbfbdbdfb cldvkodslnvjkdnbvkjvd vdvbdlbsmbknbsknflnbl\ This
-            impressive paella is a perfect party dish and a fun meal to cook
-            together with your guests. Add 1 cup of frozen peas along with the
-            mussels, if you like.'
-            dddddddddddddddddddddddddddddddd;vkdlmvbkldmnlkfnvlkfnblfbnkfnblkfnblkdfnblfnblfdbfb
-            fbflbmfl;bmfklbmklfbmlkfdbnlfdbnfknnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnldfkiogwefo9hfwehfvnfjviffb'
-            vdsvsdvdvdvdbdsbfbfbfbbdgbgfbd bgbdbbgdbgbglkbngjkdbbvbhvfv ffl
-            fffbfbdbdfb cldvkodslnvjkdnbvkjvd vdvbdlbsmbknbsknflnbl
+            {post.text}
           </Typography>
           <Typography variant="caption" color="textSecondary">
-            Posted By Varun on ckssakfnaf
+            {`Posted By ${post.user.name} on `} {calculateTime(post.createdAt)}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
@@ -116,20 +117,28 @@ export default function CardPost({ post, user, setPosts }) {
             onClick={() =>
               likePost(post._id, user._id, setLikes, isLiked ? false : true)
             }
-            color={isLiked ? "primary" : "default"}
+            style={{ color: isLiked ? "red" : "#1c1616" }}
           >
             <FavoriteIcon />
           </IconButton>
-          <Typography variant="caption" style={{ color: "purple" }}>
-            1 Likes
+          <Typography variant="caption" style={{ color: "#3014aa" }}>
+            {likes.length > 0 &&
+              `${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
           </Typography>
-          <IconButton aria-label="comment" onClick={() => setOpenComment(true)}>
+          <IconButton
+            aria-label="comment"
+            onClick={() => setOpenComment(true)}
+            style={{ color: "#1c1616" }}
+          >
             <CommentIcon />
           </IconButton>
-          <Typography variant="caption" style={{ color: "purple" }}>
-            1 Comments
+          <Typography variant="caption" style={{ color: "#3014aa" }}>
+            {comments.length > 0 &&
+              `${comments.length} ${
+                comments.length === 1 ? "comment" : "comments"
+              }`}
           </Typography>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" style={{ color: "#1c1616" }}>
             <ShareIcon />
           </IconButton>
         </CardActions>

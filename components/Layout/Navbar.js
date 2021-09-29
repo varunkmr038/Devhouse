@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import Avatar from "@material-ui/core/Avatar";
 import Search from "./Search";
+import { UserContext } from "./Layout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
+  const { protectedRoutes } = useContext(UserContext);
+  const [snack,setSnack]=useState({open:false})
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
+    <>
     <div className={classes.root}>
       <AppBar position="fixed" style={{ backgroundColor: "#1c1616" }}>
         <Toolbar>
@@ -60,9 +65,16 @@ function Navbar({ mobileOpen, setMobileOpen }) {
             Clubhouse
           </Typography>
           <Search />
+          <Avatar
+            className="ms-4"
+            alt="Remy Sharp"
+            src="/img/defaultUser.jpg"
+            style={{ display: protectedRoutes ? "initial" : "none" }}
+          />
         </Toolbar>
       </AppBar>
     </div>
+    </>
   );
 }
 

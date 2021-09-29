@@ -1,48 +1,38 @@
 import axios from "axios";
 import baseUrl from "./baseUrl";
-import catchErrors from "./catchErrors";
 import Router from "next/router";
 import cookie from "js-cookie";
+import { toast } from "react-toastify";
 
 //  setting the jwt cookie in local storage
 const setToken = (token) => {
   cookie.set("token", token);
-  setTimeout(() => {
-    Router.push("/home");
-  }, 2000);
+  Router.push("/home");
 };
 
 //  Signup
-export const registerUser = async (user, setSnack) => {
+export const registerUser = async (user) => {
   try {
     const res = await axios.post(`${baseUrl}/api/signup`, {
       user,
     });
-    setSnack({
-      message: "Welcome to Clubhouse 🔥",
-      severity: "success",
-      open: true,
-    });
+
     setToken(res.data);
+    toast.success("Welcome to Clubhouse 🔥");
   } catch (error) {
-    const errorMsg = catchErrors(error);
-    setSnack({ message: errorMsg, severity: "error", open: true }); // setting error alert
+    toast.error("Some Error occurred 🤕");
   }
 };
 
 // login
-export const loginUser = async (user, setSnack) => {
+export const loginUser = async (user) => {
   try {
     const res = await axios.post(`${baseUrl}/api/auth`, { user });
-    setSnack({
-      message: "Logged in Successfully 💯",
-      severity: "success",
-      open: true,
-    });
+
     setToken(res.data);
+    toast.success("Logged in Successfully 💯");
   } catch (error) {
-    const errorMsg = catchErrors(error);
-    setSnack({ message: errorMsg, severity: "error", open: true });
+    toast.error("Some Error occurred 🤕");
   }
 };
 
@@ -63,4 +53,5 @@ export const logoutUser = (username) => {
   cookie.remove("token");
   Router.push("/");
   Router.reload();
+  toast.success("Logged Out Successfully 💯");
 };

@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 import VpnKeyRoundedIcon from "@mui/icons-material/VpnKeyRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import MuiSnackbar from "../Common/MuiSnackbar";
 import Head from "./Head";
 import Foot from "./Foot";
 import regex from "../../utils/regex";
@@ -52,9 +51,6 @@ function Forgot({ open, setOpenForgot }) {
   const [error, setError] = useState({
     email: false,
   });
-  const [snack, setSnack] = useState({
-    open: false,
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,8 +76,6 @@ function Forgot({ open, setOpenForgot }) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <MuiSnackbar snack={snack} setSnack={setSnack} />
-
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0 ${classes.paper}`}>

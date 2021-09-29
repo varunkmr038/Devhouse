@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import MuiSnackbar from "../Common/MuiSnackbar";
+import { toast } from "react-toastify";
 import Head from "./Head";
 import Foot from "./Foot";
 import InputField from "./InputField";
@@ -59,9 +59,6 @@ function Login({ open, setOpenLogin }) {
     username: false,
     password: false,
   });
-  const [snack, setSnack] = useState({
-    open: false,
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,11 +87,7 @@ function Login({ open, setOpenLogin }) {
     //  Checking that All fields are filled and correctly
     for (const key in user) {
       if (user[key] == "" || error[key] == true) {
-        setSnack({
-          open: true,
-          message: "All Fields are Required !!",
-          severity: "error",
-        });
+        if (!flag) toast.error("All Fields are Required !!");
         setError((prev) => ({ ...prev, [key]: true }));
         flag = 1;
       }
@@ -102,7 +95,7 @@ function Login({ open, setOpenLogin }) {
     if (flag) return;
 
     //  otherwise all fields are validated send it to backend.
-    await loginUser(user, setSnack);
+    await loginUser(user);
   };
 
   return (
@@ -116,8 +109,6 @@ function Login({ open, setOpenLogin }) {
         aria-describedby="alert-dialog-slide-description"
         style={{ zIndex: 1400 }}
       >
-        <MuiSnackbar snack={snack} setSnack={setSnack} />
-
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0 ${classes.paper}`}>

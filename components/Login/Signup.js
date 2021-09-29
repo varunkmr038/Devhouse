@@ -16,6 +16,7 @@ import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
 import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 import PhoneIphoneRoundedIcon from "@mui/icons-material/PhoneIphoneRounded";
 import CakeRoundedIcon from "@mui/icons-material/CakeRounded";
+import { toast } from "react-toastify";
 import axios from "axios";
 import Head from "./Head";
 import Foot from "./Foot";
@@ -24,7 +25,6 @@ import PasswordField from "./PasswordField";
 import regex from "../../utils/regex";
 import baseUrl from "../../utils/baseUrl";
 import { registerUser } from "../../utils/authUser";
-import MuiSnackbar from "../Common/MuiSnackbar";
 
 //  Styling
 const useStyles = makeStyles((theme) => ({
@@ -76,11 +76,6 @@ function Login({ open, setOpenSign }) {
     dob: false,
     phone: false,
     password: false,
-  });
-  const [snack, setSnack] = useState({
-    open: false,
-    message: "",
-    severity: "error",
   });
 
   //  Check username is available or not
@@ -155,11 +150,8 @@ function Login({ open, setOpenSign }) {
     //  Checking that All fields are filled and correctly
     for (const key in user) {
       if (user[key] == "" || error[key] == true) {
-        setSnack({
-          open: true,
-          message: "All Fields are Required !!",
-          severity: "error",
-        });
+        if (!flag) toast.error("All Fields are Required !!");
+
         setError((prev) => ({ ...prev, [key]: true }));
         flag = 1;
       }
@@ -167,7 +159,7 @@ function Login({ open, setOpenSign }) {
     if (flag) return;
 
     //  otherwise all fields are validated send it to backend.
-    await registerUser(user, setSnack);
+    await registerUser(user);
   };
 
   return (
@@ -181,8 +173,6 @@ function Login({ open, setOpenSign }) {
         aria-describedby="alert-dialog-slide-description"
         style={{ zIndex: 1500 }}
       >
-        <MuiSnackbar snack={snack} setSnack={setSnack} />
-
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={`mt-0  ${classes.paper}`}>

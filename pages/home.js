@@ -1,42 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
 import CardPost from "../components/Post/CardPost";
+import Alert from "../components/Common/Alert";
+import { UserContext } from "../components/Layout/Layout";
+import { parseCookies } from "nookies";
 // import { Segment } from "semantic-ui-react";
-// import { parseCookies } from "nookies";
 // import { NoPosts } from "../components/Layout/NoData";
 // import { PostDeleteToastr } from "../components/Layout/Toastr";
 // import InfiniteScroll from "react-infinite-scroll-component";
 // import { PlaceHolderPosts, EndMessage } from "../components/Layout/PlaceHolderGroup";
 // import cookie from "js-cookie";
-const user = {
-  _id: "61438154ad66232a2ad187bc",
-  name: "VARUN KUMAR",
-  email: "varunkmr038@gmail.com",
-  password: "$2a$10$0C5yPhfjHapxCzJX5m7vjeU7uUPTq.0PmpQCi5rvQCDPffEgB/aya",
-  username: "varunkmr038",
-  dob: "23-02-2002",
-  phone: "9212617641",
-  newMessagePopup: true,
-  unreadMessage: false,
-  unreadNotification: false,
-  role: "user",
-};
-const postsData = [
-  {
-    _id: { $oid: "614cbfc841b2123e08d4e0e6" },
-    user: { $oid: "61438154ad66232a2ad187bc" },
-    text: "xssscscacsddefweffefefefcsac",
-    location: "hjecksacc",
-    likes: [],
-    comments: [],
-  },
-];
 
-function Home({ errorLoading }) {
+function Home({ postsData, errorLoading }) {
+  const { user } = useContext(UserContext);
+
   const [posts, setPosts] = useState(postsData || []);
   const [showToastr, setShowToastr] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [alert, setAlert] = useState({
+    open: true,
+    message: "Hey! 😫 No Posts. Make sure you have followed someone.",
+    severity: "info",
+  });
 
   const [pageNumber, setPageNumber] = useState(2);
 
@@ -66,9 +52,6 @@ function Home({ errorLoading }) {
   //   }
   // };
 
-  //  If there are no posts available or error loading in post
-  // if (posts.length === 0 || errorLoading) return <NoPosts />;
-
   return (
     <>
       {/* {showToastr && <PostDeleteToastr />} */}
@@ -81,37 +64,39 @@ function Home({ errorLoading }) {
         endMessage={<EndMessage />}
         dataLength={posts.length}
       > */}
-      {/* {posts.map((post) => (
-        <CardPost
-          key={post._id}
-          post={post}
-          user={user}
-          setPosts={setPosts}
-          // setShowToastr={setShowToastr}
-        />
-      ))} */}
+      {posts.length === 0 || errorLoading ? (
+        <Alert alert={alert} setAlert={setAlert} />
+      ) : (
+        posts.map((post) => (
+          <CardPost
+            key={post._id}
+            post={post}
+            user={user}
+            setPosts={setPosts}
+            // setShowToastr={setShowToastr}
+          />
+        ))
+      )}
 
-      <CardPost />
       {/* </InfiniteScroll> */}
       {/* </Segment> */}
     </>
   );
 }
 
-// Home.getInitialProps = async (ctx) => {
-//   try {
-//     const { token } = parseCookies(ctx);
+Home.getInitialProps = async (ctx) => {
+  try {
+    const { token } = parseCookies(ctx);
 
-//     //  Fetching the posts from backend
-//     // const res = await axios.get(`${baseUrl}/api/posts`, {
-//     //   headers: { Authorization: token },
-//     //   params: { pageNumber: 1 },
-//     // });
-
-//     return { postsData: res.data };
-//   } catch (error) {
-//     return { errorLoading: true };
-//   }
-// };
+    //Fetching the posts from backend
+    const res = await axios.get(`${baseUrl}/api/posts`, {
+      headers: { Authorization: token },
+      // params: { pageNumber: 1 },
+    });
+    return { postsData: res.data };
+  } catch (error) {
+    return { errorLoading: true };
+  }
+};
 
 export default Home;

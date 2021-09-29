@@ -84,21 +84,10 @@ function CommentList({ comment, index }) {
     </Paper>
   );
 }
-const post = {
-  _id: { $oid: "614cbfc841b2123e08d4e0e6" },
-  user: { $oid: "61438154ad66232a2ad187bc" },
-  text: "xssscscacsddefweffefefefcsac",
-  location: "hjecksacc",
-  likes: [],
-  comments: [
-    "cjisjbidbhdbdbvhdbvdhbvduvbhdvbshubvhuvfuhbvhufbvhufbvhufbvfvbfhvbfhvbfhvjfjvsfhv",
-    "This impressive paella is a perfect party dish and a fun meal to coo",
-    "together with your guests. Add 1 cup of frozen peas along with the",
-  ],
-};
 
 function CommentDialog({
   homePosts,
+  post,
   clearComment,
   addComment,
   authDetail,
@@ -111,36 +100,50 @@ function CommentDialog({
   const [buttonText, setButtonText] = useState("Send");
   const [text, setText] = useState("");
   // const [post, setPost] = useState(null);
+  // const [post, setPost] = useState(null);
+  // const [post, setPost] = useState(null);
   // useEffect(() => {
   //   if (rest.post) {
+  //   if (rest.post) {
   //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     const currentPost = homePosts.find((post) => post.id === rest.post.id);
+  //     setPost(currentPost);
+  //     setPost(currentPost);
   //     setPost(currentPost);
   //     setOpen(true);
   //   }
   //   // eslint-diasable-next-line
   // }, [rest.post, homePosts]);
+  // }, [rest.post, homePosts]);
+  // }, [rest.post, homePosts]);
 
-  const handleComment = async () => {
-    if (text.trim().length === 0) {
-      return setAuthAlert({
-        type: "warning",
-        message: "Please Enter some Text to post a Comment",
-      });
-    }
-    setText("");
-    setButtonText("Loading");
-    const { displayName, username, photoURL } = authDetail;
-    await addComment({
-      id: post.id,
-      text,
-      author: {
-        displayName,
-        username,
-        photoURL,
-      },
-    });
-    setButtonText("Send");
-  };
+  // const handleComment = async () => {
+  //   if (text.trim().length === 0) {
+  //     return setAuthAlert({
+  //       type: "warning",
+  //       message: "Please Enter some Text to post a Comment",
+  //       message: "Please Enter some Text to post a Comment",
+  //     });
+  //   }
+  //   setText("");
+  //   setButtonText("Loading");
+  //   const { displayName, username, photoURL } = authDetail;
+  //   await addComment({
+  //     id: post._id,
+  //     id: post._id,
+  //     text,
+  //     author: {
+  //       displayName,
+  //       username,
+  //       photoURL,
+  //     },
+  //   });
+  //   setButtonText("Send");
+  // };
 
   return (
     <div>
@@ -157,17 +160,18 @@ function CommentDialog({
         style={{ zIndex: 1500 }}
       >
         <DialogTitle id="alert-dialog-slide-title">
-          Comment on Varun's Post
+          Comment on Varun's Post Comment on Varun's Post
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
             <Grid item sm={5} xs={12}>
               <Paper className={classes.imgPaper}>
-                <img
+                {/* <img
                   style={{ height: "100%", width: "100%" }}
                   src="/img/home.jpeg"
                   alt={post && post.postContent}
-                />
+                  alt={post && post.postContent}
+                /> */}
 
                 <Typography
                   variant="body2"
@@ -175,6 +179,7 @@ function CommentDialog({
                   component="p"
                   gutterBottom
                   className={classes.caption}
+                  style={{ maxHeight: post.picUrl ? 100 : 500 }}
                 >
                   This impressive paella is a perfect party dish and a fun meal
                   to cook together with your guests. Add 1 cup of frozen peas
@@ -207,7 +212,7 @@ function CommentDialog({
                   ) : (
                     post &&
                     post.comments.map((c, i) => (
-                      <CommentList key={c.id} index={i} comment={c} />
+                      <CommentList key={i} index={i} comment={c.text} />
                     ))
                   )}
                 </Box>
@@ -226,7 +231,7 @@ function CommentDialog({
                     }}
                   />
                   <Button variant="contained" color="primary">
-                    Post
+                    POST
                   </Button>
                 </Box>
               </Paper>

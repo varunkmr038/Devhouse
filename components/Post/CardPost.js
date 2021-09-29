@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -12,18 +12,23 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CommentIcon from "@mui/icons-material/Comment";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import CommentDialog from "./CommentDialog";
+import { deletePost, likePost } from "../../utils/postActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 600,
-    margin: "auto",
     backgroundColor: "#f8f7cf",
+    margin: "auto",
+    marginBottom: 40,
+    marginTop: 15,
   },
   media: {
     height: 0,
     paddingTop: "70%", // 16:9
     marginBottom: 10,
+    cursor: "pointer",
   },
   caption: {
     wordWrap: "break-word",
@@ -33,14 +38,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeReviewCard() {
+export default function CardPost({ post, user, setPosts }) {
   const classes = useStyles();
+
+  const addPropsToModal = () => ({
+    post,
+    user,
+    // comments,
+    // setComments
+  });
+
+  const [likes, setLikes] = useState(post.likes);
+  const isLiked =
+    likes.length > 0 &&
+    likes.filter((like) => like.user === user._id).length > 0;
+  const [comments, setComments] = useState(post.comments);
+
   const [likeColor, setLikeColor] = useState("default");
   const [openComment, setOpenComment] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <>
@@ -48,14 +63,24 @@ export default function RecipeReviewCard() {
         <CardHeader
           avatar={<Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />}
           action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
+            (user.role == "root" || post.user._id === user._id) && (
+              <IconButton aria-label="delete">
+                <DeleteForeverRoundedIcon style={{ color: "red" }} />
+              </IconButton>
+            )
           }
           title=" varunkmr038"
           subheader="London, UK"
         />
-        <CardMedia className={`${classes.media} mx-2`} image="img/home.jpeg" />
+        {post.picUrl ? (
+          <CardMedia
+            className={`${classes.media} mx-2`}
+            image={post.picUrl}
+            onClick={() => setOpenComment(true)}
+          />
+        ) : (
+          ""
+        )}
         <CardContent>
           <Typography
             variant="body2"
@@ -63,6 +88,8 @@ export default function RecipeReviewCard() {
             component="p"
             gutterBottom
             className={classes.caption}
+            onClick={() => setOpenComment(true)}
+            style={{ maxHeight: post.picUrl ? 200 : 500 }}
           >
             This impressive paella is a perfect party dish and a fun meal to
             cook together with your guests. Add 1 cup of frozen peas along with
@@ -86,18 +113,22 @@ export default function RecipeReviewCard() {
         <CardActions disableSpacing>
           <IconButton
             aria-label="like"
-            onClick={() => {
-              likeColor == "default"
-                ? setLikeColor("primary")
-                : setLikeColor("default");
-            }}
-            color={likeColor}
+            onClick={() =>
+              likePost(post._id, user._id, setLikes, isLiked ? false : true)
+            }
+            color={isLiked ? "primary" : "default"}
           >
             <FavoriteIcon />
           </IconButton>
+          <Typography variant="caption" style={{ color: "purple" }}>
+            1 Likes
+          </Typography>
           <IconButton aria-label="comment" onClick={() => setOpenComment(true)}>
             <CommentIcon />
           </IconButton>
+          <Typography variant="caption" style={{ color: "purple" }}>
+            1 Comments
+          </Typography>
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
@@ -106,6 +137,7 @@ export default function RecipeReviewCard() {
       <CommentDialog
         openComment={openComment}
         setOpenComment={setOpenComment}
+        {...addPropsToModal()}
       />
     </>
   );

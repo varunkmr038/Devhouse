@@ -14,17 +14,17 @@ export const submitNewPost = async (
   location,
   picUrl,
   setPosts,
-  setNewPost,
-  setError
+  setNewPost
 ) => {
   try {
     const res = await Axios.post("/", { text, location, picUrl });
 
     setPosts((prev) => [res.data, ...prev]);
     setNewPost({ text: "", location: "" });
+    toast.info("Post Uploaded 💃");
   } catch (error) {
     const errorMsg = catchErrors(error);
-    setError(errorMsg);
+    toast.error(errorMsg);
   }
 };
 
@@ -32,7 +32,7 @@ export const deletePost = async (postId, setPosts, setShowToastr) => {
   try {
     await Axios.delete(`/${postId}`);
     setPosts((prev) => prev.filter((post) => post._id !== postId));
-    toast.success("Post Deleted");
+    toast.info("Post Deleted");
   } catch (error) {
     toast.error(catchErrors(error));
   }
@@ -54,21 +54,28 @@ export const likePost = async (postId, userId, setLikes, like = true) => {
   }
 };
 
-export const postComment = async (postId, user, text, setComments, setText) => {
+export const postComment = async (
+  postId,
+  user,
+  commentText,
+  setCommentText,
+  setComments
+) => {
   try {
-    const res = await Axios.post(`/comment/${postId}`, { text });
+    const res = await Axios.post(`/comment/${postId}`, { text: commentText });
 
     const newComment = {
       _id: res.data,
       user,
-      text,
+      text: commentText,
       date: Date.now(),
     };
-
+    console.log(newComment);
     setComments((prev) => [newComment, ...prev]);
-    setText("");
+    setCommentText("");
   } catch (error) {
-    alert(catchErrors(error));
+    console.error(error);
+    toast.error(catchErrors(error));
   }
 };
 
@@ -76,7 +83,7 @@ export const deleteComment = async (postId, commentId, setComments) => {
   try {
     await Axios.delete(`/${postId}/${commentId}`);
     setComments((prev) => prev.filter((comment) => comment._id !== commentId));
-    toast.success("Comment Deleted");
+    toast.info("Comment Deleted");
   } catch (error) {
     toast.error(catchErrors(error));
   }

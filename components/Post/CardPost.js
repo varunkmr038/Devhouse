@@ -55,13 +55,18 @@ export default function CardPost({ post, user, setPosts }) {
     comments,
     setComments,
   });
-  post.picUrl = "img/home.jpeg";
 
   return (
     <>
       <Card className={classes.root}>
         <CardHeader
-          avatar={<Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />}
+          avatar={
+            <Avatar
+              alt={post.user.name}
+              src={post.user.profilePicUrl}
+              style={{ backgroundColor: "#ff9800" }}
+            />
+          }
           action={
             (user.role == "root" || post.user._id === user._id) && (
               <IconButton

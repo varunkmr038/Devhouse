@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import CommentList from "./CommentList";
+import { postComment } from "../../utils/postActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,6 @@ function CommentDialog({
   const [open, setOpen] = React.useState(false);
   const [buttonText, setButtonText] = useState("Send");
   const [commentText, setCommentText] = useState("");
-  post.picUrl = "img/home.jpeg";
 
   return (
     <div>
@@ -143,7 +143,19 @@ function CommentDialog({
                       setCommentText(e.target.value);
                     }}
                   />
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={async () => {
+                      await postComment(
+                        post._id,
+                        user,
+                        commentText,
+                        setCommentText,
+                        setComments
+                      );
+                    }}
+                  >
                     Post
                   </Button>
                 </Box>
@@ -152,7 +164,7 @@ function CommentDialog({
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenComment(false)} color="primary">
+          <Button onClick={() => setOpenComment(false)} color="secondary">
             Close
           </Button>
         </DialogActions>

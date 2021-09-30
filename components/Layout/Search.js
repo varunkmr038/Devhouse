@@ -63,8 +63,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Search() {
   const classes = useStyles();
 
-  const { protectedRoutes, user } = useContext(UserContext);
-  const { username } = user;
+  const { protectedRoutes } = useContext(UserContext);
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -117,9 +116,7 @@ export default function Search() {
       noOptionsText="No User Found"
       getOptionSelected={(option, value) => option === value}
       getOptionLabel={(option) => option.username} // search is based upon this unique lable
-      renderOption={(option) => (
-        <RenderOption option={option} username={username} />
-      )}
+      renderOption={(option) => <RenderOption option={option} />}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -157,15 +154,19 @@ export default function Search() {
   );
 }
 
-function RenderOption({ option, username }) {
+function RenderOption({ option }) {
   const classes = useStyles();
 
   return (
     <React.Fragment>
-      <List onClick={() => Router.push(`/${username}`)}>
+      <List onClick={() => Router.push(`/${option.username}`)}>
         <ListItem>
           <ListItemIcon>
-            <Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />
+            <Avatar
+              alt={option.name}
+              src={option.profilePicUrl}
+              style={{ backgroundColor: "#ff9800" }}
+            />
           </ListItemIcon>
           <ListItemText primary={option.username} />
           <Typography variant="caption" className={classes.name}>

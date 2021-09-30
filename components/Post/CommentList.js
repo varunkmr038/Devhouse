@@ -4,7 +4,6 @@ import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import Typography from "@material-ui/core/Typography";
 import calculateTime from "../../utils/calculateTime";
@@ -34,7 +33,11 @@ function CommentList({ comment, index, user, setComments, post }) {
       style={{ margin: index === 0 ? "0 0 10px 0" : "12px 0" }}
       className={classes.commentListItem}
     >
-      <Avatar alt="Remy Sharp" src="/img/defaultUser.jpg" />
+      <Avatar
+        alt={comment.user.name}
+        src={comment.user.profilePicUrl}
+        style={{ backgroundColor: "#ff9800" }}
+      />
       <Box className={classes.box}>
         <div
           style={{

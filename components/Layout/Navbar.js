@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Link from "next/link";
 import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -17,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
+    color: "white",
   },
   title: {
     flexGrow: 1,
+    color: "white",
     display: "none",
     [theme.breakpoints.up("sm")]: {
       display: "block",
@@ -33,8 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
-  const { protectedRoutes } = useContext(UserContext);
-  const [snack,setSnack]=useState({open:false})
+  const { protectedRoutes, user } = useContext(UserContext);
+
+  // let username,name,profilePicUrl;
+  if (user) var { username, name, profilePicUrl } = user;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -42,38 +47,44 @@ function Navbar({ mobileOpen, setMobileOpen }) {
 
   return (
     <>
-    <div className={classes.root}>
-      <AppBar position="fixed" style={{ backgroundColor: "#1c1616" }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
-          <img
-            src="img/logo-white.png"
-            alt=""
-            height="50"
-            width="80"
-            className="me-5 ms-3 float-start"
-          />
-          <Typography className={classes.title} variant="h3" noWrap>
-            Clubhouse
-          </Typography>
-          <Search />
-          <Avatar
-            className="ms-4"
-            alt="Remy Sharp"
-            src="/img/defaultUser.jpg"
-            style={{ display: protectedRoutes ? "initial" : "none" }}
-          />
-        </Toolbar>
-      </AppBar>
-    </div>
+      <div className={classes.root}>
+        <AppBar position="fixed" style={{ backgroundColor: "#1c1616" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+            <img
+              src="img/logo-white.png"
+              alt=""
+              height="50"
+              width="80"
+              className="me-5 ms-3 float-start"
+            />
+            <Typography className={classes.title} variant="h3" noWrap>
+              Clubhouse
+            </Typography>
+            <Search />
+            <Link href={`/${username}`}>
+              <Avatar
+                className="ms-4"
+                alt={name}
+                src={profilePicUrl}
+                style={{
+                  display: protectedRoutes ? "initial" : "none",
+                  backgroundColor: "#55c57a",
+                  cursor: "pointer",
+                }}
+              />
+            </Link>
+          </Toolbar>
+        </AppBar>
+      </div>
     </>
   );
 }

@@ -22,9 +22,9 @@ router.post("/", authMiddleware, async (req, res) => {
 
     const post = await new PostModel(newPost).save();
 
-    // const postCreated = await PostModel.findById(post._id).populate("user");
+    const postCreated = await PostModel.findById(post._id).populate("user");
 
-    return res.json(post._id);
+    return res.json(postCreated);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);
@@ -33,31 +33,32 @@ router.post("/", authMiddleware, async (req, res) => {
 
 // GET ALL POSTS
 router.get("/", authMiddleware, async (req, res) => {
-  // const { pageNumber } = req.query;
+  const { pageNumber } = req.query;
 
-  // const number = Number(pageNumber);
-  // const size = 8;
+  const number = Number(pageNumber); // convert to number
+  const size = 8; // 8 posts one one page
 
   try {
     let posts;
 
-    // if (number === 1) {
-    posts = await PostModel.find()
-      // .limit(size)
-      .sort({ createdAt: -1 }) // sort by descending time
-      .populate("user")
-      .populate("comments.user");
-    // }
-    //
-    // else {
-    // const skips = size * (number - 1);
-    //   posts = await PostModel.find()
-    //     .skip(skips)
-    //     .limit(size)
-    //     .sort({ createdAt: -1 })
-    //     .populate("user")
-    //     .populate("comments.user");
-    // }
+    //  for page no 1
+    if (number === 1) {
+      posts = await PostModel.find()
+        .limit(size) // limit docs to 8
+        .sort({ createdAt: -1 }) // sort by descending time
+        .populate("user")
+        .populate("comments.user");
+    }
+    // for pages>1
+    else {
+      const skips = size * (number - 1); // docs to skip
+      posts = await PostModel.find()
+        .skip(skips) // skips the starting docs
+        .limit(size)
+        .sort({ createdAt: -1 })
+        .populate("user")
+        .populate("comments.user");
+    }
 
     return res.json(posts);
   } catch (error) {

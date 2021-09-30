@@ -21,6 +21,9 @@ const regex = {
   // 2. Atleast one digit
   // 3. Atleast one special charcter
   // 4. Length  8- 30
+  postText: /^[a-zA-Z]([A-za-z0-9]|( (?! ))){3,100}(\s+)?$/, // should start with letter not contain special characters and length between 4 and 100 and spaces at the end are optional and should not contain 2 spaces in between
+  postLocation: /^[a-zA-Z]([A-za-z0-9]|(,(?= ))|( (?! ))){3,39}[a-zA-Z](\s+)?$/,
+  //  Should not contain 2 spaces in between and should only have space after comma
 };
 
 export default regex;

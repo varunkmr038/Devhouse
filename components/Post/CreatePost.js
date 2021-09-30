@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { toast } from "react-toastify";
+import regex from "../../utils/regex";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,6 +39,7 @@ function CreatePost({ user, setPosts }) {
   const inputRef = useRef();
   const [newPost, setNewPost] = useState({ text: "", location: "" });
   const [loading, setLoading] = useState(false);
+  const [errorPost, setErrorPost] = useState(true);
 
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(null);
@@ -45,7 +47,19 @@ function CreatePost({ user, setPosts }) {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "media") {
+    if (name == "text") {
+      if (regex.postText.test(value)) {
+        setErrorPost(false);
+      } else {
+        setErrorPost(true);
+      }
+    } else if (name == "location") {
+      if (regex.postLocation.test(value)) {
+        setErrorPost(false);
+      } else {
+        setErrorPost(true);
+      }
+    } else if (name === "media") {
       if (
         files[0] &&
         files[0].type != "image/png" &&
@@ -166,7 +180,7 @@ function CreatePost({ user, setPosts }) {
               color="primary"
               className={classes.button}
               endIcon={<PostAddRoundedIcon />}
-              disabled={newPost.text == "" || loading}
+              disabled={errorPost || loading}
               onClick={handleSubmit}
             >
               Post

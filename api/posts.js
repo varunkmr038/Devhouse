@@ -36,7 +36,7 @@ router.get("/", authMiddleware, async (req, res) => {
   const { pageNumber } = req.query;
 
   const number = Number(pageNumber); // convert to number
-  const size = 8; // 8 posts one one page
+  const size = 8; // 8 posts on one page
 
   try {
     let posts;

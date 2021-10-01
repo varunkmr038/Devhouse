@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { parseCookies } from "nookies";
+import cookie from "js-cookie";
 import baseUrl from "../utils/baseUrl";
 import CardPost from "../components/Post/CardPost";
 import Alert from "../components/Common/Alert";
 import { UserContext } from "../components/Layout/Layout";
 import CreatePost from "../components/Post/CreatePost";
 import InfiniteScroll from "react-infinite-scroll-component";
-import cookie from "js-cookie";
 import { toast } from "react-toastify";
 
 function Home({ postsData, errorLoading }) {
@@ -32,7 +32,7 @@ function Home({ postsData, errorLoading }) {
     try {
       const res = await axios.get(`${baseUrl}/api/posts`, {
         headers: { Authorization: cookie.get("token") },
-        params: { pageNumber },
+        params: { pageNumber }, //req.query
       });
 
       if (res.data.length === 0) setHasMore(false); // no more posts in backend

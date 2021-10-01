@@ -60,8 +60,6 @@ function CommentDialog({
   setOpenComment,
 }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [buttonText, setButtonText] = useState("Send");
   const [commentText, setCommentText] = useState("");
 
   return (

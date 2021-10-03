@@ -23,6 +23,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "10px",
     width: 800,
   },
+  link: {
+    textDecoration: "none",
+    color: "grey",
+    "&:hover": {
+      color: "blue",
+      textDecoration: "underline",
+    },
+  },
 }));
 
 function CommentList({ comment, index, user, setComments, post }) {
@@ -52,15 +60,8 @@ function CommentList({ comment, index, user, setComments, post }) {
             className="me-auto"
           >
             {
-              <Link href={`/${comment.user.username}`}>
-                <a
-                  style={{
-                    textDecoration: "none",
-                    color: "grey",
-                  }}
-                >
-                  {comment.user.username}
-                </a>
+              <Link href={`/profile/${comment.user.username}`}>
+                <a className={classes.link}>{comment.user.username}</a>
               </Link>
             }
           </Typography>

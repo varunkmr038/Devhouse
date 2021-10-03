@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     minHeight: "25rem",
     maxHeight: "25rem",
-    overflowY: "scroll",
+    overflowY: "auto",
     marginBottom: "1rem",
   },
   formBox: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   caption: {
     wordWrap: "break-word",
     maxHeight: 100,
-    overflowY: "scroll",
+    overflowY: "auto",
     marginTop: 10,
   },
 }));

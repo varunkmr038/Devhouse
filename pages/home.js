@@ -15,18 +15,14 @@ function Home({ postsData, errorLoading }) {
 
   const [posts, setPosts] = useState(postsData || []);
   const [hasMore, setHasMore] = useState(true); // if there is more data to fetch from backend
-  const [alert, setAlert] = useState({
-    open: true,
-    message: "Hey! 😫 No Posts. Make sure you have followed someone.",
-    severity: "info",
-  });
+
   const [pageNumber, setPageNumber] = useState(2); // starting will be from 2nd page
 
   useEffect(() => {
     setTimeout(() => {
       document.title = `Clubhouse | Welcome, ${user.name.split(" ")[0]}`;
     }, 0);
-  }, []);
+  });
 
   const fetchDataOnScroll = async () => {
     try {
@@ -48,13 +44,15 @@ function Home({ postsData, errorLoading }) {
     <>
       <CreatePost user={user} setPosts={setPosts} />
       {posts.length === 0 || errorLoading ? (
-        <Alert alert={alert} setAlert={setAlert} />
+        <Alert message="Hey! 😫 No Posts. Make sure you have followed someone." />
       ) : (
         <InfiniteScroll
           hasMore={hasMore}
           next={fetchDataOnScroll}
           loader={<h4>Loading...</h4>}
-          endMessage={<Alert alert={alert} setAlert={setAlert} />}
+          endMessage={
+            <Alert message="No more Posts! You are all Caught up 🤯" />
+          }
           dataLength={posts.length}
         >
           {posts.map((post) => (

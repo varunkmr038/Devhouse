@@ -159,7 +159,7 @@ function RenderOption({ option }) {
 
   return (
     <React.Fragment>
-      <List onClick={() => Router.push(`/${option.username}`)}>
+      <List onClick={() => Router.push(`/profile/${option.username}`)}>
         <ListItem>
           <ListItemIcon>
             <Avatar

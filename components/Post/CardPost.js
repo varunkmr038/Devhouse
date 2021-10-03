@@ -34,8 +34,16 @@ const useStyles = makeStyles((theme) => ({
   caption: {
     wordWrap: "break-word",
     maxHeight: 100,
-    overflowY: "scroll",
+    overflowY: "auto",
     marginBottom: 10,
+  },
+  link: {
+    textDecoration: "none",
+    color: "black",
+    "&:hover": {
+      color: "blue",
+      textDecoration: "underline",
+    },
   },
 }));
 
@@ -78,15 +86,8 @@ export default function CardPost({ post, user, setPosts }) {
             )
           }
           title={
-            <Link href={`/${post.user.username}`}>
-              <a
-                style={{
-                  textDecoration: "none",
-                  color: "#1c1616",
-                }}
-              >
-                {post.user.username}
-              </a>
+            <Link href={`/profile/${post.user.username}`}>
+              <a className={classes.link}>{post.user.username}</a>
             </Link>
           }
           subheader={post.location}
@@ -126,7 +127,7 @@ export default function CardPost({ post, user, setPosts }) {
           >
             <FavoriteIcon />
           </IconButton>
-          <Typography variant="caption" style={{ color: "#3014aa" }}>
+          <Typography variant="caption" style={{ color: "blue" }}>
             {likes.length > 0 &&
               `${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
           </Typography>
@@ -137,7 +138,7 @@ export default function CardPost({ post, user, setPosts }) {
           >
             <CommentIcon />
           </IconButton>
-          <Typography variant="caption" style={{ color: "#3014aa" }}>
+          <Typography variant="caption" style={{ color: "blue" }}>
             {comments.length > 0 &&
               `${comments.length} ${
                 comments.length === 1 ? "comment" : "comments"

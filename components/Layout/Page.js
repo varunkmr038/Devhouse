@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CssBaseline, Toolbar, Container } from "@material-ui/core";
+import { CssBaseline, Toolbar } from "@material-ui/core";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    width: "100%",
   },
   container: {
     marginLeft: theme.spacing(50),
@@ -31,12 +32,10 @@ export default function Page({ children }) {
 
         <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
         <SideMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-        <Container maxWidth={router.pathname == "/" ? false : "lg"}>
-          <main className={`mt-0  ${classes.content}`}>
-            <Toolbar />
-            {children}
-          </main>
-        </Container>
+        <main className={`mt-0  ${classes.content}`}>
+          <Toolbar />
+          {children}
+        </main>
       </div>
     </>
   );

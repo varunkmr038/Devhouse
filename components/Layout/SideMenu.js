@@ -99,9 +99,9 @@ function DrawerContent({ username }) {
             href="/notifications"
           />
           <Item
-            text="Account"
+            text="Profile"
             icon={<ManageAccountsRoundedIcon />}
-            href="/account"
+            href={`/${username}`}
           />
           {/*  Logout User */}
           <ListItem

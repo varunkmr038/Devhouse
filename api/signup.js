@@ -74,6 +74,7 @@ router.post("/", async (req, res) => {
       dob,
       phone,
       password,
+      profilePicUrl: "/img/defaultUser.jpg",
     });
 
     //password hashing

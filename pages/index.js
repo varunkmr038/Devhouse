@@ -20,7 +20,7 @@ function Index() {
     setTimeout(() => {
       document.title = `Clubhouse - Your Social App`;
     }, 0);
-  }, []);
+  });
 
   return (
     <>

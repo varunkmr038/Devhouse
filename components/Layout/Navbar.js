@@ -38,7 +38,6 @@ function Navbar({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
   const { protectedRoutes, user } = useContext(UserContext);
 
-  // let username,name,profilePicUrl;
   if (user) var { username, name, profilePicUrl } = user;
 
   const handleDrawerToggle = () => {
@@ -60,7 +59,7 @@ function Navbar({ mobileOpen, setMobileOpen }) {
               <MenuIcon />
             </IconButton>
             <img
-              src="img/logo-white.png"
+              src="/img/logo-white.png"
               alt=""
               height="50"
               width="80"
@@ -70,7 +69,7 @@ function Navbar({ mobileOpen, setMobileOpen }) {
               Clubhouse
             </Typography>
             <Search />
-            <Link href={`/${username}`}>
+            <Link href={`/profile/${username}`}>
               <Avatar
                 className="ms-4"
                 alt={name}

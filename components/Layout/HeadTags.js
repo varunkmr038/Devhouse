@@ -11,6 +11,7 @@ const HeadTags = () => (
         sizes="16*16"
         type="image/png"
       />
+      <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
     </Head>
   </>
 );

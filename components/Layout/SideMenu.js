@@ -51,25 +51,10 @@ const useStyles = makeStyles((theme) => ({
 function Item({ text, icon, href }) {
   const classes = useStyles();
 
-  const router = useRouter();
-  const isActive = (route) => router.pathname === route;
   return (
     <>
       <Link href={href}>
-        <ListItem
-          button
-          key={text}
-          style={{
-            backgroundColor: isActive(href)
-              ? "#55c57a" // If not active then color change on hover
-              : {
-                  "&:hover": {
-                    backgroundColor: "#55c57a",
-                  },
-                },
-          }}
-          className={classes.item}
-        >
+        <ListItem button key={text} className={classes.item}>
           <ListItemIcon style={{ color: "white" }}>{icon}</ListItemIcon>
           <ListItemText primary={text} />
         </ListItem>

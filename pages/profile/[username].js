@@ -235,7 +235,7 @@ function ProfilePage({
         {/* // If your account then only update and settings are shown */}
         {ownAccount && (
           <TabPanel value={value} index={3}>
-            <UpdateProfile />
+            <UpdateProfile profile={profile} />
           </TabPanel>
         )}
         {ownAccount && (

@@ -1,17 +1,13 @@
 import React, { useState, useRef } from "react";
 import uploadPic from "../../utils/uploadPicToCloudinary";
 import { makeStyles } from "@material-ui/core/styles";
-import { submitNewPost } from "../../utils/postActions";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import { toast } from "react-toastify";
-import regex from "../../utils/regex";
 import EditIcon from "@mui/icons-material/Edit";
+import { profileUpdate } from "../../utils/profileActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,25 +29,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UpdateProfile() {
+function UpdateProfile({ profile }) {
   const classes = useStyles();
   const inputRef = useRef();
 
+  const [profileState, setProfileState] = useState({
+    profilePicUrl: profile.user.profilePicUrl,
+    bio: profile.bio || "",
+  });
   const [media, setMedia] = useState(null);
-  const [mediaPreview, setMediaPreview] = useState("/img/defaultUser.jpg");
-  const [loading, setLoading] = useState(false);
-  const [errorPost, setErrorPost] = useState(true);
+  const [mediaPreview, setMediaPreview] = useState(profile.user.profilePicUrl);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name == "text") {
-      if (regex.postText.test(value)) {
-        setErrorPost(false);
-      } else {
-        setErrorPost(true);
-      }
-    } else if (name === "media") {
+    if (name === "media") {
       if (
         files[0] &&
         files[0].type != "image/png" &&
@@ -63,34 +55,22 @@ function UpdateProfile() {
       setMedia(files[0]);
       setMediaPreview(window.URL.createObjectURL(files[0])); // set the url for image
     }
-    setNewPost((prev) => ({ ...prev, [name]: value }));
+    setProfileState((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    let picUrl;
+    let profilePicUrl;
 
     if (media !== null) {
-      picUrl = await uploadPic(media); // get cloudinary image url
-      if (!picUrl) {
-        setLoading(false);
+      profilePicUrl = await uploadPic(media); // get cloudinary image url
+      if (!profilePicUrl) {
         toast.error("Error Uploading Image 😞");
         return;
       }
     }
 
-    await submitNewPost(
-      newPost.text,
-      newPost.location,
-      picUrl,
-      setPosts,
-      setNewPost
-    );
-
-    setMedia(null);
-    setMediaPreview(null);
-    setLoading(false);
+    await profileUpdate(profileState, profilePicUrl);
   };
   return (
     <>
@@ -119,13 +99,16 @@ function UpdateProfile() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="outlined-basic"
+              name="bio"
+              id="bio"
               label="Bio ✍️"
               variant="outlined"
               multiline
               minRows={2}
               fullWidth
               color="secondary"
+              onChange={handleChange}
+              value={profileState.bio}
             />
             <Button
               variant="contained"

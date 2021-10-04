@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const UserModel = require("../models/UserModel");
 const PostModel = require("../models/PostModel");
+const FollowerModel = require("../models/FollowerModel");
 const uuid = require("uuid").v4;
 
 // CREATE A POST
@@ -60,7 +61,46 @@ router.get("/", authMiddleware, async (req, res) => {
         .populate("comments.user");
     }
 
-    return res.json(posts);
+    if (posts.length === 0) {
+      return res.json([]);
+    }
+
+    let postsToBeSent = [];
+    const { userId } = req;
+
+    const loggedUser = await FollowerModel.findOne({ user: userId });
+
+    //  If my following is zero then show me only my post
+    if (loggedUser.following.length === 0) {
+      postsToBeSent = posts.filter(
+        (post) => post.user._id.toString() === userId
+      );
+    }
+    //
+    else {
+      //  Iterate over my following
+      for (let i = 0; i < loggedUser.following.length; i++) {
+        const foundPostsFromFollowing = posts.filter(
+          (post) =>
+            post.user._id.toString() === loggedUser.following[i].user.toString() // checking that post belongs to following user or not
+        );
+
+        if (foundPostsFromFollowing.length > 0)
+          postsToBeSent.push(...foundPostsFromFollowing);
+      }
+
+      const foundOwnPosts = posts.filter(
+        (post) => post.user._id.toString() === userId // My own post
+      );
+      if (foundOwnPosts.length > 0) postsToBeSent.push(...foundOwnPosts);
+    }
+
+    postsToBeSent.length > 0 &&
+      postsToBeSent.sort((a, b) => [
+        new Date(b.createdAt) - new Date(a.createdAt), // sort accoding to descending time
+      ]);
+
+    return res.json(postsToBeSent);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

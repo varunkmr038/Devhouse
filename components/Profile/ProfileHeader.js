@@ -86,7 +86,7 @@ function ProfileHeader({
             </Typography>
 
             <Typography variant="body1" className={classes.bio}>
-              {profile.user.bio && profile.user.bio}
+              {profile.bio}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>

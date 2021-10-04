@@ -41,39 +41,29 @@ export const unfollowUser = async (
   }
 };
 
-export const profileUpdate = async (
-  profile,
-  setLoading,
-  setError,
-  profilePicUrl
-) => {
+export const profileUpdate = async (profileState, profilePicUrl) => {
   try {
-    const { bio, facebook, youtube, twitter, instagram } = profile;
+    const { bio } = profileState;
 
-    await Axios.post(`/update`, {
+    await Axios.put(`/update`, {
       bio,
-      facebook,
-      youtube,
-      twitter,
-      instagram,
       profilePicUrl,
     });
 
-    setLoading(false);
     Router.reload();
+    toast.success("Profile Updated");
   } catch (error) {
-    setError(catchErrors(error));
-    setLoading(false);
+    toast.error(catchErrors(error));
   }
 };
 
-export const passwordUpdate = async (setSuccess, userPasswords) => {
+export const passwordUpdate = async (userPasswords) => {
   const { currentPassword, newPassword } = userPasswords;
   try {
     await Axios.post(`/settings/password`, { currentPassword, newPassword });
 
-    setSuccess(true);
+    toast.success("Password updated Successfully");
   } catch (error) {
-    alert(catchErrors(error));
+    toast.error(catchErrors(error));
   }
 };

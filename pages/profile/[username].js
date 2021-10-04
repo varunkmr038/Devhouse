@@ -79,6 +79,7 @@ function ProfilePage({
     //  get posts of user
     const getPosts = async () => {
       try {
+        setValue(0);
         const { username } = router.query;
         const res = await axios.get(
           `${baseUrl}/api/profile/posts/${username}`,
@@ -216,10 +217,20 @@ function ProfilePage({
           )}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Followers setLoggedUserFollowStats={setLoggedUserFollowStats} />
+          <Followers
+            user={user}
+            loggedUserFollowStats={loggedUserFollowStats}
+            setLoggedUserFollowStats={setLoggedUserFollowStats}
+            profileUserId={profile.user._id}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Following setLoggedUserFollowStats={setLoggedUserFollowStats} />
+          <Following
+            user={user}
+            loggedUserFollowStats={loggedUserFollowStats}
+            setLoggedUserFollowStats={setLoggedUserFollowStats}
+            profileUserId={profile.user._id}
+          />
         </TabPanel>
         {/* // If your account then only update and settings are shown */}
         {ownAccount && (

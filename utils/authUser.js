@@ -55,6 +55,7 @@ export const redirectUser = (ctx, location) => {
 export const logoutUser = (username) => {
   cookie.remove("token");
   Router.push("/");
+
   Router.reload();
   toast.success("Logged Out Successfully");
 };

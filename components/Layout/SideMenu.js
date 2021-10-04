@@ -101,7 +101,7 @@ function DrawerContent({ username }) {
           <Item
             text="Profile"
             icon={<ManageAccountsRoundedIcon />}
-            href={`/${username}`}
+            href={`/profile/${username}`}
           />
           {/*  Logout User */}
           <ListItem
@@ -125,7 +125,8 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
   const theme = useTheme();
   const { protectedRoutes, user } = useContext(UserContext);
-  const username = { user };
+  let username;
+  if (user) username = user.username;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

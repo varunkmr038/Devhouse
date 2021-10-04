@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import cookie from "js-cookie";
+import axios from "axios";
+import baseUrl from "../../utils/baseUrl";
+import Alert from "../Common/Alert";
+import { followUser, unfollowUser } from "../../utils/profileActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,46 +32,94 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Followers({ setLoggedUserFollowStats }) {
+export default function following({
+  user,
+  loggedUserFollowStats,
+  setLoggedUserFollowStats,
+  profileUserId,
+}) {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([1]);
+  const [following, setFollowing] = useState([]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  useEffect(() => {
+    const getFollowing = async () => {
+      try {
+        // fetching following from backend
+        const res = await axios.get(
+          `${baseUrl}/api/profile/following/${profileUserId}`,
+          {
+            headers: { Authorization: cookie.get("token") },
+          }
+        );
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+        setFollowing(res.data);
+      } catch (error) {
+        toast.error("Error Loading following");
+      }
+    };
 
-    setChecked(newChecked);
-  };
+    getFollowing();
+  }, []);
 
   return (
-    <List dense className={classes.root}>
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `checkbox-list-secondary-label-${value}`;
-        return (
-          <ListItem key={value} button className="my-3">
-            <ListItemAvatar>
-              <Avatar
-                alt={`Avatar n°${value + 1}`}
-                src={`/static/images/avatar/${value + 1}.jpg`}
-              />
-            </ListItemAvatar>
-            <Link href={`/`}>
-              <a className={classes.link}>varunkmr038</a>
-            </Link>
-            <ListItemSecondaryAction>
-              <Button variant="outlined" color="secondary" size="small">
-                Follow
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
-    </List>
+    <>
+      {following.length > 0 ? (
+        following.map((profileFollowing) => {
+          const isFollowing =
+            loggedUserFollowStats.following.length > 0 &&
+            loggedUserFollowStats.following.filter(
+              (following) => following.user === profileFollowing.user._id
+            ).length > 0;
+
+          return (
+            <List
+              dense
+              className={classes.root}
+              key={profileFollowing.user._id}
+            >
+              <ListItem button className="my-3">
+                <ListItemAvatar>
+                  <Avatar
+                    alt={profileFollowing.user.name}
+                    src={profileFollowing.user.profilePicUrl}
+                  />
+                </ListItemAvatar>
+                <Link href={`/profile/${profileFollowing.user.username}`}>
+                  <a className={classes.link}>
+                    {profileFollowing.user.username}
+                  </a>
+                </Link>
+                <ListItemSecondaryAction>
+                  {profileFollowing.user._id != user._id && (
+                    <Button
+                      variant="outlined"
+                      color={isFollowing ? "primary" : "secondary"}
+                      size="small"
+                      className="m-auto mt-3"
+                      fullWidth
+                      onClick={async () => {
+                        isFollowing
+                          ? await unfollowUser(
+                              profileFollowing.user._id,
+                              setLoggedUserFollowStats
+                            )
+                          : await followUser(
+                              profileFollowing.user._id,
+                              setLoggedUserFollowStats
+                            );
+                      }}
+                    >
+                      {isFollowing ? "Following ✅" : "Follow "}
+                    </Button>
+                  )}
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
+          );
+        })
+      ) : (
+        <Alert message="User does not have following " />
+      )}
+    </>
   );
 }

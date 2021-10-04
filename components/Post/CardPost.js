@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   caption: {
     wordWrap: "break-word",
-    maxHeight: 100,
+    maxHeight: 200,
     overflowY: "auto",
     marginBottom: 10,
   },
@@ -109,7 +109,7 @@ export default function CardPost({ post, user, setPosts }) {
             gutterBottom
             className={classes.caption}
             onClick={() => setOpenComment(true)}
-            style={{ maxHeight: post.picUrl ? 200 : 500 }}
+            style={{ maxHeight: post.picUrl ? 400 : 600 }}
           >
             {post.text}
           </Typography>

@@ -45,6 +45,7 @@ router.post("/", async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "10d",
     });
+
     res.status(200).json(token);
   } catch (error) {
     console.error(error);

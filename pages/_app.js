@@ -21,7 +21,9 @@ class MyApp extends App {
     let pageProps = {};
 
     const protectedRoutes =
-      ctx.pathname === "/home" || ctx.pathname === "/profile/[username]";
+      ctx.pathname === "/home" ||
+      ctx.pathname === "/profile/[username]" ||
+      ctx.pathname === "/notifications";
 
     if (!token) {
       //  If user is trying to access the protected route redirect the user

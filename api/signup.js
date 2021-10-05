@@ -5,6 +5,7 @@ const FollowerModel = require("../models/FollowerModel");
 const ProfileModel = require("../models/ProfileModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const NotificationModel = require("../models/NotificationModel");
 
 const regex = {
   name: /^[a-zA-Z]{3,20}(\s)?([a-zA-Z]){0,20}(\s+)?$/,
@@ -92,6 +93,9 @@ router.post("/", async (req, res) => {
       followers: [],
       following: [],
     }).save();
+
+    //  Creating notification model
+    await new NotificationModel({ user: user._id, notifications: [] }).save();
 
     const payload = { userId: user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

@@ -15,8 +15,8 @@ import MessageRoundedIcon from "@mui/icons-material/MessageRounded";
 import CircleNotificationsRoundedIcon from "@mui/icons-material/CircleNotificationsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import Badge from "@material-ui/core/Badge";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { logoutUser } from "../../utils/authUser";
 import { UserContext } from "./Layout";
 
@@ -64,7 +64,7 @@ function Item({ text, icon, href }) {
   );
 }
 
-function DrawerContent({ username }) {
+function DrawerContent({ username, unreadNotification }) {
   const classes = useStyles();
 
   return (
@@ -80,7 +80,15 @@ function DrawerContent({ username }) {
           />
           <Item
             text="Notifications"
-            icon={<CircleNotificationsRoundedIcon />}
+            icon={
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={!unreadNotification}
+              >
+                <CircleNotificationsRoundedIcon />
+              </Badge>
+            }
             href="/notifications"
           />
           <Item
@@ -110,8 +118,11 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
   const theme = useTheme();
   const { protectedRoutes, user } = useContext(UserContext);
-  let username;
-  if (user) username = user.username;
+  let username, unreadNotification;
+  if (user) {
+    username = user.username;
+    unreadNotification = user.unreadNotification;
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -136,7 +147,10 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
           }}
         >
           <Toolbar />
-          <DrawerContent username={username} />
+          <DrawerContent
+            username={username}
+            unreadNotification={unreadNotification}
+          />
         </Drawer>
       </Hidden>
       {/*  Desktop Drawer */}
@@ -148,7 +162,10 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
         }}
         style={{ display: protectedRoutes ? "initial" : "none" }}
       >
-        <DrawerContent username={username} />
+        <DrawerContent
+          username={username}
+          unreadNotification={unreadNotification}
+        />
       </Drawer>
     </>
   );

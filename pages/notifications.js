@@ -77,7 +77,7 @@ function NotificationList({ notification }) {
             {notification.type == "newComment" && ( // If it is comment notification then only im going to show comment
               <Grid item sm={9} xs={12}>
                 <Typography variant="caption" color="textPrimary">
-                  {notification.post.text}
+                  {notification.text}
                 </Typography>
               </Grid>
             )}

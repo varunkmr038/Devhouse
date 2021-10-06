@@ -32,6 +32,7 @@ export default function Page({ children }) {
 
         <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
         <SideMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+
         <main className={`mt-0  ${classes.content}`}>
           <Toolbar />
           {children}

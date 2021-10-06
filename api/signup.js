@@ -6,6 +6,7 @@ const ProfileModel = require("../models/ProfileModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const NotificationModel = require("../models/NotificationModel");
+const ChatModel = require("../models/ChatModel");
 
 const regex = {
   name: /^[a-zA-Z]{3,20}(\s)?([a-zA-Z]){0,20}(\s+)?$/,
@@ -82,20 +83,16 @@ router.post("/", async (req, res) => {
     user.password = await bcrypt.hash(password, 10);
     await user.save();
 
-    //  Creating Profile model
     await new ProfileModel({
       user: user._id,
     }).save();
-
-    //  Creating follower model
     await new FollowerModel({
       user: user._id,
       followers: [],
       following: [],
     }).save();
-
-    //  Creating notification model
     await new NotificationModel({ user: user._id, notifications: [] }).save();
+    await new ChatModel({ user: user._id, chats: [] }).save();
 
     const payload = { userId: user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

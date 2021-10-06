@@ -7,6 +7,7 @@ const UserModel = require("../models/UserModel");
 router.get("/:searchText", authMiddleware, async (req, res) => {
   try {
     const { searchText } = req.params;
+    const { userId } = req;
 
     if (searchText.length === 0) return;
 
@@ -17,7 +18,12 @@ router.get("/:searchText", authMiddleware, async (req, res) => {
       username: { $regex: userPattern, $options: "i" },
     });
 
-    return res.status(200).json(results);
+    //  Remove current user from search
+    const resultsToBeSent = results.filter(
+      (result) => result._id.toString() !== userId
+    );
+
+    return res.status(200).json(resultsToBeSent);
   } catch (error) {
     console.error(error);
     return res.status(500).send(`Server error`);

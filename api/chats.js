@@ -33,7 +33,6 @@ router.get("/", authMiddleware, async (req, res) => {
 });
 
 // GET USER INFO
-
 router.get("/user/:userToFindId", authMiddleware, async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.userToFindId);

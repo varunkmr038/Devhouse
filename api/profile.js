@@ -41,7 +41,6 @@ router.get("/:username", authMiddleware, async (req, res) => {
           : 0,
     });
   } catch (error) {
-    console.error(error);
     return res.status(500).send("Server Error");
   }
 });
@@ -63,7 +62,6 @@ router.get(`/posts/:username`, authMiddleware, async (req, res) => {
 
     return res.json(posts);
   } catch (error) {
-    console.error(error);
     return res.status(500).send("Server Error");
   }
 });

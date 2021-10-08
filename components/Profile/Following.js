@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function following({
+export default function Following({
   user,
   loggedUserFollowStats,
   setLoggedUserFollowStats,

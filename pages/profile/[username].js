@@ -4,7 +4,6 @@ import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 import { parseCookies } from "nookies";
 import Alert from "../../components/Common/Alert";
-import { toast } from "react-toastify";
 import cookie from "js-cookie";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,18 +61,17 @@ function ProfilePage({
   followersLength,
   followingLength,
 }) {
-  if (errorLoading) return <Alert message="No Profile Found 😧" />;
-
   const router = useRouter();
   const classes = useStyles();
-  const [value, setValue] = useState(0);
 
   const { user, userFollowStats } = useContext(UserContext);
+
+  const [value, setValue] = useState(0);
   const [posts, setPosts] = useState([]);
   //  Logged in User stats for instant update of following in my profile
   const [loggedUserFollowStats, setLoggedUserFollowStats] =
     useState(userFollowStats);
-  const ownAccount = profile.user._id === user._id;
+  const ownAccount = profile && profile.user._id === user._id;
 
   useEffect(() => {
     //  get posts of user
@@ -90,82 +88,29 @@ function ProfilePage({
 
         setPosts(res.data);
       } catch (error) {
-        toast.error("Error Loading Posts");
+        console.error(error);
       }
     };
     getPosts();
   }, [router.query.username]);
 
   useEffect(() => {
-    setTimeout(() => {
-      document.title = `Clubhouse | ${
-        profile.user.name.split(" ")[0]
-      }'s Profile`;
-    }, 0);
+    if (profile) {
+      setTimeout(() => {
+        document.title = `Clubhouse | ${
+          profile.user.name.split(" ")[0]
+        }'s Profile`;
+      }, 0);
+    } else {
+      setTimeout(() => {
+        document.title = `Clubhouse | No Profile Found`;
+      }, 0);
+    }
   });
 
+  if (errorLoading) return <Alert message="No Profile Found 😧" />;
   return (
     <>
-      {/* {showToastr && <PostDeleteToastr />}
-
-      <Grid stackable>
-        
-
-        <Grid.Row>
-          <Grid.Column>
-            {activeItem === "profile" && (
-              <>
-                <ProfileHeader
-                  profile={profile}
-                  ownAccount={ownAccount}
-                  loggedUserFollowStats={loggedUserFollowStats}
-                  setUserFollowStats={setUserFollowStats}
-                />
-
-                {loading ? (
-                  <PlaceHolderPosts />
-                ) : posts.length > 0 ? (
-                  posts.map(post => (
-                    <CardPost
-                      key={post._id}
-                      post={post}
-                      user={user}
-                      setPosts={setPosts}
-                      setShowToastr={setShowToastr}
-                    />
-                  ))
-                ) : (
-                  <NoProfilePosts />
-                )}
-              </>
-            )}
-
-            {activeItem === "followers" && (
-              <Followers
-                user={user}
-                loggedUserFollowStats={loggedUserFollowStats}
-                setUserFollowStats={setUserFollowStats}
-                profileUserId={profile.user._id}
-              />
-            )}
-
-            {activeItem === "following" && (
-              <Following
-                user={user}
-                loggedUserFollowStats={loggedUserFollowStats}
-                setUserFollowStats={setUserFollowStats}
-                profileUserId={profile.user._id}
-              />
-            )}
-
-            {activeItem === "updateProfile" && <UpdateProfile Profile={profile} />}
-
-            {activeItem === "settings" && (
-              <Settings newMessagePopup={user.newMessagePopup} />
-            )}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid> */}
       <div className={classes.root}>
         <AppBar position="static" color="default">
           <Tabs
@@ -254,7 +199,6 @@ ProfilePage.getInitialProps = async (ctx) => {
     const { token } = parseCookies(ctx);
 
     //  Get profile  of user
-
     const res = await axios.get(`${baseUrl}/api/profile/${username}`, {
       headers: { Authorization: token },
     });

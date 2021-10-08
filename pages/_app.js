@@ -39,6 +39,7 @@ class MyApp extends App {
         const res = await axios.get(`${baseUrl}/api/auth/home`, {
           headers: { Authorization: token },
         });
+
         const { user, userFollowStats } = res.data;
 
         //  If user exists with token and trying to access the non protected routes i.e login redirect to homepage

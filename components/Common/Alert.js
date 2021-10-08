@@ -1,6 +1,6 @@
 import React from "react";
 import MuiAlert from "@material-ui/lab/Alert";
-import { IconButton, Collapse } from "@material-ui/core";
+import { Collapse } from "@material-ui/core";
 
 function Alert({ message }) {
   return (

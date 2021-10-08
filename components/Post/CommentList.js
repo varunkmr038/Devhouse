@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -68,7 +68,7 @@ function CommentList({ comment, index, user, setComments, post }) {
           >
             {calculateTime(comment.date)}
           </Typography>
-          {(user.role == "root" || comment.user._id == user._id) && (
+          {(user.role === "root" || comment.user._id === user._id) && (
             <DeleteForeverRoundedIcon
               style={{ color: "red", cursor: "pointer" }}
               onClick={() => deleteComment(post._id, comment._id, setComments)}

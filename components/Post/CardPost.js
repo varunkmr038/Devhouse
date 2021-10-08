@@ -76,7 +76,7 @@ export default function CardPost({ post, user, setPosts }) {
             />
           }
           action={
-            (user.role == "root" || post.user._id === user._id) && (
+            (user.role === "root" || post.user._id === user._id) && (
               <IconButton
                 aria-label="delete"
                 onClick={() => deletePost(post._id, setPosts)}

@@ -96,19 +96,19 @@ function Login({ open, setOpenSign }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name == "name") {
+    if (name === "name") {
       if (regex.name.test(value)) {
         setError({ ...error, name: false });
       } else {
         setError({ ...error, name: true });
       }
-    } else if (name == "email") {
+    } else if (name === "email") {
       if (regex.email.test(value)) {
         setError({ ...error, email: false });
       } else {
         setError({ ...error, email: true });
       }
-    } else if (name == "username") {
+    } else if (name === "username") {
       if (regex.username.test(value)) {
         setError({ ...error, username: false });
 
@@ -119,19 +119,19 @@ function Login({ open, setOpenSign }) {
         );
         setError({ ...error, username: true });
       }
-    } else if (name == "dob") {
+    } else if (name === "dob") {
       if (regex.dob.test(value)) {
         setError({ ...error, dob: false });
       } else {
         setError({ ...error, dob: true });
       }
-    } else if (name == "phone") {
+    } else if (name === "phone") {
       if (regex.phone.test(value)) {
         setError({ ...error, phone: false });
       } else {
         setError({ ...error, phone: true });
       }
-    } else if (name == "password") {
+    } else if (name === "password") {
       if (regex.password.test(value)) {
         setError({ ...error, password: false });
       } else {
@@ -149,7 +149,7 @@ function Login({ open, setOpenSign }) {
     let flag = 0;
     //  Checking that All fields are filled and correctly
     for (const key in user) {
-      if (user[key] == "" || error[key] == true) {
+      if (user[key] === "" || error[key] === true) {
         if (!flag) toast.error("All Fields are Required !!");
 
         setError((prev) => ({ ...prev, [key]: true }));

@@ -71,7 +71,7 @@ function Forgot({ open, setOpenForgot }) {
         TransitionComponent={Transition}
         keepMounted
         onClose={(e, reason) => {
-          if (reason != "backdropClick") setOpenForgot(false);
+          if (reason !== "backdropClick") setOpenForgot(false);
         }}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"

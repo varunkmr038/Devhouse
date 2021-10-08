@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Toolbar } from "@material-ui/core";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
-import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Page({ children }) {
   const classes = useStyles();
-  const router = useRouter();
 
   const [mobileOpen, setMobileOpen] = useState(false);
 

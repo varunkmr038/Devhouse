@@ -72,7 +72,7 @@ export default function Search() {
 
   async function handleChange(e) {
     const { value } = e.target;
-    if (value == "") {
+    if (value === "") {
       setOpen(false);
       setLoading(false);
       return;
@@ -88,7 +88,7 @@ export default function Search() {
       });
       setOptions(res.data);
 
-      if (options.length == 0) {
+      if (options.length === 0) {
         setOpen(true);
         return setLoading(false); // IF no User found
       }
@@ -143,7 +143,7 @@ export default function Search() {
             endAdornment: (
               <React.Fragment>
                 {loading ? (
-                  <CircularProgress color="inherit" size={20} color="primary" />
+                  <CircularProgress size={20} color="primary" />
                 ) : null}
               </React.Fragment>
             ),

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import {
   List,
   ListItem,
@@ -44,7 +44,7 @@ export default function Search({ chats, setChats }) {
 
   async function handleChange(e) {
     const { value } = e.target;
-    if (value == "") {
+    if (value === "") {
       setOpen(false);
       setLoading(false);
       return;
@@ -60,7 +60,7 @@ export default function Search({ chats, setChats }) {
       });
       setOptions(res.data);
 
-      if (options.length == 0) {
+      if (options.length === 0) {
         setOpen(true);
         return setLoading(false); // IF no User found
       }
@@ -113,11 +113,7 @@ export default function Search({ chats, setChats }) {
             endAdornment: (
               <React.Fragment>
                 {loading ? (
-                  <CircularProgress
-                    color="inherit"
-                    size={20}
-                    color="secondary"
-                  />
+                  <CircularProgress size={20} color="secondary" />
                 ) : null}
               </React.Fragment>
             ),

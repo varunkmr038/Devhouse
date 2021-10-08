@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, Box, Typography } from "@material-ui/core";
 
 function Foot() {

@@ -71,7 +71,7 @@ function ChatBox({ bannerData, user, messages, divRef, sendMsg }) {
             aria-label="add"
             onClick={(e) => {
               e.preventDefault();
-              if (text == "") return;
+              if (text === "") return;
               sendMsg(text);
               setText("");
             }}

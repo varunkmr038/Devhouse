@@ -47,13 +47,13 @@ function CreatePost({ user, setPosts }) {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name == "text") {
+    if (name === "text") {
       if (regex.postText.test(value)) {
         setErrorPost(false);
       } else {
         setErrorPost(true);
       }
-    } else if (name == "location") {
+    } else if (name === "location") {
       if (regex.postLocation.test(value)) {
         setErrorPost(false);
       } else {
@@ -62,8 +62,8 @@ function CreatePost({ user, setPosts }) {
     } else if (name === "media") {
       if (
         files[0] &&
-        files[0].type != "image/png" &&
-        files[0].type != "image/jpeg"
+        files[0].type !== "image/png" &&
+        files[0].type !== "image/jpeg"
       ) {
         toast.info("Please Select a Image file 😞");
         return;
@@ -125,7 +125,6 @@ function CreatePost({ user, setPosts }) {
               required
               onChange={handleChange}
               name="text"
-              onChange={handleChange}
               value={newPost.text}
             />
           </Grid>

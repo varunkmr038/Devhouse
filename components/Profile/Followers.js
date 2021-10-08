@@ -86,7 +86,7 @@ export default function Followers({
                   </a>
                 </Link>
                 <ListItemSecondaryAction>
-                  {profileFollower.user._id != user._id && (
+                  {profileFollower.user._id !== user._id && (
                     <Button
                       variant="outlined"
                       color={isFollowing ? "primary" : "secondary"}

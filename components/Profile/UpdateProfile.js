@@ -46,8 +46,8 @@ function UpdateProfile({ profile }) {
     if (name === "media") {
       if (
         files[0] &&
-        files[0].type != "image/png" &&
-        files[0].type != "image/jpeg"
+        files[0].type !== "image/png" &&
+        files[0].type !== "image/jpeg"
       ) {
         toast.info("Please Select a Image file 😞");
         return;

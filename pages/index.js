@@ -11,7 +11,7 @@ function Index() {
 
   const handleClickOpen = (val) => {
     // Handling open dialog for  login signup
-    if (val == 1) setOpenLogin(true);
+    if (val === 1) setOpenLogin(true);
     else setOpenSign(true);
   };
 

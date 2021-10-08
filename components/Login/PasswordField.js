@@ -32,9 +32,6 @@ function PasswordField({ error, handleChange }) {
                 id="password"
                 type={values.showPassword ? "text" : "password"}
                 value={values.password}
-                onChange={(e) =>
-                  setValues({ ...values, password: e.target.value })
-                }
                 name="password"
                 label="Password"
                 endAdornment={

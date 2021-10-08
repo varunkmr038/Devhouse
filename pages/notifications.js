@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -51,9 +51,9 @@ function NotificationList({ notification }) {
               <Link href={`/profile/${notification.user.username}`}>
                 <a className={classes.link}>{notification.user.name}</a>
               </Link>
-              {notification.type == "newLike"
+              {notification.type === "newLike"
                 ? `  Liked your Post`
-                : notification.type == "newComment"
+                : notification.type === "newComment"
                 ? `  Commented on your Post`
                 : `  Started Following you`}
             </Typography>
@@ -74,7 +74,7 @@ function NotificationList({ notification }) {
               />
             </Grid>
 
-            {notification.type == "newComment" && ( // If it is comment notification then only im going to show comment
+            {notification.type === "newComment" && ( // If it is comment notification then only im going to show comment
               <Grid item sm={9} xs={12}>
                 <Typography variant="caption" color="textPrimary">
                   {notification.text}

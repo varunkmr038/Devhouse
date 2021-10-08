@@ -87,7 +87,7 @@ function CommentDialog({
                   <img
                     style={{ height: "100%", width: "100%" }}
                     src={post.picUrl}
-                    alt="Post image"
+                    alt="Post"
                   />
                 )}
 

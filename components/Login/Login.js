@@ -63,13 +63,13 @@ function Login({ open, setOpenLogin }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name == "username") {
+    if (name === "username") {
       if (regex.username.test(value)) {
         setError({ ...error, username: false });
       } else {
         setError({ ...error, username: true });
       }
-    } else if (name == "password") {
+    } else if (name === "password") {
       if (regex.password.test(value)) {
         setError({ ...error, password: false });
       } else {
@@ -86,7 +86,7 @@ function Login({ open, setOpenLogin }) {
     let flag = 0;
     //  Checking that All fields are filled and correctly
     for (const key in user) {
-      if (user[key] == "" || error[key] == true) {
+      if (user[key] === "" || error[key] === true) {
         if (!flag) toast.error("All Fields are Required !!");
         setError((prev) => ({ ...prev, [key]: true }));
         flag = 1;

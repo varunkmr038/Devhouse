@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   List,
   ListItem,
@@ -34,10 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Search() {
+export default function Search({ chats, setChats }) {
   const classes = useStyles();
-
-  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -75,32 +73,6 @@ export default function Search() {
     setLoading(false);
   }
 
-  //  Adds the chat when clicked on the option
-  const addChat = (result) => {
-    const alreadyInChat =
-      chats.length > 0 &&
-      chats.filter((chat) => chat.messsagesWith === result._id).length > 0;
-
-    //  If there is existing chat with user
-    if (alreadyInChat) {
-      return router.push(`/messages?message=${result._id}`); //open the existing chat
-    }
-    // Add a new chat
-    else {
-      const newChat = {
-        messagesWith: result._id,
-        name: result.name,
-        profilePicUrl: result.profilePicUrl,
-        lastMessage: "",
-        date: Date.now(),
-      };
-
-      setChats((prev) => [newChat, ...prev]);
-
-      return router.push(`/messages?message=${result._id}`);
-    }
-  };
-
   return (
     <Autocomplete
       open={open}
@@ -113,7 +85,9 @@ export default function Search() {
       noOptionsText="No User Found"
       getOptionSelected={(option, value) => option === value}
       getOptionLabel={(option) => option.username} // search is based upon this unique lable
-      renderOption={(option) => <RenderOption option={option} />}
+      renderOption={(option) => (
+        <RenderOption option={option} chats={chats} setChats={setChats} />
+      )}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -154,13 +128,39 @@ export default function Search() {
   );
 }
 
-function RenderOption({ option }) {
+function RenderOption({ option, chats, setChats }) {
   const classes = useStyles();
+  const router = useRouter();
 
+  //  Adds the chat when clicked on the option
+  function addChat(option) {
+    const alreadyInChat =
+      chats.length > 0 &&
+      chats.filter((chat) => chat.messsagesWith === option._id).length > 0;
+
+    //  If there is existing chat with user
+    if (alreadyInChat) {
+      return router.push(`/messages?message=${option._id}`); //open the existing chat
+    }
+    // Add a new chat
+    else {
+      const newChat = {
+        messagesWith: option._id,
+        name: option.name,
+        profilePicUrl: option.profilePicUrl,
+        lastMessage: "",
+        date: Date.now(),
+      };
+
+      setChats((prev) => [newChat, ...prev]);
+
+      return router.push(`/messages?message=${option._id}`);
+    }
+  }
   return (
     <React.Fragment>
-      <List onClick={(e, option) => addChat(option)}>
-        <ListItem>
+      <List>
+        <ListItem onClick={(e) => addChat(option)}>
           <ListItemIcon>
             <Avatar
               alt={option.name}

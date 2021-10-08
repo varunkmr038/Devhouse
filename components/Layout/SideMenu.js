@@ -64,7 +64,7 @@ function Item({ text, icon, href }) {
   );
 }
 
-function DrawerContent({ username, unreadNotification }) {
+function DrawerContent({ username, unreadNotification, unreadMessage }) {
   const classes = useStyles();
 
   return (
@@ -75,7 +75,11 @@ function DrawerContent({ username, unreadNotification }) {
           <Item text="Home" icon={<HomeRoundedIcon />} href="/home" />
           <Item
             text="Messages"
-            icon={<MessageRoundedIcon />}
+            icon={
+              <Badge color="secondary" variant="dot" invisible={!unreadMessage}>
+                <MessageRoundedIcon />
+              </Badge>
+            }
             href="/messages"
           />
           <Item
@@ -118,10 +122,11 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
   const classes = useStyles();
   const theme = useTheme();
   const { protectedRoutes, user } = useContext(UserContext);
-  let username, unreadNotification;
+  let username, unreadNotification, unreadMessage;
   if (user) {
     username = user.username;
     unreadNotification = user.unreadNotification;
+    unreadMessage = user.unreadMessage;
   }
 
   const handleDrawerToggle = () => {
@@ -150,6 +155,7 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
           <DrawerContent
             username={username}
             unreadNotification={unreadNotification}
+            unreadMessage={unreadMessage}
           />
         </Drawer>
       </Hidden>
@@ -165,6 +171,7 @@ export default function SideMenu({ mobileOpen, setMobileOpen }) {
         <DrawerContent
           username={username}
           unreadNotification={unreadNotification}
+          unreadMessage={unreadMessage}
         />
       </Drawer>
     </>

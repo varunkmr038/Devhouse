@@ -48,31 +48,18 @@ router.get("/user/:userToFindId", authMiddleware, async (req, res) => {
   }
 });
 
-// Delete a chat
-router.delete(`/:messagesWith`, authMiddleware, async (req, res) => {
+//  Marking the unread message as false
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
-    const { messagesWith } = req.params;
 
-    const user = await ChatModel.findOne({ user: userId });
+    const user = await UserModel.findById(userId);
 
-    const chatToDelete = user.chats.find(
-      (chat) => chat.messagesWith.toString() === messagesWith
-    );
-
-    if (!chatToDelete) {
-      return res.status(404).send("Chat not found");
+    if (user.unreadMessage) {
+      user.unreadMessage = false; // user have read messages
+      await user.save();
     }
-
-    const indexOf = user.chats
-      .map((chat) => chat.messagesWith.toString())
-      .indexOf(messagesWith);
-
-    user.chats.splice(indexOf, 1);
-
-    await user.save();
-
-    return res.status(200).send("Chat deleted");
+    return res.status(200).send("Updated");
   } catch (error) {
     console.error(error);
     return res.status(500).send("Server Error");

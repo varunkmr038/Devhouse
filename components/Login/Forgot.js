@@ -117,6 +117,7 @@ function Forgot({ open, setOpenForgot }) {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={(e) => e.preventDefault()}
               >
                 Send Email
               </Button>

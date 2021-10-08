@@ -11,10 +11,15 @@ import { useRouter } from "next/router";
 import io from "socket.io-client";
 import Alert from "../components/Common/Alert";
 import { UserContext } from "../components/Layout/Layout";
-import getUserInfo from "../utils/getUserInfo";
-import newMsgSound from "../utils/newMsgSound";
 import { toast } from "react-toastify";
 import cookie from "js-cookie";
+import {
+  connectedUsersListener,
+  messagesLoadedListener,
+  msgSentListener,
+  newMsgReceivedListener,
+  noChatFoundListener,
+} from "../utils/socketClient";
 
 const scrollDivToBottom = (divRef) =>
   divRef.current !== null &&
@@ -68,15 +73,15 @@ function Messages({ chatsData, errorLoading }) {
   useEffect(() => {
     if (!socket.current) {
       // trigerred the connection event
-      socket.current = io(baseUrl); // connecting with server
+      socket.current = io(baseUrl);
     }
 
     if (socket.current) {
       socket.current.emit("join", { userId: user._id });
 
-      socket.current.on("connectedUsers", ({ users }) => {
-        users.length > 0 && setConnectedUsers(users);
-      });
+      socket.current.on("connectedUsers", ({ users }) =>
+        connectedUsersListener(users, setConnectedUsers)
+      );
 
       // when I open messages redirect me to first chat if there is
       if (chats.length > 0 && !router.query.message) {
@@ -96,76 +101,13 @@ function Messages({ chatsData, errorLoading }) {
   // Confirming msg is sent and receving the messages
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("msgSent", ({ newMsg }) => {
-        //  If we are on the chat whom we sent the msg
-        if (newMsg.receiver === openChatId.current) {
-          setMessages((prev) => [...prev, newMsg]);
+      socket.current.on("msgSent", ({ newMsg }) =>
+        msgSentListener(newMsg, setMessages, setChats, openChatId)
+      );
 
-          //  For most recent msg to appear in chatlist
-          setChats((prev) => {
-            const previousChat = prev.find(
-              (chat) => chat.messagesWith === newMsg.receiver
-            );
-            previousChat.lastMessage = newMsg.msg;
-            previousChat.date = newMsg.date;
-
-            return [...prev];
-          });
-        }
-      });
-
-      socket.current.on("newMsgReceived", async ({ newMsg }) => {
-        // WHEN CHAT WITH SENDER IS CURRENTLY OPENED INSIDE YOUR BROWSER
-        if (newMsg.sender === openChatId.current) {
-          setMessages((prev) => [...prev, newMsg]);
-
-          setChats((prev) => {
-            const previousChat = prev.find(
-              (chat) => chat.messagesWith === newMsg.sender
-            );
-            previousChat.lastMessage = newMsg.msg;
-            previousChat.date = newMsg.date;
-
-            return [...prev];
-          });
-        }
-        // chat is not open
-        else {
-          const ifPreviouslyMessaged =
-            chats.filter((chat) => chat.messagesWith === newMsg.sender).length >
-            0;
-
-          if (ifPreviouslyMessaged) {
-            setChats((prev) => {
-              const previousChat = prev.find(
-                (chat) => chat.messagesWith === newMsg.sender
-              );
-              previousChat.lastMessage = newMsg.msg;
-              previousChat.date = newMsg.date;
-
-              return [
-                previousChat,
-                ...prev.filter((chat) => chat.messagesWith !== newMsg.sender),
-              ];
-            });
-          }
-
-          //IF NO PREVIOUS CHAT WITH THE SENDER
-          else {
-            const { name, profilePicUrl } = await getUserInfo(newMsg.sender);
-            const newChat = {
-              messagesWith: newMsg.sender,
-              name,
-              profilePicUrl,
-              lastMessage: newMsg.msg,
-              date: newMsg.date,
-            };
-            setChats((prev) => [newChat, ...prev]);
-          }
-        }
-
-        newMsgSound();
-      });
+      socket.current.on("newMsgReceived", async ({ newMsg }) =>
+        newMsgReceivedListener(newMsg, setMessages, chats, setChats, openChatId)
+      );
     }
   }, []);
 
@@ -185,31 +127,24 @@ function Messages({ chatsData, errorLoading }) {
       });
 
       socket.current.on("messagesLoaded", async ({ chat }) => {
-        setMessages(chat.messages);
-        setBannerData({
-          name: chat.messagesWith.name,
-          profilePicUrl: chat.messagesWith.profilePicUrl,
-        });
-
-        openChatId.current = chat.messagesWith._id; // saving curent message value in url
-        divRef.current && scrollDivToBottom(divRef);
+        messagesLoadedListener(
+          chat,
+          setMessages,
+          setBannerData,
+          openChatId,
+          divRef,
+          scrollDivToBottom
+        );
       });
 
       socket.current.on("noChatFound", async () => {
-        const userInfo = await getUserInfo(router.query.message);
-
-        if (!userInfo) {
-          router.push("/messages");
-          toast.error("No User Found");
-          return;
-        }
-
-        const { name, profilePicUrl } = userInfo;
-
-        setBannerData({ name, profilePicUrl });
-        setMessages([]);
-
-        openChatId.current = router.query.message;
+        noChatFoundListener(
+          router,
+          toast,
+          setBannerData,
+          setMessages,
+          openChatId
+        );
       });
     };
 

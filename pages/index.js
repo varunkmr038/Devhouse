@@ -32,7 +32,7 @@ function Index() {
                 <div className="col-md-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex justify-content-center flex-column">
                   <h4>
                     Make the strongest connections with
-                    <span className={styles.brandName}>CLUBHOUSE 😀</span>
+                    <span className={styles.brandName}>CLUBHOUSE </span>
                   </h4>
                   <h2 className="my-3">Join the Community Now</h2>
                   <div className="mt-3">

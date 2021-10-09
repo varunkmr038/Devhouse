@@ -7,7 +7,7 @@ import catchErrors from "./catchErrors";
 
 //  setting the jwt cookie in local storage
 const setToken = (token) => {
-  cookie.set("token", token);
+  cookie.set("token", token, { expires: 90 });
   Router.push("/home");
 };
 

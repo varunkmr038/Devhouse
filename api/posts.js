@@ -76,6 +76,10 @@ router.get("/", authMiddleware, async (req, res) => {
 
     const loggedUser = await FollowerModel.findOne({ user: userId });
 
+    if (!loggedUser) {
+      return res.status(404).send(`User no longer exists`);
+    }
+
     //  If my following is zero then show me only my post
     if (loggedUser.following.length === 0) {
       postsToBeSent = posts.filter(

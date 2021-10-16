@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Toolbar } from "@material-ui/core";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,22 +21,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Page({ children }) {
   const classes = useStyles();
+  const router = useRouter();
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
-      <div className={classes.root}>
-        <CssBaseline />
+      {router.pathname !== "/meet/[meet_id]" ? (
+        <div className={classes.root}>
+          <CssBaseline />
 
-        <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-        <SideMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+          <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+          <SideMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
-        <main className={`mt-0  ${classes.content}`}>
-          <Toolbar />
-          {children}
-        </main>
-      </div>
+          <main className={`mt-0  ${classes.content}`}>
+            <Toolbar />
+            {children}
+          </main>
+        </div>
+      ) : (
+        <div>{children}</div>
+      )}
     </>
   );
 }

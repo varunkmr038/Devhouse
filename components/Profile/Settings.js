@@ -61,7 +61,7 @@ function Settings() {
           <Grid item sm={12} xs={12}>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               endIcon={<LockIcon />}
               fullWidth
               onClick={async (e) => {

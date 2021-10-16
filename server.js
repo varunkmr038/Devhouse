@@ -59,6 +59,7 @@ nextApp.prepare().then(() => {
   app.use("/api/profile", require("./api/profile"));
   app.use("/api/notifications", require("./api/notifications"));
   app.use("/api/chats", require("./api/chats"));
+  app.use("/api/meet", require("./api/meet"));
 
   app.all("*", (req, res) => handle(req, res)); // for files in pages folder to work
 

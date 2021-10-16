@@ -3,6 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../utils/theme";
 import "bootstrap/dist/css/bootstrap.css";
+import "../public/css/meet.css";
 import "../public/css/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -24,7 +25,9 @@ class MyApp extends App {
       ctx.pathname === "/home" ||
       ctx.pathname === "/profile/[username]" ||
       ctx.pathname === "/notifications" ||
-      ctx.pathname === "/messages";
+      ctx.pathname === "/messages" ||
+      ctx.pathname === "/meet" ||
+      ctx.pathname === "/meet/[meet_id]";
 
     if (!token) {
       //  If user is trying to access the protected route redirect the user

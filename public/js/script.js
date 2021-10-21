@@ -34,7 +34,6 @@ if (window.location.pathname.includes("/meet/")) {
   //  Fetch the room data and user data
   const getRoomData = async () => {
     try {
-      console.log(`${protocol}//${baseUrl}/api/meet/${roomId}`);
       const res = await axios.get(
         `${protocol}//${baseUrl}/api/meet/${roomId}`,
         {
@@ -44,7 +43,6 @@ if (window.location.pathname.includes("/meet/")) {
 
       roomData = res.data.roomData;
       user = res.data.user;
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +51,6 @@ if (window.location.pathname.includes("/meet/")) {
 
   myPeer.on("open", (id) => {
     peerId = id;
-    console.log("my peerid : ", peerId);
     changeCount(roomData.count + 1);
     socket.emit(
       "join-meet",
@@ -90,32 +87,26 @@ if (window.location.pathname.includes("/meet/")) {
     });
     // recieve the other user's stream
     myPeer.on("call", (call) => {
-      console.log("hey call", call);
       peers[call.peer] = call;
       call.answer(myVideoStream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
-        console.log("hey stream other user", userVideoStream);
         axios
           .get(`${protocol}//${baseUrl}/api/meet/user/${call.peer}`)
           .then((res) => {
             return res.data;
           })
           .then((data) => {
-            console.log("peerdata", data);
             addVideoStream(video, userVideoStream, call.peer, data.user);
           });
       });
       call.on("close", () => {
-        console.log("gya user");
         video.parentElement.remove();
       });
     });
 
     socket.on("user-connected", (userId, fname, audio, video, count) => {
-      console.log("Hey you both connected");
       // socket.emit("user-callback");
-      console.log(userId, myVideoStream);
       connectToNewUser(userId, myVideoStream);
       changeCount(count);
     });
@@ -148,12 +139,10 @@ if (window.location.pathname.includes("/meet/")) {
           return res.data;
         })
         .then((data) => {
-          console.log(data);
           addVideoStream(video, userVideoStream, call.peer, data.user);
         });
     });
     call.on("close", () => {
-      console.log("gya user");
       video.parentElement.remove();
     });
     peers[userId] = call;
@@ -281,7 +270,6 @@ if (window.location.pathname.includes("/meet/")) {
           let sender = peers[peer].peerConnection
             .getSenders()
             .find(function (s) {
-              console.log("this is s", s);
               return s.track.kind == videoTrack.kind;
             });
           sender.replaceTrack(videoTrack);
@@ -445,7 +433,6 @@ if (window.location.pathname.includes("/meet/")) {
 
   //Scroll Down in Chatbox
   socket.on("client-podcast", (data, userName) => {
-    console.log(userName + ": " + data);
     addMessage("user", userName, data);
     scrollDown(".chat-box");
   });
@@ -469,7 +456,6 @@ if (window.location.pathname.includes("/meet/")) {
 
       this.audioCTX = new AudioContext();
       this.analyser = this.audioCTX.createAnalyser();
-      console.log(this.audioCTX);
       const source = this.audioCTX.createMediaStreamSource(this.mediaStream);
       source.connect(this.analyser);
 
@@ -490,15 +476,11 @@ if (window.location.pathname.includes("/meet/")) {
     }
     replaceStream(stream) {
       this.mediaStream = stream;
-      this.audioCTX.close().then((e) => {
-        console.log("audiCTX close");
-      });
+      this.audioCTX.close().then((e) => {});
       this.element = this.createElement();
     }
     deleteElement() {
-      this.audioCTX.close().then((e) => {
-        console.log("audiCTX close");
-      });
+      this.audioCTX.close().then((e) => {});
       this.element.remove();
     }
   }

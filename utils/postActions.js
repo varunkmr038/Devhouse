@@ -70,7 +70,6 @@ export const postComment = async (
       text: commentText,
       date: Date.now(),
     };
-    console.log(newComment);
     setComments((prev) => [newComment, ...prev]);
     setCommentText("");
   } catch (error) {

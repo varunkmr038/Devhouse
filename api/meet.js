@@ -25,7 +25,6 @@ router.post("/new-meeting", authMiddleware, async (req, res) => {
 
 // Get user peer data
 router.get("/user/:peerId", async (req, res) => {
-  console.log("everyone");
   res.json({
     user: await PeerUserModel.findOne({ peerId: req.params.peerId }),
   });
@@ -36,7 +35,6 @@ router.get("/:roomId", authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const { roomId } = req.params;
-    console.log(roomId);
     const user = await UserModel.findById(userId);
     const roomData = await RoomModel.findById(roomId);
 

@@ -13,7 +13,6 @@ const joinMeetListener = async (
   video
 ) => {
   // // add peer details
-  console.log("JOIN ROOM LISTENR");
   await PeerUserModel({
     peerId: peerId,
     name: name,
@@ -50,7 +49,6 @@ const joinMeetListener = async (
   });
 
   socket.on("disconnect", async () => {
-    console.log("andar waala disconnect");
     const curRoomData = await RoomModel.findById(roomId);
     curRoomData.count = curRoomData.count - 1;
     await curRoomData.save();
@@ -62,7 +60,6 @@ const joinMeetListener = async (
 
 const joinListener = async (socket, userId) => {
   const users = await addUser(userId, socket.id); // add me to the sockets
-  // console.log(users);
 
   setInterval(() => {
     socket.emit("connectedUsers", {

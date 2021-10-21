@@ -6,9 +6,7 @@ function ToolBar() {
       <div className="tool-bar-wrapper">
         <button id="peoples-count" className="tool-bar-button">
           <ion-icon name="people-outline"></ion-icon>
-          <span className="user-number" id="user-number">
-            45
-          </span>
+          <span className="user-number" id="user-number"></span>
         </button>
 
         <button
@@ -24,9 +22,7 @@ function ToolBar() {
           <ion-icon name="chatbox-ellipses-outline"></ion-icon>
         </button>
 
-        <button id="time" className="tool-bar-button">
-          00:00 AM
-        </button>
+        <button id="time" className="tool-bar-button"></button>
       </div>
     </>
   );

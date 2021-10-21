@@ -3,11 +3,8 @@ import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 import cookie from "js-cookie";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 
 function MeetHome() {
-  const router = useRouter();
-
   const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
@@ -17,6 +14,8 @@ function MeetHome() {
   });
 
   const createNewMeet = async () => {
+    const href = window.location.href;
+
     try {
       const res = await axios.post(
         `${baseUrl}/api/meet/new-meeting`,
@@ -26,7 +25,7 @@ function MeetHome() {
         }
       );
       //  redirect to meet page
-      router.push(`/meet/${res.data}`);
+      window.location.assign(`${href}/${res.data}`);
     } catch (error) {
       console.error(error);
       toast.error("Error creating Meet try After some time");
@@ -43,7 +42,7 @@ function MeetHome() {
       });
 
       //  redirect to meet page
-      router.push(`/meet/${roomId}`);
+      window.location.assign(`${baseUrl}/meet/${roomId}`);
     } catch (error) {
       console.error(error);
       toast.info("No Meet Found. Create a new one");
@@ -76,7 +75,7 @@ function MeetHome() {
                     name="roomId"
                     type="text"
                     className="form-control"
-                    placeholder="Enter a code"
+                    placeholder="Enter  code"
                     aria-label="Recipient's username"
                     aria-describedby="button-addon2"
                     onChange={(e) => setRoomId(e.target.value)}

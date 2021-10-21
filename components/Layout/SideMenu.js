@@ -15,6 +15,7 @@ import MessageRoundedIcon from "@mui/icons-material/MessageRounded";
 import CircleNotificationsRoundedIcon from "@mui/icons-material/CircleNotificationsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import Badge from "@material-ui/core/Badge";
 import Link from "next/link";
 import { logoutUser } from "../../utils/authUser";
@@ -73,6 +74,7 @@ function DrawerContent({ username, unreadNotification, unreadMessage }) {
       <div className={classes.drawerContainer}>
         <List>
           <Item text="Home" icon={<HomeRoundedIcon />} href="/home" />
+          <Item text="Meet" icon={<PersonalVideoIcon />} href="/meet" />
           <Item
             text="Messages"
             icon={

@@ -3,6 +3,8 @@ const router = express.Router();
 const uuid = require("uuid").v4;
 const authMiddleware = require("../middleware/authMiddleware");
 const RoomModel = require("../models/RoomModel");
+const PeerUserModel = require("../models/PeerUserModel");
+const UserModel = require("../models/UserModel");
 
 //  Creating a new meeting and redirect to meeting
 router.post("/new-meeting", authMiddleware, async (req, res) => {
@@ -21,16 +23,28 @@ router.post("/new-meeting", authMiddleware, async (req, res) => {
   }
 });
 
-// get Room Data
+// Get user peer data
+router.get("/user/:peerId", async (req, res) => {
+  console.log("everyone");
+  res.json({
+    user: await PeerUserModel.findOne({ peerId: req.params.peerId }),
+  });
+});
+
+// get Room and user Data
 router.get("/:roomId", authMiddleware, async (req, res) => {
   try {
+    const { userId } = req;
     const { roomId } = req.params;
+    console.log(roomId);
+    const user = await UserModel.findById(userId);
     const roomData = await RoomModel.findById(roomId);
 
     if (!roomData) {
-      return res.status(404).send("No Meet Found");
+      res.status(404).send("No Meet found");
     }
-    return res.json(roomData);
+
+    res.json({ user, roomData });
   } catch (error) {
     console.error(error);
     return res.status(500).send("Server Error");

@@ -1,33 +1,39 @@
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
+import { useRouter } from "next/router";
 
 function MeetFooter() {
+  const router = useRouter();
+
   return (
     <>
       <footer className="footer">
         <div className="footer-wrapper">
           <div className="footer-elements-wrapper">
             <Tooltip title="Share Meeting link" placement="top">
-              <button id="share-toggle" className="footer-elements">
-                <ion-icon name="paper-plane-outline"></ion-icon>
+              <button
+                id="share-toggle"
+                className="footer-elements"
+                onClick={(e) => {
+                  const dialogue = document.querySelector(
+                    ".dialogue-container"
+                  );
+                  dialogue.classList.toggle("dialogue-active");
+                }}
+              >
+                <ion-icon name="share-social-outline"></ion-icon>
               </button>
             </Tooltip>
 
             <Tooltip title="Video" placement="top">
               <button id="video-toggle" className="footer-elements">
-                <ion-icon name="videocam-outline"></ion-icon>
+                <ion-icon name="videocam-off-outline"></ion-icon>
               </button>
             </Tooltip>
 
             <Tooltip title="Microphone" placement="top">
               <button id="mic-toggle" className="footer-elements">
-                <ion-icon name="mic-outline"></ion-icon>
-              </button>
-            </Tooltip>
-
-            <Tooltip title="Start Recording" placement="top">
-              <button id="recording-toggle" className="footer-elements">
-                <ion-icon name="recording-outline"></ion-icon>
+                <ion-icon name="mic-off-outline"></ion-icon>
               </button>
             </Tooltip>
 
@@ -41,6 +47,7 @@ function MeetFooter() {
               <button
                 id="meeting-toggle"
                 className="footer-elements call-end-button"
+                onClick={() => window.location.assign("/meet")}
               >
                 <ion-icon name="call-outline"></ion-icon>
               </button>

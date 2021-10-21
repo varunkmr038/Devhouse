@@ -2,14 +2,20 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const dev = process.env.NODE_ENV !== "production";
 const next = require("next");
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
+const { ExpressPeerServer } = require("peer");
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+  allow_discovery: true,
+});
 const {
+  joinMeetListener,
   joinListener,
   loadMessagesListener,
   sendNewMsgListener,
@@ -18,7 +24,6 @@ const {
 
 // Middlewares
 dotenv.config({ path: "./config.env" });
-// Body parser (reading data from body to req.body)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,6 +42,11 @@ mongoose
 
 //  On connection establish with frontend
 io.on("connection", (socket) => {
+  //  Meet socket connections
+  socket.on("join-meet", async (roomId, peerId, userId, name, audio, video) =>
+    joinMeetListener(socket, roomId, peerId, userId, name, audio, video)
+  );
+  //  Messages socket connections
   socket.on("join", async ({ userId }) => joinListener(socket, userId));
 
   socket.on("loadMessages", async ({ userId, messagesWith }) =>
@@ -52,6 +62,7 @@ io.on("connection", (socket) => {
 
 nextApp.prepare().then(() => {
   // Api
+  app.use("/peerjs", peerServer);
   app.use("/api/auth", require("./api/auth"));
   app.use("/api/signup", require("./api/signup"));
   app.use("/api/search", require("./api/search"));

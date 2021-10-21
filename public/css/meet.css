@@ -177,7 +177,7 @@ button:hover {
   position: relative;
   height: 19%;
   width: 6px;
-  background: rgba(var(--color3), 1);
+  background: greenyellow;
   margin: 2px;
   border-radius: 200px;
   -webkit-transition: all linear 0.1s;
@@ -1010,24 +1010,24 @@ span.time {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 6px;
   border-radius: 50;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(var(--color4), 1);
+  background: #dad3d3;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(var(--color3), 0.6);
+  background: #43a047;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(var(--color3), 1);
+  background: #43a047;
 }
 /*# sourceMappingURL=meet.css.map */

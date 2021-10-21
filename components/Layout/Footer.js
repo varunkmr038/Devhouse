@@ -18,6 +18,7 @@ function Footer() {
       ></script>
       <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
       <script src="http://localhost/socket.io/socket.io.js"></script>
+      <script src="https://social-clubhouse.herokuapp.com/socket.io/socket.io.js"></script>
       <script src="/js/script.js" defer></script>
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>

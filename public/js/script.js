@@ -17,6 +17,7 @@ if (window.location.pathname.includes("/meet/")) {
   var myVideoTrack;
   var localAudioFXElement;
 
+  //  Set the time of the meet
   const setTime = () => {
     const timeButton = document.getElementById("time");
     var time = new Date();
@@ -49,6 +50,7 @@ if (window.location.pathname.includes("/meet/")) {
   };
   getRoomData();
 
+  //  Peer connection establish
   myPeer.on("open", (id) => {
     peerId = id;
     changeCount(roomData.count + 1);
@@ -94,6 +96,7 @@ if (window.location.pathname.includes("/meet/")) {
         axios
           .get(`${protocol}//${baseUrl}/api/meet/user/${call.peer}`)
           .then((res) => {
+            // fetching the peer data of others already in meet and add stream
             return res.data;
           })
           .then((data) => {
@@ -106,20 +109,12 @@ if (window.location.pathname.includes("/meet/")) {
     });
 
     socket.on("user-connected", (userId, fname, audio, video, count) => {
-      // socket.emit("user-callback");
+      //  connect Other people to new one in meet
+      //  userid= new user connect peerid
       connectToNewUser(userId, myVideoStream);
       changeCount(count);
     });
   }
-
-  //disconneting the user
-  socket.on("user-disconnected", (userId, count) => {
-    if (peers[userId]) {
-      peers[userId].close();
-      delete peers[userId];
-      changeCount(count);
-    }
-  });
 
   // //updating participants number
   const changeCount = (count) => {
@@ -129,10 +124,11 @@ if (window.location.pathname.includes("/meet/")) {
 
   //connecting to new user
   function connectToNewUser(userId, stream) {
-    // set others peerid and send my stream
+    // call the new user and send my stream
     const call = myPeer.call(userId, stream);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
+      //  recieve new user stream
       axios
         .get(`${protocol}//${baseUrl}/api/meet/user/${call.peer}`)
         .then((res) => {
@@ -188,14 +184,12 @@ if (window.location.pathname.includes("/meet/")) {
     const elementsWrapper = document.createElement("div");
     elementsWrapper.classList.add("elements-wrapper");
     elementsWrapper.appendChild(namePara);
-    // elementsWrapper.appendChild(optionBtn);
     elementsWrapper.appendChild(pinBtn);
     elementsWrapper.appendChild(micBtn);
     elementsWrapper.appendChild(audioFXElement);
     elementsWrapper.appendChild(videoOffIndicator);
 
     //  Set the attribute for video audio toggle
-
     video.srcObject = stream;
     video.setAttribute("peer", peerId);
     video.setAttribute("name", user.name);
@@ -251,10 +245,10 @@ if (window.location.pathname.includes("/meet/")) {
   const shareScreenBtn = document.getElementById("share-screen");
   shareScreenBtn.addEventListener("click", (e) => {
     if (e.target.classList.contains("true")) return;
-    e.target.setAttribute("tool_tip", "You are already presenting screen");
     e.target.classList.add("true");
     navigator.mediaDevices
       .getDisplayMedia({
+        // get screen
         video: true,
         audio: {
           echoCancellation: true,
@@ -272,7 +266,7 @@ if (window.location.pathname.includes("/meet/")) {
             .find(function (s) {
               return s.track.kind == videoTrack.kind;
             });
-          sender.replaceTrack(videoTrack);
+          sender.replaceTrack(videoTrack); // replace tracks in other users meet with my stream
         }
         socket.emit("video-toggle", true);
         const elementsWrapper = document.querySelector(".elements-wrapper");
@@ -282,11 +276,14 @@ if (window.location.pathname.includes("/meet/")) {
         stopBtn.innerHTML = "Stop Sharing";
         elementsWrapper.classList.add("screen-share");
         elementsWrapper.appendChild(stopBtn);
+        //  Stop sharing browser btn
         videoTrack.onended = () => {
           elementsWrapper.classList.remove("screen-share");
           stopBtn.remove();
           stopPresenting(videoTrack);
         };
+
+        // my custom stop btn
         stopBtn.onclick = () => {
           videoTrack.stop();
           elementsWrapper.classList.remove("screen-share");
@@ -302,12 +299,12 @@ if (window.location.pathname.includes("/meet/")) {
       let sender = peers[peer].peerConnection.getSenders().find(function (s) {
         return s.track.kind == videoTrack.kind;
       });
-      sender.replaceTrack(myVideoTrack);
+      sender.replaceTrack(myVideoTrack); // replace screen with myvideotrack
     }
-    socket.emit("video-toggle", false);
-
+    socket.emit("video-toggle", false); // set video to off for other users
     replaceVideoTrack(myVideoStream, myVideoTrack);
   };
+
   //Zoom in the video of the user
   const crossBtnClickEvent = (e) => {
     const videoWrapper = e.target.parentElement;
@@ -318,7 +315,11 @@ if (window.location.pathname.includes("/meet/")) {
     }
   };
 
-  // // External
+  //  replace my video withs screen
+  const replaceVideoTrack = (stream, videoTrack) => {
+    stream.removeTrack(stream.getVideoTracks()[0]);
+    stream.addTrack(videoTrack);
+  };
 
   // // video toggle
   const videoToggleBtn = document.getElementById("video-toggle");
@@ -330,21 +331,13 @@ if (window.location.pathname.includes("/meet/")) {
       socket.emit("video-toggle", false);
       videoWrapperVideoToggle(myVideo, false);
       currentElement.innerHTML = `<ion-icon name="videocam-off-outline"></ion-icon>`;
-      currentElement.setAttribute("tool_tip", "Video On");
     } else {
       myVideoStream.getVideoTracks()[0].enabled = true;
       socket.emit("video-toggle", true);
       videoWrapperVideoToggle(myVideo, true);
       currentElement.innerHTML = `<ion-icon name="videocam-outline"></ion-icon>`;
-      currentElement.setAttribute("tool_tip", "Video Off");
     }
   });
-  //Turn-Off the video
-  const videoWrapperVideoToggle = (element, type) => {
-    const videoWrapper = element.previousSibling;
-    if (type) videoWrapper.classList.remove("video-disable");
-    else videoWrapper.classList.add("video-disable");
-  };
 
   //Mute the audio
   const micToggleButton = document.getElementById("mic-toggle");
@@ -366,17 +359,6 @@ if (window.location.pathname.includes("/meet/")) {
     }
   });
 
-  socket.on("user-audio-toggle", (id, type) => {
-    videoWrapperMicToggle(document.querySelector(`video[peer="${id}"]`), type);
-  });
-
-  socket.on("user-video-toggle", (id, type) => {
-    videoWrapperVideoToggle(
-      document.querySelector(`video[peer="${id}"]`),
-      type
-    );
-  });
-
   const videoWrapperMicToggle = (element, type) => {
     const videoWrapper = element.previousSibling;
     const micButtons = videoWrapper.childNodes;
@@ -389,25 +371,50 @@ if (window.location.pathname.includes("/meet/")) {
     }
   };
 
-  const replaceVideoTrack = (stream, videoTrack) => {
-    stream.removeTrack(stream.getVideoTracks()[0]);
-    stream.addTrack(videoTrack);
+  //Turn-Off the video
+  const videoWrapperVideoToggle = (element, type) => {
+    const videoWrapper = element.previousSibling;
+    if (type) videoWrapper.classList.remove("video-disable");
+    else videoWrapper.classList.add("video-disable");
   };
 
-  const scrollDown = (query) => {
-    var objDiv = document.querySelector(query);
-    objDiv.scrollTop = objDiv.scrollHeight;
-  };
+  //  Sockets Listeners
+  socket.on("user-disconnected", (userId, count) => {
+    if (peers[userId]) {
+      peers[userId].close();
+      delete peers[userId];
+      changeCount(count);
+    }
+  });
 
-  //Send Message
+  socket.on("user-audio-toggle", (id, type) => {
+    videoWrapperMicToggle(document.querySelector(`video[peer="${id}"]`), type);
+  });
+
+  socket.on("user-video-toggle", (id, type) => {
+    videoWrapperVideoToggle(
+      document.querySelector(`video[peer="${id}"]`),
+      type
+    );
+  });
+
+  //Recieving messages Scroll Down in Chatbox
+  socket.on("client-podcast", (data, userName) => {
+    addMessage("user", userName, data);
+    scrollDown(".chat-box");
+  });
+
   const addMessage = (sender, userName, message) => {
     const messageBoxButton = document.getElementById("message-box");
     const chatPanel = document.getElementById("chat-panel");
+
+    //  For unread messages
     if (
       !chatPanel.classList.contains("display-chat-panel") &&
       !messageBoxButton.classList.contains("dot")
     )
       messageBoxButton.classList.add("dot");
+
     const time = new Date();
     const chatBox = document.querySelector(".chat-box");
     const chat = document.createElement("div");
@@ -420,6 +427,7 @@ if (window.location.pathname.includes("/meet/")) {
     chatBox.appendChild(chat);
   };
 
+  //  sending messages
   const chatForm = document.querySelector(".chat-input-wrapper");
   chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -431,12 +439,12 @@ if (window.location.pathname.includes("/meet/")) {
     chatInput.value = "";
   });
 
-  //Scroll Down in Chatbox
-  socket.on("client-podcast", (data, userName) => {
-    addMessage("user", userName, data);
-    scrollDown(".chat-box");
-  });
+  const scrollDown = (query) => {
+    var objDiv = document.querySelector(query);
+    objDiv.scrollTop = objDiv.scrollHeight;
+  };
 
+  //  Audio fx
   class SE {
     constructor(mediaStream) {
       this.mediaStream = mediaStream;

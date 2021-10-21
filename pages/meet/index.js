@@ -9,7 +9,7 @@ function MeetHome() {
 
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Meet`;
+      document.title = `Clubhouse | Create Meet`;
     }, 0);
   });
 
@@ -64,7 +64,6 @@ function MeetHome() {
               <button
                 className="btn btn-success new-meeting"
                 style={{ width: "180px" }}
-                role="button"
                 onClick={createNewMeet}
               >
                 New Meeting

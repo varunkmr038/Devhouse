@@ -48,22 +48,6 @@ if (window.location.pathname.includes("/meet/")) {
       console.log(err);
     }
   };
-  getRoomData();
-
-  //  Peer connection establish
-  myPeer.on("open", (id) => {
-    peerId = id;
-    changeCount(roomData.count + 1);
-    socket.emit(
-      "join-meet",
-      roomData._id,
-      peerId,
-      user._id,
-      user.name,
-      false, // my audio off
-      false // video off
-    );
-  });
 
   //connecting the user on a video call enabling audio and video
   const enableAudioVideo = async () => {
@@ -79,7 +63,24 @@ if (window.location.pathname.includes("/meet/")) {
       console.log(err);
     }
   };
-  enableAudioVideo();
+
+  //  Peer connection establish
+  myPeer.on("open", async (id) => {
+    await getRoomData();
+    await enableAudioVideo();
+
+    peerId = id;
+    changeCount(roomData.count + 1);
+    socket.emit(
+      "join-meet",
+      roomData._id,
+      peerId,
+      user._id,
+      user.name,
+      false, // my audio off
+      false // video off
+    );
+  });
 
   function processStream(myVideoStream) {
     addVideoStream(myVideo, myVideoStream, null, {

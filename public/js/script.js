@@ -129,7 +129,7 @@ if (window.location.pathname.includes("/meet/")) {
     const call = myPeer.call(userId, stream);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
-      //  recieve new user stream
+      //  recieve new user stream and when he answers the call
       axios
         .get(`${protocol}//${baseUrl}/api/meet/user/${call.peer}`)
         .then((res) => {

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 function PageNotFound() {
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Page Not Found`;
+      document.title = `Devhouse | Page Not Found`;
     }, 0);
   });
 

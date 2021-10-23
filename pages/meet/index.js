@@ -9,7 +9,7 @@ function MeetHome() {
 
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Create Meet`;
+      document.title = `Devhouse | Create or Join Meeting`;
     }, 0);
   });
 
@@ -74,7 +74,7 @@ function MeetHome() {
                     name="roomId"
                     type="text"
                     className="form-control"
-                    placeholder="Enter  code"
+                    placeholder="Enter a code"
                     aria-label="Recipient's username"
                     aria-describedby="button-addon2"
                     onChange={(e) => setRoomId(e.target.value)}
@@ -95,7 +95,7 @@ function MeetHome() {
             <div className="card" style={{ boxShadow: " 0 0 5px #b8b8b8" }}>
               <div className="card-body">
                 <img
-                  src="/img/meet.png"
+                  src="/img/meet2.png"
                   width="100%"
                   className="rounded"
                   alt="meet"

@@ -66,7 +66,7 @@ function Navbar({ mobileOpen, setMobileOpen }) {
               className="me-5 ms-3 float-start"
             />
             <Typography className={classes.title} variant="h3" noWrap>
-              Clubhouse
+              Devhouse
             </Typography>
             <Search />
             <Link href={`/profile/${username}`}>

@@ -10,7 +10,7 @@ import ToolBar from "../../components/Meet/ToolBar";
 function Meet() {
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Meet`;
+      document.title = `Devhouse | Meet`;
     }, 0);
   });
 

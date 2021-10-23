@@ -20,7 +20,7 @@ function Home({ postsData, errorLoading }) {
 
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Welcome, ${user.name.split(" ")[0]}`;
+      document.title = `Devhouse | Welcome, ${user.name.split(" ")[0]}`;
     }, 0);
   });
 

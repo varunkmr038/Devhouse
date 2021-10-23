@@ -98,7 +98,7 @@ button:hover {
   --indicatorSize: 80px;
   width: var(--indicatorSize);
   height: var(--indicatorSize);
-  background-color: rgba(var(--color3), 1);
+  background-color: #43a047;
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -250,7 +250,7 @@ button:hover {
 }
 
 #video-grid .video-wrapper .screen-share .video-element {
-  background-color: rgba(var(--color3), 0.8);
+  background-color: #43a047;
 }
 
 #video-grid .video-wrapper video {
@@ -305,10 +305,10 @@ button:hover {
 }
 
 .footer .footer-wrapper .footer-elements-wrapper {
-  background-color: rgba(var(--color4), 1);
+  background-color: #28342e;
   margin: 0 0.5rem;
   border-radius: 0.5rem;
-  border: 2px solid rgba(var(--color3), 0.8);
+  border: 2px solid #43a047;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -373,7 +373,7 @@ button:hover {
 
 @media (hover: hover) {
   .footer .footer-wrapper .footer-elements:hover {
-    background-color: #353b42;
+    background-color: #43a047;
   }
   .footer .footer-wrapper .call-end-button:hover {
     background-color: rgba(var(--color6), 0.1);
@@ -611,8 +611,8 @@ button:hover {
   padding: 1rem 0rem;
   background-color: rgba(var(--color1), 1);
   border-bottom-left-radius: 0.25rem;
-  border-left: 2px solid rgba(var(--color3), 1) !important;
-  border-bottom: 2px solid rgba(var(--color3), 1) !important;
+  border-left: 3px solid #43a047 !important;
+  border-bottom: 3px solid #43a047 !important;
 }
 
 .chat-box-wrapper .chat-box {
@@ -673,7 +673,7 @@ button:hover {
 }
 
 .chat-box-wrapper .input-box-wrapper {
-  border-bottom: 2px solid rgba(var(--color3), 1);
+  border-bottom: 2px solid #43a047;
 }
 
 .chat-box-wrapper input {
@@ -829,7 +829,7 @@ span.time {
 
 .me .message {
   border-top-right-radius: 0px;
-  background-color: rgba(var(--color3), 1);
+  background-color: #43a047;
   color: white;
 }
 
@@ -884,7 +884,7 @@ span.time {
   }
   .footer .footer-wrapper .footer-elements-wrapper,
   .footer .footer-wrapper .options-wrapper {
-    margin: 0 0.25rem;
+    margin: -27px 0.25rem;
   }
   .footer .footer-wrapper .footer-elements-wrapper ion-icon,
   .footer .footer-wrapper .options-wrapper ion-icon {

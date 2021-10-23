@@ -114,7 +114,7 @@ function Messages({ chatsData, errorLoading }) {
   // page title
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Messages`;
+      document.title = `Devhouse | Messages`;
     }, 0);
   });
 

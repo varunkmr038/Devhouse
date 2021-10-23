@@ -109,7 +109,7 @@ function Notifications({ notifications, errorLoading }) {
 
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Clubhouse | Notifications`;
+      document.title = `Devhouse | Notifications`;
     }, 0);
   });
 

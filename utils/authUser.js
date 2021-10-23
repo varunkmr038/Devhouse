@@ -19,7 +19,7 @@ export const registerUser = async (user) => {
     });
 
     setToken(res.data);
-    toast.success("Welcome to Clubhouse 🔥");
+    toast.success("Welcome to Devhouse 🔥");
   } catch (error) {
     const errorMsg = catchErrors(error);
     toast.error(errorMsg);

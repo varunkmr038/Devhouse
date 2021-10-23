@@ -97,13 +97,13 @@ function ProfilePage({
   useEffect(() => {
     if (profile) {
       setTimeout(() => {
-        document.title = `Clubhouse | ${
+        document.title = `Devhouse | ${
           profile.user.name.split(" ")[0]
         }'s Profile`;
       }, 0);
     } else {
       setTimeout(() => {
-        document.title = `Clubhouse | No Profile Found`;
+        document.title = `Devhouse | No Profile Found`;
       }, 0);
     }
   });

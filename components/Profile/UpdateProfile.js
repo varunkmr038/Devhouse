@@ -8,6 +8,10 @@ import Button from "@material-ui/core/Button";
 import { toast } from "react-toastify";
 import EditIcon from "@mui/icons-material/Edit";
 import { profileUpdate } from "../../utils/profileActions";
+import Chip from "@material-ui/core/Chip";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginBottom: 60,
   },
-  button: {
-    margin: theme.spacing(1),
-  },
   media: {
     textAlign: "center",
     height: "200px",
@@ -26,6 +27,17 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     margin: "auto",
     backgroundColor: "white",
+  },
+  profileItem: {
+    width: 500,
+
+    [theme.breakpoints.down("md")]: {
+      width: 250,
+    },
+    margin: "20px 10px",
+  },
+  chip: {
+    margin: "7px 10px",
   },
 }));
 
@@ -36,7 +48,11 @@ function UpdateProfile({ profile }) {
   const [profileState, setProfileState] = useState({
     profilePicUrl: profile.user.profilePicUrl,
     bio: profile.bio || "",
+    github: profile.github || "",
+    resume: profile.resume || "",
+    skill: profile.skill || "",
   });
+  const [skills, setSkills] = useState(profile.skills);
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(profile.user.profilePicUrl);
 
@@ -69,14 +85,14 @@ function UpdateProfile({ profile }) {
         return;
       }
     }
-
+    profileState.skills = skills;
     await profileUpdate(profileState, profilePicUrl);
   };
   return (
     <>
       <Paper className="mt-5 pe-5">
         <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <input
               ref={inputRef}
               onChange={handleChange}
@@ -97,23 +113,90 @@ function UpdateProfile({ profile }) {
               />
             </div>
           </Grid>
-          <Grid item xs={12} sm={6}>
+
+          <Grid item xs={12} sm={12} style={{ textAlign: "center" }}>
             <TextField
               name="bio"
               id="bio"
-              label="Bio ✍️"
+              label="Bio "
               variant="outlined"
               multiline
-              minRows={2}
+              fullWidth
+              color="secondary"
+              size="small"
+              onChange={handleChange}
+              value={profileState.bio}
+              className={classes.profileItem}
+            />
+            <TextField
+              name="github"
+              id="github"
+              label="Github "
+              variant="outlined"
               fullWidth
               color="secondary"
               onChange={handleChange}
-              value={profileState.bio}
+              value={profileState.github}
+              size="small"
+              className={classes.profileItem}
             />
+            <TextField
+              name="resume"
+              id="resume"
+              label="Resume Link"
+              variant="outlined"
+              fullWidth
+              color="secondary"
+              onChange={handleChange}
+              value={profileState.resume}
+              size="small"
+              className={classes.profileItem}
+            />
+            <TextField
+              name="skill"
+              id="skill"
+              label="Add Skill"
+              variant="outlined"
+              fullWidth
+              color="secondary"
+              size="small"
+              className={classes.profileItem}
+              value={profileState.skill}
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      color="secondary"
+                      onClick={() => setSkills([...skills, profileState.skill])}
+                    >
+                      <AddBoxIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12}>
+            {skills.map((ele, index) => (
+              <Chip
+                key={index}
+                color="secondary"
+                size="small"
+                label={ele}
+                className={classes.chip}
+                onDelete={() => {
+                  setSkills(skills.filter((ele, i) => index != i));
+                }}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12} sm={12} style={{ textAlign: "center" }}>
             <Button
               variant="contained"
               color="secondary"
-              className={classes.button}
+              className="mt-3"
               endIcon={<EditIcon />}
               onClick={handleSubmit}
             >

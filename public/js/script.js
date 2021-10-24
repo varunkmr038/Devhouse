@@ -36,7 +36,7 @@ if (window.location.pathname.includes("/meet/")) {
   const getRoomData = async () => {
     try {
       const res = await axios.get(
-        `${protocol}//${baseUrl}/api/meet/${roomId}`,
+        `${protocol}//${baseUrl}:/api/meet/${roomId}`,
         {
           headers: { Authorization: Cookies.get("token") },
         }

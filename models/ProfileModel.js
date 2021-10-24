@@ -6,6 +6,9 @@ const profileSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: "User" }, // points to user
 
     bio: { type: String },
+    github: { type: String },
+    resume: { type: String },
+    skills: [{ type: String }],
   },
   { timestamps: true }
 );

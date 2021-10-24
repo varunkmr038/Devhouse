@@ -7,8 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { followUser, unfollowUser } from "../../utils/profileActions";
+import Router from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +38,18 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
     maxHeight: "200px",
     marginTop: 10,
+    marginBottom: 10,
+  },
+  link: {
+    textDecoration: "none",
+    color: "black",
+    "&:hover": {
+      color: "blue",
+      textDecoration: "underline",
+    },
+  },
+  chip: {
+    margin: "5px 10px",
   },
 }));
 
@@ -85,9 +101,54 @@ function ProfileHeader({
               {profile.user.phone}
             </Typography>
 
-            <Typography variant="body1" className={classes.bio}>
-              {profile.bio}
-            </Typography>
+            {profile.bio && (
+              <Typography variant="body1" className={classes.bio}>
+                <span style={{ color: "#9c27b0" }}> Bio - </span>
+                {profile.bio}
+              </Typography>
+            )}
+
+            <Grid container spacing={3}>
+              {profile.github && (
+                <Grid item sm={4}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<GitHubIcon />}
+                    fullWidth
+                    size="small"
+                    onClick={() => Router.push(profile.github)}
+                  >
+                    Github
+                  </Button>
+                </Grid>
+              )}
+              {profile.resume && (
+                <Grid item sm={4}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<AssignmentIcon />}
+                    fullWidth
+                    size="small"
+                    onClick={() => Router.push(profile.resume)}
+                  >
+                    Resume
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+            {profile.skills.map((ele, index) => (
+              <Chip
+                key={index}
+                color="secondary"
+                size="small"
+                label={ele}
+                className={classes.chip}
+              />
+            ))}
           </Grid>
           <Grid item xs={12} sm={4}>
             <Avatar

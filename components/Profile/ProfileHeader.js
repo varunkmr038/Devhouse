@@ -140,15 +140,16 @@ function ProfileHeader({
                 </Grid>
               )}
             </Grid>
-            {profile.skills.map((ele, index) => (
-              <Chip
-                key={index}
-                color="secondary"
-                size="small"
-                label={ele}
-                className={classes.chip}
-              />
-            ))}
+            <Grid item sm={12} className="mt-3">
+              {profile.skills.map((ele, index) => (
+                <Chip
+                  key={index}
+                  color="secondary"
+                  label={ele}
+                  className={classes.chip}
+                />
+              ))}
+            </Grid>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Avatar
@@ -158,26 +159,46 @@ function ProfileHeader({
               style={{ height: "250px", width: "250px", margin: "auto" }}
             />
             {!ownAccount && (
-              <Button
-                variant="contained"
-                color={isFollowing ? "primary" : "secondary"}
-                size="small"
-                className="m-auto mt-3"
-                fullWidth
-                onClick={async () => {
-                  isFollowing
-                    ? await unfollowUser(
-                        profile.user._id,
-                        setLoggedUserFollowStats
-                      )
-                    : await followUser(
-                        profile.user._id,
-                        setLoggedUserFollowStats
-                      );
-                }}
-              >
-                {isFollowing ? "Following ✅" : "Follow "}
-              </Button>
+              <>
+                <Grid container spacing={2}>
+                  <Grid item sm={6} xs={12}>
+                    <Button
+                      variant="contained"
+                      color={isFollowing ? "primary" : "secondary"}
+                      size="small"
+                      className="m-auto mt-3"
+                      fullWidth
+                      onClick={async () => {
+                        isFollowing
+                          ? await unfollowUser(
+                              profile.user._id,
+                              setLoggedUserFollowStats
+                            )
+                          : await followUser(
+                              profile.user._id,
+                              setLoggedUserFollowStats
+                            );
+                      }}
+                    >
+                      {isFollowing ? "Following ✅" : "Follow "}
+                    </Button>
+                  </Grid>
+                  <Grid item sm={6} xs={12}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="small"
+                      className="m-auto mt-3"
+                      fullWidth
+                      onClick={() => {
+                        Router.push(`/messages?message=${profile.user._id}`);
+                      }}
+                    >
+                      Message
+                    </Button>
+                  </Grid>
+                </Grid>
+              </>
             )}
           </Grid>
         </Grid>

@@ -27,7 +27,8 @@ class MyApp extends App {
       ctx.pathname === "/notifications" ||
       ctx.pathname === "/messages" ||
       ctx.pathname === "/meet" ||
-      ctx.pathname === "/meet/[meet_id]";
+      ctx.pathname === "/meet/[meet_id]" ||
+      ctx.pathname === "/find-teammates";
 
     if (!token) {
       //  If user is trying to access the protected route redirect the user

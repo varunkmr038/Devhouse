@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
     backgroundColor: theme.palette.background.paper,
     margin: "auto",
-    marginTop: 30,
+    marginTop: 10,
   },
   link: {
     textDecoration: "none",
@@ -73,7 +73,7 @@ export default function Followers({
 
           return (
             <List dense className={classes.root} key={profileFollower.user._id}>
-              <ListItem button className="my-3">
+              <ListItem button>
                 <ListItemAvatar>
                   <Avatar
                     alt={profileFollower.user.name}

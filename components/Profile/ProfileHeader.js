@@ -13,6 +13,8 @@ import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { followUser, unfollowUser } from "../../utils/profileActions";
 import Router from "next/router";
+import FaceIcon from "@material-ui/icons/Face";
+import DoneIcon from "@material-ui/icons/Done";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -108,7 +110,7 @@ function ProfileHeader({
               </Typography>
             )}
 
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignItems="center">
               {profile.github && (
                 <Grid item sm={4}>
                   <Button
@@ -124,6 +126,7 @@ function ProfileHeader({
                   </Button>
                 </Grid>
               )}
+
               {profile.resume && (
                 <Grid item sm={4}>
                   <Button
@@ -137,6 +140,16 @@ function ProfileHeader({
                   >
                     Resume
                   </Button>
+                </Grid>
+              )}
+              {profile.collab && (
+                <Grid item sm={4}>
+                  <Chip
+                    size="small"
+                    icon={<FaceIcon />}
+                    label="Open to Collab"
+                    color="primary"
+                  />
                 </Grid>
               )}
             </Grid>

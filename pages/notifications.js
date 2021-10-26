@@ -38,7 +38,7 @@ function NotificationList({ notification }) {
 
   return (
     <>
-      <ListItem button className="mt-3">
+      <ListItem button className="mt-4">
         <ListItemAvatar>
           <Avatar
             alt={notification.user.name}

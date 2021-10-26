@@ -39,10 +39,13 @@ router.post("/teammates", authMiddleware, async (req, res) => {
 
     let userProfiles = await ProfileModel.find().populate("user");
 
+    //  Filter me
     userProfiles = userProfiles.filter(
       (profile) => profile.user._id.toString() !== userId
     );
 
+    //  Filter non collab users
+    userProfiles = userProfiles.filter((profile) => profile.collab === true);
     let profilesToBeSent = [];
 
     for (let i = 0; i < userProfiles.length; i++) {

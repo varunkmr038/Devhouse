@@ -8,6 +8,7 @@ const profileSchema = new Schema(
     bio: { type: String },
     github: { type: String },
     resume: { type: String },
+    collab: { type: Boolean, default: false },
     skills: [{ type: String }],
   },
   { timestamps: true }

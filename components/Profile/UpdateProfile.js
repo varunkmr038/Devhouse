@@ -12,6 +12,9 @@ import Chip from "@material-ui/core/Chip";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,6 +54,7 @@ function UpdateProfile({ profile }) {
     github: profile.github || "",
     resume: profile.resume || "",
     skill: profile.skill || "",
+    collab: profile.collab || false,
   });
   const [skills, setSkills] = useState(profile.skills);
   const [media, setMedia] = useState(null);
@@ -91,8 +95,8 @@ function UpdateProfile({ profile }) {
   return (
     <>
       <Paper className="mt-5 pe-5">
-        <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12} sm={12}>
+        <Grid container spacing={3} justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={8}>
             <input
               ref={inputRef}
               onChange={handleChange}
@@ -112,6 +116,23 @@ function UpdateProfile({ profile }) {
                 alt="profilepic"
               />
             </div>
+          </Grid>
+          <Grid item sm={4}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={profileState.collab}
+                  onChange={() =>
+                    setProfileState((prev) => ({
+                      ...prev,
+                      collab: !prev.collab,
+                    }))
+                  }
+                  name="checkedA"
+                />
+              }
+              label="Are you Open to Collab?"
+            />
           </Grid>
 
           <Grid item xs={12} sm={12} style={{ textAlign: "center" }}>

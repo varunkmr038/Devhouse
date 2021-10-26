@@ -28,11 +28,9 @@
         <span> <b>Bootstrap</b> </span><br><br>
         <img height="36px" src="public/img/techstack/bootstrap.svg">
       </td>
-   
-    </tr>
+     </tr>
     <tr valign="top">
-     
-      <td width="25%" align="center">
+           <td width="25%" align="center">
         <span><b> Json WebToken</b></span><br><br>
         <img height="46px" src="public/img/techstack/json-webtoken.svg">
       </td>
@@ -85,8 +83,7 @@
         <img height="64px" src="public/img/techstack/git-icon.svg">
       </td>
     </tr>
-   
-  </tbody>
+     </tbody>
 </table>
 
 <br/>

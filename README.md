@@ -1,4 +1,4 @@
-# 	Devhouse – Social Webapp for Developers      <img align="center" width="60" height="50" src="public/img/logo-green-round.png">
+# 	Devhouse – Social Webapp for Developers     <img align="center" width="60" height="50" src="public/img/logo-green-round.png">
 ##  A website which connect Developers by sharing posts, building connections and real time chats. :smiley:  
 ### :heavy_check_mark: Users can host meetings on site with features like video , audio and screen sharing and also chat. 
 ### :heavy_check_mark: Users can find teammates(open to collab) for their project by skills around the world.

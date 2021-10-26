@@ -109,7 +109,7 @@
 
 ![image](https://user-images.githubusercontent.com/74452458/138952350-3815a407-4592-4ed4-bc88-b323592c9d07.png)
 
-![image](https://user-images.githubusercontent.com/74452458/138952480-1b52821b-44ac-4b46-838b-6ddba5869a22.png
+![image](https://user-images.githubusercontent.com/74452458/138952480-1b52821b-44ac-4b46-838b-6ddba5869a22.png)
 
 ![image](https://user-images.githubusercontent.com/74452458/138952798-1a290e40-8982-4a64-ae75-c366575ed497.png)
 

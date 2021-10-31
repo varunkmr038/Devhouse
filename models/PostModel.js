@@ -7,7 +7,7 @@ const PostSchema = new Schema(
 
     text: { type: String, required: true },
 
-    location: { type: String },
+    title: { type: String },
 
     picUrl: { type: String },
 

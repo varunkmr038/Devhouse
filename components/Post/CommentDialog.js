@@ -71,8 +71,7 @@ function CommentDialog({
         TransitionComponent={Transition}
         keepMounted
         onClose={(e, reason) => {
-          // if (reason != "backdropClick")
-          setOpenComment(false);
+          if (reason != "backdropClick") setOpenComment(false);
         }}
         style={{ zIndex: 1500 }}
       >

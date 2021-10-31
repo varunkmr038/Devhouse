@@ -37,7 +37,7 @@ function CreatePost({ user, setPosts }) {
   const classes = useStyles();
 
   const inputRef = useRef();
-  const [newPost, setNewPost] = useState({ text: "", location: "" });
+  const [newPost, setNewPost] = useState({ text: "", title: "" });
   const [loading, setLoading] = useState(false);
   const [errorPost, setErrorPost] = useState(true);
 
@@ -49,12 +49,6 @@ function CreatePost({ user, setPosts }) {
 
     if (name === "text") {
       if (regex.postText.test(value)) {
-        setErrorPost(false);
-      } else {
-        setErrorPost(true);
-      }
-    } else if (name === "location") {
-      if (regex.postLocation.test(value)) {
         setErrorPost(false);
       } else {
         setErrorPost(true);
@@ -90,7 +84,7 @@ function CreatePost({ user, setPosts }) {
 
     await submitNewPost(
       newPost.text,
-      newPost.location,
+      newPost.title,
       picUrl,
       setPosts,
       setNewPost
@@ -130,9 +124,9 @@ function CreatePost({ user, setPosts }) {
           </Grid>
           <Grid item xs={12} sm={4}>
             <TextField
-              name="location"
-              id="location"
-              label="Location 🏖️"
+              name="title"
+              id="title"
+              label="Title"
               variant="outlined"
               size="small"
               style={{
@@ -140,7 +134,7 @@ function CreatePost({ user, setPosts }) {
               }}
               fullWidth
               onChange={handleChange}
-              value={newPost.location}
+              value={newPost.title}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

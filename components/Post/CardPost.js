@@ -90,7 +90,7 @@ export default function CardPost({ post, user, setPosts }) {
               <a className={classes.link}>{post.user.username}</a>
             </Link>
           }
-          subheader={post.location}
+          subheader={post.title}
         />
         {post.picUrl ? (
           <CardMedia

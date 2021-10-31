@@ -11,16 +11,16 @@ const Axios = axios.create({
 
 export const submitNewPost = async (
   text,
-  location,
+  title,
   picUrl,
   setPosts,
   setNewPost
 ) => {
   try {
-    const res = await Axios.post("/", { text, location, picUrl });
+    const res = await Axios.post("/", { text, title, picUrl });
 
     setPosts((prev) => [res.data, ...prev]);
-    setNewPost({ text: "", location: "" });
+    setNewPost({ text: "", title: "" });
     toast.info("Post Uploaded 💃");
   } catch (error) {
     const errorMsg = catchErrors(error);

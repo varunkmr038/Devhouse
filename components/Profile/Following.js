@@ -63,7 +63,7 @@ export default function Following({
 
   return (
     <>
-      {following.length > 0 ? (
+      {following.length > 0 &&
         following.map((profileFollowing) => {
           const isFollowing =
             loggedUserFollowStats.following.length > 0 &&
@@ -116,10 +116,7 @@ export default function Following({
               </ListItem>
             </List>
           );
-        })
-      ) : (
-        <Alert message="User does not have following " />
-      )}
+        })}
     </>
   );
 }

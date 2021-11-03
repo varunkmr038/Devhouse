@@ -202,9 +202,27 @@ router.put("/update", authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
 
-    const { bio, github, resume, collab, skills, profilePicUrl } = req.body;
+    const {
+      bio,
+      position,
+      github,
+      linkedin,
+      resume,
+      collab,
+      skills,
+      profilePicUrl,
+    } = req.body;
 
-    let profileFields = { user: userId, bio, github, resume, collab, skills };
+    let profileFields = {
+      user: userId,
+      bio,
+      position,
+      github,
+      linkedin,
+      resume,
+      collab,
+      skills,
+    };
 
     await ProfileModel.findOneAndUpdate({ user: userId }, profileFields, {
       new: true, // to return new object

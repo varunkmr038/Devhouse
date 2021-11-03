@@ -15,6 +15,7 @@ import { followUser, unfollowUser } from "../../utils/profileActions";
 import Router from "next/router";
 import FaceIcon from "@material-ui/icons/Face";
 import DoneIcon from "@material-ui/icons/Done";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -112,7 +113,7 @@ function ProfileHeader({
 
             <Grid container spacing={3} alignItems="center">
               {profile.github && (
-                <Grid item sm={4}>
+                <Grid item sm={2} xs={6}>
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -127,8 +128,24 @@ function ProfileHeader({
                 </Grid>
               )}
 
+              {profile.linkedin && (
+                <Grid item sm={2} xs={6}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<LinkedInIcon />}
+                    fullWidth
+                    size="small"
+                    onClick={() => Router.push(profile.linkedin)}
+                  >
+                    Linkedin
+                  </Button>
+                </Grid>
+              )}
+
               {profile.resume && (
-                <Grid item sm={4}>
+                <Grid item sm={2} xs={6}>
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -142,8 +159,9 @@ function ProfileHeader({
                   </Button>
                 </Grid>
               )}
+
               {profile.collab && (
-                <Grid item sm={4}>
+                <Grid item sm={2} xs={6}>
                   <Chip
                     size="small"
                     icon={<FaceIcon />}
@@ -171,6 +189,9 @@ function ProfileHeader({
               variant="rounded"
               style={{ height: "250px", width: "250px", margin: "auto" }}
             />
+            <Typography variant="h6" className={classes.bio} align="center">
+              {profile.position}
+            </Typography>
             {!ownAccount && (
               <>
                 <Grid container spacing={2}>

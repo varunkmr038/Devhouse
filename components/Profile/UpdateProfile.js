@@ -51,7 +51,9 @@ function UpdateProfile({ profile }) {
   const [profileState, setProfileState] = useState({
     profilePicUrl: profile.user.profilePicUrl,
     bio: profile.bio || "",
+    position: profile.position || "",
     github: profile.github || "",
+    linkedin: profile.linkedin || "",
     resume: profile.resume || "",
     skill: profile.skill || "",
     collab: profile.collab || false,
@@ -150,6 +152,19 @@ function UpdateProfile({ profile }) {
               className={classes.profileItem}
             />
             <TextField
+              name="position"
+              id="position"
+              label="Current Postion"
+              placeholder="Ex - Senior Developer at XYZ"
+              variant="outlined"
+              fullWidth
+              color="secondary"
+              size="small"
+              onChange={handleChange}
+              value={profileState.position}
+              className={classes.profileItem}
+            />
+            <TextField
               name="github"
               id="github"
               label="Github "
@@ -158,6 +173,18 @@ function UpdateProfile({ profile }) {
               color="secondary"
               onChange={handleChange}
               value={profileState.github}
+              size="small"
+              className={classes.profileItem}
+            />
+            <TextField
+              name="linkedin"
+              id="linkedin"
+              label="Linkedin "
+              variant="outlined"
+              fullWidth
+              color="secondary"
+              onChange={handleChange}
+              value={profileState.linkedin}
               size="small"
               className={classes.profileItem}
             />

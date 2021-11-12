@@ -14,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import { followUser, unfollowUser } from "../../utils/profileActions";
 import Router from "next/router";
 import FaceIcon from "@material-ui/icons/Face";
-import DoneIcon from "@material-ui/icons/Done";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 const useStyles = makeStyles((theme) => ({

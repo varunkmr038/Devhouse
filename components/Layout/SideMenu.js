@@ -18,6 +18,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import GroupsIcon from "@mui/icons-material/Groups";
 import Badge from "@material-ui/core/Badge";
+import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import Link from "next/link";
 import { logoutUser } from "../../utils/authUser";
 import { UserContext } from "./Layout";
@@ -86,6 +87,8 @@ function DrawerContent({ username, unreadNotification, unreadMessage }) {
             }
             href="/messages"
           />
+          <Item text="Channels" icon={<WorkspacesIcon />} href="/channels" />
+
           <Item
             text="Notifications"
             icon={

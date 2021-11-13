@@ -50,7 +50,11 @@ function Messages({ chatsData, errorLoading }) {
   const [chats, setChats] = useState(chatsData);
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [bannerData, setBannerData] = useState({ name: "", profilePicUrl: "" }); //chat header
+  const [bannerData, setBannerData] = useState({
+    name: "",
+    profilePicUrl: "",
+    username: "",
+  }); //chat header
 
   //  Mark the messages as read
   useEffect(() => {

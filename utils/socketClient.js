@@ -98,6 +98,7 @@ export const messagesLoadedListener = async (
   setBannerData({
     name: chat.messagesWith.name,
     profilePicUrl: chat.messagesWith.profilePicUrl,
+    username: chat.messagesWith.username,
   });
 
   openChatId.current = chat.messagesWith._id; // saving curent message value in url
@@ -119,9 +120,9 @@ export const noChatFoundListener = async (
     return;
   }
 
-  const { name, profilePicUrl } = userInfo;
+  const { name, profilePicUrl, username } = userInfo;
 
-  setBannerData({ name, profilePicUrl });
+  setBannerData({ name, profilePicUrl, username });
   setMessages([]);
 
   openChatId.current = router.query.message;

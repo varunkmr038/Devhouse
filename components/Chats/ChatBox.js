@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Message from "./Message";
+import Link from "next/link";
 
 const useStyles = makeStyles({
   messageArea: {
@@ -20,6 +21,14 @@ const useStyles = makeStyles({
     padding: "10px",
     backgroundColor: "#43a047",
     color: "white",
+  },
+  link: {
+    textDecoration: "none",
+    "&:hover": {
+      color: "#9c27b0",
+      textDecoration: "underline",
+      cursor: "pointer",
+    },
   },
 });
 
@@ -35,9 +44,15 @@ function ChatBox({ bannerData, user, messages, divRef, sendMsg }) {
             <Avatar alt={bannerData.name} src={bannerData.profilePicUrl} />
           </Grid>
           <Grid item>
-            <Typography variant="h6" gutterBottom className="mt-1">
-              {bannerData.name}
-            </Typography>
+            <Link href={`/profile/${bannerData.username}`}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                className={`mt-1 ${classes.link}`}
+              >
+                {bannerData.name}
+              </Typography>
+            </Link>
           </Grid>
         </Grid>
       </Paper>

@@ -4,11 +4,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
   Avatar,
   CircularProgress,
   InputAdornment,
   TextField,
+  Button,
 } from "@material-ui/core";
 import axios from "axios";
 import cookie from "js-cookie";
@@ -166,9 +166,14 @@ function RenderOption({ option, chats, setChats }) {
             />
           </ListItemIcon>
           <ListItemText primary={option.username} />
-          <Typography variant="caption" className={classes.name}>
-            {option.name}
-          </Typography>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            className="ms-5"
+          >
+            Add
+          </Button>
         </ListItem>
       </List>
     </React.Fragment>

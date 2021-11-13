@@ -7,8 +7,6 @@ import List from "@material-ui/core/List";
 import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Message from "./Message";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -27,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-function ChatBox({ bannerData, user, messages, divRef, sendMsg }) {
+function ChannelBox({ bannerData, user, messages, divRef, sendMsg }) {
   const classes = useStyles();
   const [text, setText] = useState("");
 
@@ -37,11 +35,11 @@ function ChatBox({ bannerData, user, messages, divRef, sendMsg }) {
         <Grid container>
           <Grid item sm={4} xs={12}>
             <Typography variant="h6" gutterBottom className="mt-1">
-              Javascript
+              {bannerData.name}
             </Typography>
           </Grid>
           <Grid item sm={4} xs={12}>
-            <MembersList />
+            <MembersList members={bannerData.members} />
           </Grid>
           <Grid item sm={4} xs={12}>
             <Search />
@@ -93,22 +91,10 @@ function ChatBox({ bannerData, user, messages, divRef, sendMsg }) {
           >
             <SendIcon />
           </Fab>
-          <Fab
-            color="secondary"
-            aria-label="add"
-            onClick={(e) => {
-              e.preventDefault();
-              if (text === "") return;
-              sendMsg(text);
-              setText("");
-            }}
-          >
-            <CloudUploadIcon />
-          </Fab>
         </Grid>
       </Grid>
     </>
   );
 }
 
-export default ChatBox;
+export default ChannelBox;

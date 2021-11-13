@@ -7,6 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Dialog from "@material-ui/core/Dialog";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,8 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SimpleDialog({ open, setOpen }) {
+function SimpleDialog({ open, setOpen, members }) {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <Dialog
@@ -27,17 +29,21 @@ function SimpleDialog({ open, setOpen }) {
       aria-describedby="alert-dialog-description"
     >
       <List dense className={classes.root}>
-        {[0, 1, 2, 3].map((value) => {
-          const labelId = `checkbox-list-secondary-label-${value}`;
+        {members.map((member, index) => {
+          const labelId = `checkbox-list-secondary-label-${index}`;
           return (
-            <ListItem key={value} button>
+            <ListItem
+              key={index}
+              button
+              onClick={() => router.push(`/profile/${member.user.username}`)}
+            >
               <ListItemAvatar>
                 <Avatar
-                  alt={`Avatar n°${value + 1}`}
-                  src={`/static/images/avatar/${value + 1}.jpg`}
+                  alt={member.user.name}
+                  src={member.user.profilePicUrl}
                 />
               </ListItemAvatar>
-              <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+              <ListItemText id={labelId} primary={member.user.name} />
             </ListItem>
           );
         })}
@@ -46,7 +52,7 @@ function SimpleDialog({ open, setOpen }) {
   );
 }
 
-export default function MembersList() {
+export default function MembersList({ members }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -57,9 +63,9 @@ export default function MembersList() {
         size="small"
         onClick={() => setOpen(true)}
       >
-        View Members (4)
+        {`View Members (${members.length})`}
       </Button>
-      <SimpleDialog open={open} setOpen={setOpen} />
+      <SimpleDialog open={open} setOpen={setOpen} members={members} />
     </>
   );
 }

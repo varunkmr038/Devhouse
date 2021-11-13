@@ -127,3 +127,19 @@ export const noChatFoundListener = async (
 
   openChatId.current = router.query.message;
 };
+
+//  Channels
+export const channelMessagesLoadedListener = async (
+  channel,
+  setMessages,
+  setBannerData,
+  divRef,
+  scrollDivToBottom
+) => {
+  setMessages(channel.messages);
+  setBannerData({
+    name: channel.name,
+    members: channel.members,
+  });
+  divRef.current && scrollDivToBottom(divRef);
+};

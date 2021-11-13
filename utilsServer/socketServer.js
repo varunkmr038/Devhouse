@@ -1,5 +1,6 @@
 const { addUser, removeUser, findConnectedUser } = require("./roomActions");
 const { loadMessages, sendMsg, setMsgToUnread } = require("./messageActions");
+const { loadChannelMessages } = require("./channelActions");
 const PeerUserModel = require("../models/PeerUserModel");
 const RoomModel = require("../models/RoomModel");
 
@@ -58,6 +59,15 @@ const joinMeetListener = async (
   });
 };
 
+const joinChannelsListener = async (socket) => {
+  socket.on("loadChannelMessages", async ({ userId, channelId }) => {
+    const { channel, error } = await loadChannelMessages(userId, channelId);
+    !error
+      ? socket.emit("channelMessagesLoaded", { channel })
+      : socket.emit("noChannelFound");
+  });
+};
+
 const joinListener = async (socket, userId) => {
   const users = await addUser(userId, socket.id); // add me to the sockets
 
@@ -97,6 +107,7 @@ const disconnectListener = async (socket) => {
 
 module.exports = {
   joinMeetListener,
+  joinChannelsListener,
   joinListener,
   loadMessagesListener,
   sendNewMsgListener,

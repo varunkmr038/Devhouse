@@ -16,6 +16,7 @@ const peerServer = ExpressPeerServer(server, {
 });
 const {
   joinMeetListener,
+  joinChannelsListener,
   joinListener,
   loadMessagesListener,
   sendNewMsgListener,
@@ -43,9 +44,14 @@ mongoose
 //  On connection establish with frontend
 io.on("connection", (socket) => {
   //  Meet socket connections
+
   socket.on("join-meet", async (roomId, peerId, userId, name, audio, video) =>
     joinMeetListener(socket, roomId, peerId, userId, name, audio, video)
   );
+
+  // Channels Socket connections
+  socket.on("join-channels", async () => joinChannelsListener(socket));
+
   //  Messages socket connections
   socket.on("join", async ({ userId }) => joinListener(socket, userId));
 
@@ -71,6 +77,7 @@ nextApp.prepare().then(() => {
   app.use("/api/notifications", require("./api/notifications"));
   app.use("/api/chats", require("./api/chats"));
   app.use("/api/meet", require("./api/meet"));
+  app.use("/api/channels", require("./api/channels"));
 
   app.all("*", (req, res) => handle(req, res)); // for files in pages folder to work
 

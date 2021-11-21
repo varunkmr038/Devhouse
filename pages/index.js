@@ -18,7 +18,7 @@ function Index() {
   //
   useEffect(() => {
     setTimeout(() => {
-      document.title = `Devhouse - Social App for Developers`;
+      document.title = `Devhouse - Social Community for Developers`;
     }, 0);
   });
 

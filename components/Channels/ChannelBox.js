@@ -9,7 +9,6 @@ import SendIcon from "@material-ui/icons/Send";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Message from "./Message";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Search from "./Search";
 import MembersList from "./MembersList";
 
@@ -25,7 +24,14 @@ const useStyles = makeStyles({
   },
 });
 
-function ChannelBox({ bannerData, user, messages, divRef, sendMsg }) {
+function ChannelBox({
+  bannerData,
+  user,
+  messages,
+  divRef,
+  sendMsgChannel,
+  openChannelId,
+}) {
   const classes = useStyles();
   const [text, setText] = useState("");
 
@@ -42,13 +48,13 @@ function ChannelBox({ bannerData, user, messages, divRef, sendMsg }) {
             <MembersList members={bannerData.members} />
           </Grid>
           <Grid item sm={4} xs={12}>
-            <Search />
+            <Search openChannelId={openChannelId} />
           </Grid>
         </Grid>
       </Paper>
 
       <List className={classes.messageArea}>
-        {/* {messages.length > 0 &&
+        {messages.length > 0 &&
           messages.map((message, index) => (
             <Message
               key={index}
@@ -56,12 +62,7 @@ function ChannelBox({ bannerData, user, messages, divRef, sendMsg }) {
               user={user}
               divRef={divRef}
             />
-          ))} */}
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
+          ))}
       </List>
       <Divider />
 
@@ -84,7 +85,7 @@ function ChannelBox({ bannerData, user, messages, divRef, sendMsg }) {
             onClick={(e) => {
               e.preventDefault();
               if (text === "") return;
-              sendMsg(text);
+              sendMsgChannel(text);
               setText("");
             }}
             className="mx-2"

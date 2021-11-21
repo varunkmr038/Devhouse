@@ -1,6 +1,7 @@
 const ChatModel = require("../models/ChatModel");
 const UserModel = require("../models/UserModel");
 
+//  Load messages from db
 const loadMessages = async (userId, messagesWith) => {
   try {
     const user = await ChatModel.findOne({ user: userId }).populate(
@@ -63,7 +64,7 @@ const sendMsg = async (userId, msgSendToUserId, msg) => {
       previousChatForReceiver.messages.push(newMsg);
       await msgSendToUser.save();
     }
-    //
+    // create new chat  for reciever
     else {
       const newChat = { messagesWith: userId, messages: [newMsg] };
       msgSendToUser.chats.unshift(newChat);

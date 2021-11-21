@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Search({ chats, setChats }) {
+export default function Search({ openChannelId }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -86,7 +86,7 @@ export default function Search({ chats, setChats }) {
       getOptionSelected={(option, value) => option === value}
       getOptionLabel={(option) => option.username} // search is based upon this unique lable
       renderOption={(option) => (
-        <RenderOption option={option} chats={chats} setChats={setChats} />
+        <RenderOption option={option} openChannelId={openChannelId} />
       )}
       renderInput={(params) => (
         <TextField
@@ -100,7 +100,7 @@ export default function Search({ chats, setChats }) {
           fullWidth
           color="secondary"
           style={{ backgroundColor: "white" }}
-          placeholder="Add People in Channel"
+          placeholder="Add User in Channel"
           size="small"
           error={error}
           onChange={handleChange}
@@ -129,31 +129,8 @@ function RenderOption({ option, chats, setChats }) {
   const classes = useStyles();
   const router = useRouter();
 
-  //  Adds the chat when clicked on the option
-  function addChat(option) {
-    const alreadyInChat =
-      chats.length > 0 &&
-      chats.filter((chat) => chat.messsagesWith === option._id).length > 0;
+  function addPeople() {}
 
-    //  If there is existing chat with user
-    if (alreadyInChat) {
-      return router.push(`/messages?message=${option._id}`); //open the existing chat
-    }
-    // Add a new chat
-    else {
-      const newChat = {
-        messagesWith: option._id,
-        name: option.name,
-        profilePicUrl: option.profilePicUrl,
-        lastMessage: "",
-        date: Date.now(),
-      };
-
-      setChats((prev) => [newChat, ...prev]);
-
-      return router.push(`/messages?message=${option._id}`);
-    }
-  }
   return (
     <React.Fragment>
       <List>
@@ -171,6 +148,7 @@ function RenderOption({ option, chats, setChats }) {
             color="primary"
             size="small"
             className="ms-5"
+            onClick={() => addPeople()}
           >
             Add
           </Button>

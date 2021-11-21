@@ -16,8 +16,7 @@ const useStyles = makeStyles({
 function Message({ message, user, divRef }) {
   const classes = useStyles();
   //  If you sends this message
-  // const ifYouSender = 1 || message.sender === user._id;
-  const ifYouSender = 1;
+  const ifYouSender = message.sender._id == user._id;
 
   return (
     <ListItem ref={divRef}>
@@ -33,7 +32,7 @@ function Message({ message, user, divRef }) {
                   color: ifYouSender ? "black" : "white",
                 }}
               >
-                Hello Brothers i have a project idea
+                {message.msg}
               </div>
             }
           />
@@ -42,7 +41,9 @@ function Message({ message, user, divRef }) {
           <ListItemText
             align={ifYouSender ? "right" : "left"}
             secondary={
-              ifYouSender ? "Today 9:08 AM" : "varunkmr038  -   Today 9:08 AM"
+              ifYouSender
+                ? calculateTime(message.date)
+                : `${message.sender.name}  -   ${calculateTime(message.date)}`
             }
           />
         </Grid>

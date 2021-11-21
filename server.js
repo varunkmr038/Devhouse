@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
   );
 
   // Channels Socket connections
-  socket.on("join-channels", async () => joinChannelsListener(socket));
+  socket.on("join-channels", async () => joinChannelsListener(io, socket));
 
   //  Messages socket connections
   socket.on("join", async ({ userId }) => joinListener(socket, userId));

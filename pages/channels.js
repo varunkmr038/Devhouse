@@ -15,8 +15,8 @@ import { toast } from "react-toastify";
 import cookie from "js-cookie";
 import {
   channelMessagesLoadedListener,
-  channelMsgSentListener,
-  channelNewMsgReceivedListener,
+  msgSentChannelListener,
+  newMsgReceivedChannelListener,
 } from "../utils/socketClient";
 
 const scrollDivToBottom = (divRef) =>
@@ -102,6 +102,39 @@ function Channels({ channelsData }) {
     if (socket.current && router.query.channel) loadMessages();
   }, [router.query.channel]);
 
+  // Confirming msg is sent and receving the messages
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msgSentChannel", ({ newMsg }) =>
+        msgSentChannelListener(newMsg, setMessages, setChannels, openChannelId)
+      );
+
+      socket.current.on("newMsgReceivedChannel", async ({ newMsg }) =>
+        newMsgReceivedChannelListener(
+          newMsg,
+          setMessages,
+          channels,
+          setChannels,
+          openChannelId
+        )
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    messages.length > 0 && scrollDivToBottom(divRef);
+  }, [messages]);
+
+  const sendMsgChannel = (msg) => {
+    if (socket.current) {
+      socket.current.emit("sendNewMsgChannel", {
+        userId: user._id,
+        channelId: openChannelId.current,
+        msg,
+      });
+    }
+  };
+
   return (
     <Grid container component={Paper} className={classes.chatSection}>
       <Grid item sm={3} xs={12} className={classes.chatList}>
@@ -115,7 +148,8 @@ function Channels({ channelsData }) {
             user={user}
             messages={messages}
             divRef={divRef}
-            // sendMsg={sendMsg}
+            sendMsgChannel={sendMsgChannel}
+            openChannelId={openChannelId}
           />
         ) : (
           <Alert message="No Channel Selected" />

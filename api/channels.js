@@ -50,4 +50,21 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
+// Add User in the channel
+router.put("/add-user", authMiddleware, async (req, res) => {
+  try {
+    const { userId, channelId } = req.body;
+
+    const channel = await ChannelModel.findById(channelId);
+
+    channel.members.push({ user: userId });
+    await channel.save();
+
+    return res.json(channel);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

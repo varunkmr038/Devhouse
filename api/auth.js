@@ -6,6 +6,7 @@ const ChatModel = require("../models/ChatModel");
 const NotificationModel = require("../models/NotificationModel");
 const ProfileModel = require("../models/ProfileModel");
 const PostModel = require("../models/PostModel");
+const ChannelModel = require("../models/ChannelModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -149,6 +150,32 @@ router.delete("/:username", authMiddleware, async (req, res) => {
 
     await FollowerModel.deleteMany({});
     await FollowerModel.insertMany(followers);
+
+    // 5. Deleting Channel Model
+    let channels = await ChannelModel.find({});
+
+    for (let i = 0; i < channels.length; i++) {
+      //  checking user is memeber or not
+      let membersList = channels[i].members.filter(
+        (member) => member.user.toString() == deleteUserId
+      );
+
+      //   user is not in this channel
+      if (membersList.length == 0) {
+        continue;
+      } else {
+        let index = channels[i].members.indexOf({ user: deleteUserId });
+        channels[i].members.splice(index, 1);
+
+        //  remove messages of current user also
+        channels[i].messages = channels[i].messages.filter(
+          (message) => message.sender != deleteUserId
+        );
+      }
+    }
+
+    await ChannelModel.deleteMany({});
+    await ChannelModel.insertMany(channels);
 
     //  6. Now delete in user model
     await UserModel.findByIdAndDelete(deleteUserId);

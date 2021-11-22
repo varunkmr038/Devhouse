@@ -1,14 +1,14 @@
-# Devhouse – Social Webapp for Developers <img align="center" width="60" height="50" src="public/img/logo-green-round.png">
+# Devhouse – Social Community for Developers <img align="center" width="60" height="50" src="public/img/logo-green-round.png">
 
 ## A website which connect Developers by sharing posts, building connections and real time meet and chats. :smiley:
 
-### :heavy_check_mark: Users can host meetings on site with features like video , audio and screen sharing and also chat.
+### :heavy_check_mark: Host meetings on site with features like video , audio and screen sharing and also chat.
 
-### :heavy_check_mark: Users can find teammates(open to collab) for their project by skills around the world.
+### :heavy_check_mark: Find teammates(open to collab) for their project by skills around the world.
 
 ### :heavy_check_mark: Users can like and comment on a post and will also get notifications about the post and followers.
 
-### :heavy_check_mark: Profile Page – bio, github, resume, skills, posts, followers, following list, update profile and settings.
+### :heavy_check_mark: Profile – bio, github, resume, skills, posts, followers, following list, update profile and settings.
 
 ### :heavy_check_mark: Used Socket.io for chat in real time and Material UI framework for fully responsiveness.
 
@@ -122,3 +122,6 @@
 ![image](https://user-images.githubusercontent.com/74452458/138952798-1a290e40-8982-4a64-ae75-c366575ed497.png)
 
 ![image](https://user-images.githubusercontent.com/74452458/138952878-b15f8861-f2bf-437c-86a4-54c69dc96e6d.png)
+
+![image](https://user-images.githubusercontent.com/74452458/142876168-9991b4d2-db5c-4dcd-819f-6e06ae610f4e.png)
+

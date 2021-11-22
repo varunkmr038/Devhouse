@@ -53,10 +53,6 @@ function PasswordField({ error, handleChange }) {
                 error={error}
                 onChange={handleChange}
               />
-              <FormHelperText error={error}>
-                Password should contain atleast one lowercase, uppercase letter,
-                number and special character. Length between 8 to 30
-              </FormHelperText>
             </FormControl>
           </Grid>
         </Grid>

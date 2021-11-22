@@ -15,14 +15,12 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
 import VerifiedUserRoundedIcon from "@mui/icons-material/VerifiedUserRounded";
 import PhoneIphoneRoundedIcon from "@mui/icons-material/PhoneIphoneRounded";
-import CakeRoundedIcon from "@mui/icons-material/CakeRounded";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Head from "./Head";
 import Foot from "./Foot";
 import InputField from "./InputField";
 import PasswordField from "./PasswordField";
-import regex from "../../utils/regex";
 import baseUrl from "../../utils/baseUrl";
 import { registerUser } from "../../utils/authUser";
 
@@ -61,22 +59,18 @@ function Login({ open, setOpenSign }) {
     name: "",
     email: "",
     username: "",
-    dob: "",
     phone: "",
     password: "",
   });
-  const [usernameMsg, setUsernameMsg] = useState(
-    "Username should only contain small alphabets with numbers and _ symbol. It should starts with alphabet and length between 5 to 20"
-  );
 
   const [error, setError] = useState({
     name: false,
     email: false,
     username: false,
-    dob: false,
     phone: false,
     password: false,
   });
+  const [usernameMsg, setUsernameMsg] = useState("");
 
   //  Check username is available or not
   const checkUsername = async (username) => {
@@ -94,50 +88,14 @@ function Login({ open, setOpenSign }) {
 
   //  Input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let name = e.target.name;
+    let value = e.target.value.trim();
 
-    if (name === "name") {
-      if (regex.name.test(value)) {
-        setError({ ...error, name: false });
-      } else {
-        setError({ ...error, name: true });
-      }
-    } else if (name === "email") {
-      if (regex.email.test(value)) {
-        setError({ ...error, email: false });
-      } else {
-        setError({ ...error, email: true });
-      }
-    } else if (name === "username") {
-      if (regex.username.test(value)) {
-        setError({ ...error, username: false });
-
-        checkUsername(value); // checking username in database also
-      } else {
-        setUsernameMsg(
-          "Username should only contain small alphabets with numbers and _ symbol. It should starts with alphabet and length between 5 to 20"
-        );
-        setError({ ...error, username: true });
-      }
-    } else if (name === "dob") {
-      if (regex.dob.test(value)) {
-        setError({ ...error, dob: false });
-      } else {
-        setError({ ...error, dob: true });
-      }
-    } else if (name === "phone") {
-      if (regex.phone.test(value)) {
-        setError({ ...error, phone: false });
-      } else {
-        setError({ ...error, phone: true });
-      }
-    } else if (name === "password") {
-      if (regex.password.test(value)) {
-        setError({ ...error, password: false });
-      } else {
-        setError({ ...error, password: true });
-      }
+    if (name === "username") {
+      checkUsername(value); // checking username in database also
     }
+
+    if (value != "") setError((prev) => ({ ...prev, [name]: false }));
 
     setUser((prev) => ({ ...prev, [name]: value }));
   };
@@ -149,7 +107,7 @@ function Login({ open, setOpenSign }) {
     let flag = 0;
     //  Checking that All fields are filled and correctly
     for (const key in user) {
-      if (user[key] === "" || error[key] === true) {
+      if (user[key] === "") {
         if (!flag) toast.error("All Fields are Required !!");
 
         setError((prev) => ({ ...prev, [key]: true }));
@@ -192,11 +150,6 @@ function Login({ open, setOpenSign }) {
                   id="name"
                   label="Name"
                   error={error.name}
-                  helperText={
-                    error.name
-                      ? "Name should only contain alphabets & less than 40 characters"
-                      : ""
-                  }
                   handleChange={handleChange}
                 />
 
@@ -208,7 +161,6 @@ function Login({ open, setOpenSign }) {
                   id="email"
                   label="Email"
                   error={error.email}
-                  helperText={error.email ? "Please enter a valid email" : ""}
                   handleChange={handleChange}
                 />
 
@@ -223,21 +175,6 @@ function Login({ open, setOpenSign }) {
                   helperText={usernameMsg}
                   handleChange={handleChange}
                 />
-                <InputField
-                  icon={<CakeRoundedIcon />}
-                  autoComplete="date-of-birth"
-                  name="dob"
-                  required={true}
-                  id="dob"
-                  label="Date of Birth"
-                  error={error.dob}
-                  helperText={
-                    error.dob
-                      ? "Please enter valid date DD-MM-YYYY"
-                      : "Format: DD-MM-YYYY"
-                  }
-                  handleChange={handleChange}
-                />
 
                 <InputField
                   icon={<PhoneIphoneRoundedIcon />}
@@ -246,9 +183,8 @@ function Login({ open, setOpenSign }) {
                   required={true}
                   id="phone"
                   label="Phone No"
-                  error={error.phone}
-                  helperText={error.phone ? "Please enter a valid number" : ""}
                   handleChange={handleChange}
+                  error={error.phone}
                 />
 
                 <PasswordField

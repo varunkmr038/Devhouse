@@ -17,6 +17,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { makeStyles } from "@material-ui/core/styles";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   searchInputRoot: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Search({ openChannelId }) {
+export default function Search({ openChannelId, members }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -86,7 +87,11 @@ export default function Search({ openChannelId }) {
       getOptionSelected={(option, value) => option === value}
       getOptionLabel={(option) => option.username} // search is based upon this unique lable
       renderOption={(option) => (
-        <RenderOption option={option} openChannelId={openChannelId} />
+        <RenderOption
+          option={option}
+          openChannelId={openChannelId}
+          members={members}
+        />
       )}
       renderInput={(params) => (
         <TextField
@@ -125,16 +130,32 @@ export default function Search({ openChannelId }) {
   );
 }
 
-function RenderOption({ option, chats, setChats }) {
+function RenderOption({ option, openChannelId, members }) {
   const classes = useStyles();
   const router = useRouter();
 
-  function addPeople() {}
+  const isMember =
+    members.filter((member) => member.user._id == option._id).length > 0;
+
+  async function addUser(userId, channelId) {
+    try {
+      const res = await axios.put(
+        `${baseUrl}/api/channels/add-user`,
+        { userId, channelId },
+        { headers: { Authorization: cookie.get("token") } }
+      );
+      router.reload();
+      toast.info("New User Added to the channel");
+    } catch (err) {
+      console.log(err);
+      toast.error("Internal Error Try After Sometime");
+    }
+  }
 
   return (
     <React.Fragment>
       <List>
-        <ListItem onClick={(e) => addChat(option)}>
+        <ListItem onClick={() => router.push(`/profile/${option.username}`)}>
           <ListItemIcon>
             <Avatar
               alt={option.name}
@@ -143,15 +164,18 @@ function RenderOption({ option, chats, setChats }) {
             />
           </ListItemIcon>
           <ListItemText primary={option.username} />
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            className="ms-5"
-            onClick={() => addPeople()}
-          >
-            Add
-          </Button>
+
+          {!isMember && (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              className="ms-5"
+              onClick={() => addUser(option._id, openChannelId.current)}
+            >
+              Add
+            </Button>
+          )}
         </ListItem>
       </List>
     </React.Fragment>

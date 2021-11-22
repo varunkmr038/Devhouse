@@ -72,7 +72,7 @@ const joinChannelsListener = async (io, socket) => {
     const { newMsg, error } = await sendMsgChannel(userId, channelId, msg);
 
     if (error) return;
-    socket.to(channelId).emit("newMsgReceivedChannel", { newMsg });
+    socket.to(channelId).emit("newMsgReceivedChannel", { newMsg, channelId });
     socket.emit("msgSentChannel", { newMsg });
   });
 };

@@ -17,9 +17,7 @@ const userSchema = new Schema(
       lowercase: true,
     },
 
-    dob: { type: String, required: true },
-
-    phone: { type: String, required: true },
+    phone: { type: String },
 
     profilePicUrl: { type: String },
 

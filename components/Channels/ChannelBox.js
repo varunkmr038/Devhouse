@@ -48,7 +48,10 @@ function ChannelBox({
             <MembersList members={bannerData.members} />
           </Grid>
           <Grid item sm={4} xs={12}>
-            <Search openChannelId={openChannelId} />
+            <Search
+              openChannelId={openChannelId}
+              members={bannerData.members}
+            />
           </Grid>
         </Grid>
       </Paper>

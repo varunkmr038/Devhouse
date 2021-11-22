@@ -109,14 +109,16 @@ function Channels({ channelsData }) {
         msgSentChannelListener(newMsg, setMessages, setChannels, openChannelId)
       );
 
-      socket.current.on("newMsgReceivedChannel", async ({ newMsg }) =>
-        newMsgReceivedChannelListener(
-          newMsg,
-          setMessages,
-          channels,
-          setChannels,
-          openChannelId
-        )
+      socket.current.on(
+        "newMsgReceivedChannel",
+        async ({ newMsg, channelId }) =>
+          newMsgReceivedChannelListener(
+            newMsg,
+            channelId,
+            setMessages,
+            setChannels,
+            openChannelId
+          )
       );
     }
   }, []);

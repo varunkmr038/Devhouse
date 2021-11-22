@@ -34,6 +34,7 @@ function SimpleDialog({ open, setOpen, members }) {
           return (
             <ListItem
               key={index}
+              className="my-3"
               button
               onClick={() => router.push(`/profile/${member.user.username}`)}
             >

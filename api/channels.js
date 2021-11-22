@@ -57,6 +57,10 @@ router.put("/add-user", authMiddleware, async (req, res) => {
 
     const channel = await ChannelModel.findById(channelId);
 
+    const isMember =
+      channel.members.filter((member) => member.user._id == userId).length > 0;
+    if (isMember) return res.send("User Already a member");
+
     channel.members.push({ user: userId });
     await channel.save();
 

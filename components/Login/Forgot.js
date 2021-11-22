@@ -13,7 +13,6 @@ import VpnKeyRoundedIcon from "@mui/icons-material/VpnKeyRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import Head from "./Head";
 import Foot from "./Foot";
-import regex from "../../utils/regex";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -54,12 +53,6 @@ function Forgot({ open, setOpenForgot }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (regex.email.test(value)) {
-      setError({ ...error, email: false });
-    } else {
-      setError({ ...error, email: true });
-    }
 
     setUser((prev) => ({ ...prev, [name]: value }));
   };

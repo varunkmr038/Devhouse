@@ -163,58 +163,22 @@ export const msgSentChannelListener = async (
 
 export const newMsgReceivedChannelListener = async (
   newMsg,
+  channelId,
   setMessages,
-  chats,
-  setChats,
-  openChatId
+  setChannels,
+  openChannelId
 ) => {
-  // WHEN CHAT WITH SENDER IS CURRENTLY OPENED INSIDE YOUR BROWSER
-  if (newMsg.sender === openChatId.current) {
+  // WHEN CHANNEL  IS CURRENTLY OPENED INSIDE YOUR BROWSER
+  if (channelId == openChannelId.current) {
     setMessages((prev) => [...prev, newMsg]);
-
-    setChats((prev) => {
-      const previousChat = prev.find(
-        (chat) => chat.messagesWith === newMsg.sender
-      );
-      previousChat.lastMessage = newMsg.msg;
-      previousChat.date = newMsg.date;
-
-      return [...prev];
-    });
   }
-  // chat is not open
-  else {
-    const ifPreviouslyMessaged =
-      chats.filter((chat) => chat.messagesWith === newMsg.sender).length > 0;
-
-    if (ifPreviouslyMessaged) {
-      setChats((prev) => {
-        const previousChat = prev.find(
-          (chat) => chat.messagesWith === newMsg.sender
-        );
-        previousChat.lastMessage = newMsg.msg;
-        previousChat.date = newMsg.date;
-
-        return [
-          previousChat,
-          ...prev.filter((chat) => chat.messagesWith !== newMsg.sender),
-        ];
-      });
-    }
-
-    //IF NO PREVIOUS CHAT WITH THE SENDER
-    else {
-      const { name, profilePicUrl } = await getUserInfo(newMsg.sender);
-      const newChat = {
-        messagesWith: newMsg.sender,
-        name,
-        profilePicUrl,
-        lastMessage: newMsg.msg,
-        date: newMsg.date,
-      };
-      setChats((prev) => [newChat, ...prev]);
-    }
-  }
+  setChannels((prev) => {
+    const curChannel = prev.find(
+      (channel) => openChannelId.current == channel._id
+    );
+    curChannel.messages.push(newMsg);
+    return [...prev];
+  });
 
   newMsgSound();
 };

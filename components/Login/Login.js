@@ -16,7 +16,6 @@ import Head from "./Head";
 import Foot from "./Foot";
 import InputField from "./InputField";
 import PasswordField from "./PasswordField";
-import regex from "../../utils/regex";
 import Forgot from "./Forgot";
 import { loginUser } from "../../utils/authUser";
 
@@ -61,21 +60,10 @@ function Login({ open, setOpenLogin }) {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    let value = e.target.value.trim();
 
-    if (name === "username") {
-      if (regex.username.test(value)) {
-        setError({ ...error, username: false });
-      } else {
-        setError({ ...error, username: true });
-      }
-    } else if (name === "password") {
-      if (regex.password.test(value)) {
-        setError({ ...error, password: false });
-      } else {
-        setError({ ...error, password: true });
-      }
-    }
+    if (value != "") setError((prev) => ({ ...prev, [name]: false }));
 
     setUser((prev) => ({ ...prev, [name]: value }));
   };
@@ -86,7 +74,7 @@ function Login({ open, setOpenLogin }) {
     let flag = 0;
     //  Checking that All fields are filled and correctly
     for (const key in user) {
-      if (user[key] === "" || error[key] === true) {
+      if (user[key].trim() == "") {
         if (!flag) toast.error("All Fields are Required !!");
         setError((prev) => ({ ...prev, [key]: true }));
         flag = 1;
@@ -128,7 +116,6 @@ function Login({ open, setOpenLogin }) {
                   id="username"
                   label="Username"
                   error={error.username}
-                  helperText={error.username ? "Invalid Username" : ""}
                   handleChange={handleChange}
                 />
 

@@ -6,6 +6,8 @@
 
 ### :heavy_check_mark: Find teammates(open to collab) for their project by skills around the world.
 
+### :heavy_check_mark: Create Channels, Add Users and start Chatting with group.
+
 ### :heavy_check_mark: Users can like and comment on a post and will also get notifications about the post and followers.
 
 ### :heavy_check_mark: Profile – bio, github, resume, skills, posts, followers, following list, update profile and settings.

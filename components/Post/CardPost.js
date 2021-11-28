@@ -19,21 +19,20 @@ import calculateTime from "../../utils/calculateTime";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 600,
+    maxWidth: 1000,
     backgroundColor: "#f8f7cf",
     margin: "auto",
     marginBottom: 50,
     marginTop: 15,
   },
   media: {
-    height: 0,
-    paddingTop: "70%", // 16:9
+    paddingTop: "70%",
     marginBottom: 10,
     cursor: "pointer",
   },
   caption: {
     wordWrap: "break-word",
-    maxHeight: 200,
+    maxHeight: 1000,
     overflowY: "auto",
     marginBottom: 10,
   },
@@ -93,11 +92,18 @@ export default function CardPost({ post, user, setPosts }) {
           subheader={post.title}
         />
         {post.picUrl ? (
-          <CardMedia
-            className={`${classes.media} mx-2`}
-            image={post.picUrl}
-            onClick={() => setOpenComment(true)}
-          />
+          <div
+            style={{
+              maxHeight: 500,
+              maxWidth: 500,
+            }}
+          >
+            <CardMedia
+              className={`${classes.media} mx-2`}
+              image={post.picUrl}
+              onClick={() => setOpenComment(true)}
+            />
+          </div>
         ) : (
           ""
         )}
@@ -109,7 +115,6 @@ export default function CardPost({ post, user, setPosts }) {
             gutterBottom
             className={classes.caption}
             onClick={() => setOpenComment(true)}
-            style={{ maxHeight: post.picUrl ? 400 : 600 }}
           >
             {post.text}
           </Typography>

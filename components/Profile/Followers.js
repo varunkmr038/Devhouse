@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import cookie from "js-cookie";
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
-import Alert from "../Common/Alert";
 import { followUser, unfollowUser } from "../../utils/profileActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +62,7 @@ export default function Followers({
 
   return (
     <>
-      {followers.length > 0 && (
+      {followers.length > 0 &&
         followers.map((profileFollower) => {
           const isFollowing =
             loggedUserFollowStats.following.length > 0 &&
@@ -112,9 +111,7 @@ export default function Followers({
               </ListItem>
             </List>
           );
-        })
-      ) 
-      }
+        })}
     </>
   );
 }

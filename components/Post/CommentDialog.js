@@ -84,7 +84,7 @@ function CommentDialog({
               <Paper className={classes.imgPaper}>
                 {post.picUrl && (
                   <img
-                    style={{ height: "100%", width: "100%" }}
+                    style={{ height: 200, width: 200 }}
                     src={post.picUrl}
                     alt="Post"
                   />
@@ -96,7 +96,7 @@ function CommentDialog({
                   component="p"
                   gutterBottom
                   className={classes.caption}
-                  style={{ maxHeight: post.picUrl ? 100 : 500 }}
+                  style={{ maxHeight: 500 }}
                 >
                   {post.text}
                 </Typography>

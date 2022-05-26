@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 //styles
 import useStyles from "../GithubStyle";
 // props
-import RepoProps from "../props/ReposProps";
+import RepoProps from "../Props/ReposProps";
 // context
 import { ContextData } from "../../../utils/githubContextData";
 

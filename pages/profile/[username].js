@@ -12,11 +12,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import Followers from "../../components/Profile/Followers";
+import Github from "../../components/Profile/Github";
 import Following from "../../components/Profile/Following";
 import UpdateProfile from "../../components/Profile/UpdateProfile";
 import Settings from "../../components/Profile/Settings";
 import { UserContext } from "../../components/Layout/Layout";
 import CardPost from "../../components/Post/CardPost";
+import { ContextProvider } from "../../utils/githubContextData";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -123,6 +125,7 @@ function ProfilePage({
             aria-label="scrollable auto tabs example"
           >
             <Tab label="Profile" {...a11yProps(0)} />
+
             <Tab label={`${followersLength} Followers`} {...a11yProps(1)} />
             <Tab
               label={
@@ -139,6 +142,7 @@ function ProfilePage({
             />
             {ownAccount && <Tab label="Update Profile" {...a11yProps(3)} />}
             {ownAccount && <Tab label="Settings" {...a11yProps(4)} />}
+            {profile.github && <Tab label={`Github`} {...a11yProps(5)} />}
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
@@ -161,6 +165,7 @@ function ProfilePage({
             <Alert message="User has not posted anything yet 🥱" />
           )}
         </TabPanel>
+
         <TabPanel value={value} index={1}>
           <Followers
             user={user}
@@ -188,6 +193,13 @@ function ProfilePage({
             <Settings />
           </TabPanel>
         )}
+        <ContextProvider>
+          <TabPanel value={value} index={ownAccount ? 5 : 3}>
+            {profile.github && (
+              <Github username={profile.github.split("/")[3]} />
+            )}
+          </TabPanel>
+        </ContextProvider>
       </div>
     </>
   );

@@ -17,3 +17,26 @@ root {
 .my-color {
   background-color: #55c57a !important;
 }
+
+
+.loader {
+  margin: 0 auto;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#info a:link {
+  text-decoration: none;
+  color: #3f51b5;
+}
+
+
+#repos {
+  transition: 0.3s all;
+}
+#repos:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+}

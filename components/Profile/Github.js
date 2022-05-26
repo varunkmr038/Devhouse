@@ -7,7 +7,6 @@ import FilterRepos from "./GithubComponents/FilterRepos";
 import Profile from "./GithubComponents/Profile";
 import Repos from "./GithubComponents/Repos";
 import FoundUser from "./GithubComponents/FoundUser";
-import Loading from "./GithubComponents/Loading";
 import Filter from "./GithubComponents/Filter";
 import dynamic from "next/dynamic.js";
 const ReposChart = dynamic(() => import("./GithubComponents/ReposChart"), {
@@ -21,10 +20,6 @@ function Github({ username }) {
   React.useEffect(() => {
     setPerson(username);
   }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (foundNoUser) {
     return <FoundUser />;

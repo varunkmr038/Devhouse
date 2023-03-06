@@ -24,7 +24,7 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.2",
     "next": "^11.1.0",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.21",
     "nookies": "^2.5.2",
     "nprogress": "^0.2.0",
     "peer": "^0.6.1",

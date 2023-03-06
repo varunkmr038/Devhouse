@@ -398,6 +398,7 @@ if (window.location.pathname.includes("/meet/")) {
       type
     );
   });
+  1;
 
   //Recieving messages Scroll Down in Chatbox
   socket.on("client-podcast", (data, userName) => {
